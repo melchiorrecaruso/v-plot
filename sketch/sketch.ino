@@ -198,8 +198,8 @@ void loop() {
       } else {
         ExecInternal(bt);
       }
-      BufferIndex++;
-    }
-    LoopDelay = RAMP_KB*(sqrt(RampIndex/RAMP_KC+1)-sqrt(RampIndex/RAMP_KC));
+      BufferIndex++; 
+    }   
+    LoopDelay = round(RAMP_KB*(sqrt(RampIndex/RAMP_KC+1)-sqrt(RampIndex/RAMP_KC)));
   }
 }

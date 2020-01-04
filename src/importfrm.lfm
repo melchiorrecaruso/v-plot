@@ -1,0 +1,183 @@
+object importform: Timportform
+  Left = 374
+  Height = 220
+  Top = 249
+  Width = 345
+  BorderStyle = bsDialog
+  Caption = 'Import ...'
+  ClientHeight = 220
+  ClientWidth = 345
+  Constraints.MaxHeight = 220
+  Constraints.MaxWidth = 345
+  Constraints.MinHeight = 220
+  Constraints.MinWidth = 345
+  Position = poOwnerFormCenter
+  LCLVersion = '2.1.0.0'
+  object ipwse: TSpinEdit
+    AnchorSideLeft.Control = imcb
+    AnchorSideTop.Control = imcb
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = imcb
+    AnchorSideRight.Side = asrBottom
+    Left = 176
+    Height = 28
+    Top = 51
+    Width = 154
+    Alignment = taRightJustify
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 10
+    TabOrder = 0
+    Value = 10
+  end
+  object dsfse: TFloatSpinEdit
+    AnchorSideLeft.Control = ipwse
+    AnchorSideTop.Control = pwse
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = imcb
+    AnchorSideRight.Side = asrBottom
+    Left = 176
+    Height = 28
+    Top = 127
+    Width = 154
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    Increment = 0.1
+    MinValue = 0.1
+    TabOrder = 1
+    Value = 0.4
+  end
+  object okbtn: TBitBtn
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 245
+    Height = 30
+    Top = 180
+    Width = 85
+    Anchors = [akRight, akBottom]
+    BorderSpacing.Right = 15
+    BorderSpacing.Bottom = 10
+    Caption = 'Ok'
+    ModalResult = 1
+    TabOrder = 2
+  end
+  object imcb: TComboBox
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 120
+    Height = 26
+    Top = 15
+    Width = 210
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 15
+    BorderSpacing.Right = 15
+    ItemHeight = 0
+    Items.Strings = (
+      'Raster graphics - Square wave'
+      'Raster graphics - Rounded square wave'
+      'Raster graphics - Triangular wave'
+    )
+    Style = csDropDownList
+    TabOrder = 3
+  end
+  object importmethodlb: TLabel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = imcb
+    AnchorSideRight.Control = imcb
+    AnchorSideBottom.Control = imcb
+    AnchorSideBottom.Side = asrBottom
+    Left = 15
+    Height = 26
+    Top = 15
+    Width = 95
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 15
+    BorderSpacing.Right = 10
+    Caption = 'Import method:'
+    Layout = tlCenter
+    ParentColor = False
+  end
+  object imagepatternwidthlb: TLabel
+    AnchorSideLeft.Control = importmethodlb
+    AnchorSideTop.Control = ipwse
+    AnchorSideRight.Control = ipwse
+    AnchorSideBottom.Control = ipwse
+    AnchorSideBottom.Side = asrBottom
+    Left = 15
+    Height = 28
+    Top = 51
+    Width = 151
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Right = 10
+    Caption = 'Image pattern width (px):'
+    Layout = tlCenter
+    ParentColor = False
+  end
+  object patternwidthlb: TLabel
+    AnchorSideLeft.Control = importmethodlb
+    AnchorSideTop.Control = pwse
+    AnchorSideRight.Control = dsfse
+    AnchorSideBottom.Control = pwse
+    AnchorSideBottom.Side = asrBottom
+    Left = 15
+    Height = 28
+    Top = 89
+    Width = 151
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Right = 10
+    Caption = 'Pattern width (mm):'
+    Layout = tlCenter
+    ParentColor = False
+  end
+  object dotsizelb: TLabel
+    AnchorSideLeft.Control = importmethodlb
+    AnchorSideTop.Control = dsfse
+    AnchorSideRight.Control = dsfse
+    AnchorSideBottom.Control = dsfse
+    AnchorSideBottom.Side = asrBottom
+    Left = 15
+    Height = 28
+    Top = 127
+    Width = 151
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Right = 10
+    Caption = 'Dot size(mm):'
+    Layout = tlCenter
+    ParentColor = False
+  end
+  object bevel: TBevel
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = okbtn
+    Left = 2
+    Height = 2
+    Top = 168
+    Width = 341
+    Anchors = [akLeft, akRight, akBottom]
+    BorderSpacing.Left = 2
+    BorderSpacing.Right = 2
+    BorderSpacing.Bottom = 10
+  end
+  object pwse: TFloatSpinEdit
+    AnchorSideLeft.Control = ipwse
+    AnchorSideTop.Control = ipwse
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = imcb
+    AnchorSideRight.Side = asrBottom
+    Left = 176
+    Height = 28
+    Top = 89
+    Width = 154
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Top = 10
+    MinValue = 0
+    TabOrder = 4
+    Value = 10
+  end
+end

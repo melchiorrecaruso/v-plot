@@ -28,7 +28,12 @@ interface
 function  getbit1(const bits: byte; index: longint): boolean;
 procedure setbit1(var   bits: byte; index: longint);
 
+procedure sleepmicroseconds(microseconds: longword);
+
 implementation
+
+uses
+  baseunix, sysutils, unix;
 
 function getbit1(const bits: byte; index: longint): boolean;
 var
@@ -46,6 +51,20 @@ begin
   bt := $01;
   bt := bt shl index;
   bits := bits or bt;
+end;
+
+procedure sleepmicroseconds(microseconds: longword);
+var
+  timeout: ttimespec;
+  timeoutresult: ttimespec;
+  res: longint;
+begin
+  timeout.tv_sec := (microseconds div 1000000);
+  timeout.tv_nsec := 1000*(microseconds mod 1000000);
+  repeat
+    res := fpnanosleep(@timeout, @timeoutresult);
+    timeout := timeoutresult;
+  until (res <> -1) or (fpgeterrno <> esyseintr);
 end;
 
 end.

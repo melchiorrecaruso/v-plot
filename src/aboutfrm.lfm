@@ -21,8 +21,8 @@ object taboutform: taboutform
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 15
-    Top = 245
+    Height = 16
+    Top = 250
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
@@ -38,7 +38,7 @@ object taboutform: taboutform
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 15
+    Height = 16
     Top = 126
     Width = 400
     Alignment = taCenter
@@ -132,8 +132,8 @@ object taboutform: taboutform
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 15
-    Top = 174
+    Height = 16
+    Top = 176
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
@@ -150,8 +150,8 @@ object taboutform: taboutform
     AnchorSideRight.Side = asrBottom
     Cursor = crHandPoint
     Left = 0
-    Height = 15
-    Top = 199
+    Height = 16
+    Top = 202
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
@@ -172,8 +172,8 @@ object taboutform: taboutform
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 15
-    Top = 224
+    Height = 16
+    Top = 228
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
@@ -189,13 +189,13 @@ object taboutform: taboutform
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 0
-    Height = 15
-    Top = 153
+    Height = 16
+    Top = 154
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 12
-    Caption = 'Build 20200104'
+    Caption = 'Build 20200105'
     Layout = tlCenter
     ParentColor = False
   end

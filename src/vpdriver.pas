@@ -32,7 +32,7 @@ type
   tvpdriver = class(tthread)
   private
     fenabled: boolean;
-    ferror:  string;
+    ferror:  longint;
     fserial: tvpserialstream;
     fstream: tmemorystream;
     fxcount: longint;
@@ -58,7 +58,7 @@ type
     property onstart: tthreadmethod read fonstart write fonstart;
     property onstop:  tthreadmethod read fonstop  write fonstop;
     property ontick:  tthreadmethod read fontick  write fontick;
-    property error:   string        read ferror;
+    property error:   longint       read ferror;
     property xcount:  longint       read fxcount;
     property ycount:  longint       read fycount;
     property zcount:  longint       read fzcount;
@@ -275,7 +275,7 @@ end;
 constructor tvpdriver.create(aserial: tvpserialstream);
 begin
   fenabled := true;
-  ferror  := '';
+  ferror  := 0;
   fserial := aserial;
   fstream := tmemorystream.create;
   fxcount := 0;
@@ -307,7 +307,7 @@ begin
      (not servergetycount(fserial, fycount)) or
      (not servergetzcount(fserial, fzcount)) then
   begin
-    ferror := 'Unable to initialize server!';
+    ferror := 1;
     if assigned(fonerror) then
       synchronize(fonerror);
   end;
@@ -368,7 +368,6 @@ begin
       dec(dz);
     end;
     fstream.write(b1, sizeof(b1));
-
   end;
   fzcount := cz;
 end;
@@ -478,7 +477,7 @@ begin
       end;
     end;
     bs := fstream.read(b, bs);
-    while (not fenabled) do sleep(250);
+    while (not fenabled) do sleep(200);
   end;
 
   bs := 255;
@@ -493,25 +492,25 @@ begin
     end;
   end;
 
-  ferror := '';
   if (not servergetxcount(fserial, i)) or (fxcount <> i) then
   begin
-    ferror := 'Server sync error-X !';
-    if assigned(fonerror) then synchronize(fonerror);
+    ferror := 2;
+    if assigned(fonerror) then
+      synchronize(fonerror);
   end;
 
-  ferror := '';
   if (not servergetycount(fserial, i)) or (fycount <> i) then
   begin
-    ferror := 'Server sync error-Y !';
-    if assigned(fonerror) then synchronize(fonerror);
+    ferror := 3;
+    if assigned(fonerror) then
+      synchronize(fonerror);
   end;
 
-  ferror := '';
   if (not servergetzcount(fserial, i)) or (fzcount <> i) then
   begin
-    ferror := 'Server sync error-Z !';
-    if assigned(fonerror) then synchronize(fonerror);
+    ferror := 4;
+    if assigned(fonerror) then
+      synchronize(fonerror);
   end;
 
   if assigned(foninit) then

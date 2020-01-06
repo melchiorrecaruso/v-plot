@@ -166,7 +166,7 @@ procedure smooth(var l0, l1: tvpline; var a0: tvpcirclearc; const radius: vpfloa
 
 
 var
-  enabledebug: boolean = true;
+  enabledebug: boolean = false;
 
 
 implementation

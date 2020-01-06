@@ -2,7 +2,7 @@
 
 //  Author:   Melchiorre Caruso
 //  Date:     20 November 2019
-//  Modified: 04 January  2020
+//  Modified: 05 January  2020
 
 //  Librerie utilizzate nel codice sorgente
 
@@ -31,7 +31,7 @@
 // define ramp consts
 
 #define RAMP_KB           20000 
-#define RAMP_KC           2
+#define RAMP_KC           1
 #define RAMP_MIN          1
 #define RAMP_MAX          200
 
@@ -145,8 +145,14 @@ void ExecInternal(byte bt) {
 // Setup routine
 
 void setup() {
-  // init servo Z
-  motorZ.attach(MOTOR_Z_PIN);
+  // init serial
+  Serial.begin(115200);
+  Serial.setTimeout(1000);
+  // clear serial
+  while (Serial.available() > 0) {
+    Serial.read();
+    delay(50);
+  }  
   // init stepper X/Y
   pinMode(MOTOR_X_STEP_PIN, OUTPUT);
   pinMode(MOTOR_Y_STEP_PIN, OUTPUT);
@@ -154,20 +160,14 @@ void setup() {
   pinMode(MOTOR_Y_DIR_PIN,  OUTPUT);
   pinMode(MOTOR_ONOFF_PIN,  OUTPUT);
   // enable steppers
-  digitalWrite(MOTOR_ONOFF_PIN, LOW);
-  // init serial
-  Serial.begin(115200);
-  Serial.setTimeout(1000);
-  // clear serial
-  while (Serial.available() > 0) {
-    Serial.read();
-    delay(100);
-  }
+  digitalWrite(MOTOR_ONOFF_PIN, LOW);  
+  // init servo Z
+  motorZ.attach(MOTOR_Z_PIN);
   // init variables
   BufferIndex = 0;
   BufferSize = 0;
   LoopStart = micros();
-  LoopDelay = 1000;
+  LoopDelay = 400;
   RampIndex = RAMP_MIN;
   xCount = 0;
   yCount = 0;
@@ -198,8 +198,8 @@ void loop() {
       } else {
         ExecInternal(bt);
       }
-      BufferIndex++; 
+      BufferIndex++;          
     }   
-    LoopDelay = round(RAMP_KB*(sqrt(RampIndex/RAMP_KC+1)-sqrt(RampIndex/RAMP_KC)));
+    LoopDelay = round(RAMP_KB*(sqrt(RampIndex/RAMP_KC+1)-sqrt(RampIndex/RAMP_KC)));   
   }
 }

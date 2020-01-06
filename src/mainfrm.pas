@@ -230,9 +230,6 @@ begin
     if serialstream.connected then
     begin
       portbtn.caption := 'Disconnect';
-      // if servergetxcount(serialstream, i) then
-      // if servergetycount(serialstream, i) then
-
     end else
     begin
       portbtn.caption := 'Connect';
@@ -914,7 +911,13 @@ end;
 
 procedure tmainform.onplottererror;
 begin
-  messagedlg('vPlotter Error', driver.error, mterror, [mbok], 0);
+  case driver.error of
+   1: messagedlg('vPlotter Error', 'Unable to initialize server!', mterror, [mbok], 0);
+   2: messagedlg('vPlotter Error', 'Server sync error-X !',        mterror, [mbok], 0);
+   3: messagedlg('vPlotter Error', 'Server sync error-Y !',        mterror, [mbok], 0);
+   4: messagedlg('vPlotter Error', 'Server sync error-Z !',        mterror, [mbok], 0);
+   5: messagedlg('vPlotter Error', 'Unknown error !',              mterror, [mbok], 0);
+  end;
   application.processmessages;
 end;
 

@@ -1,7 +1,7 @@
 {
   Description: Serial class.
 
-  Copyright (C) 2019 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2019-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This source is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -26,7 +26,7 @@ unit vpserial;
 interface
 
 uses
-  classes, dateutils, serial, sysutils;
+  classes, dateutils, serial, sysutils, vputils;
 
 type
   tvpserialstream = class
@@ -66,7 +66,7 @@ begin
   fbits     := 8;
   fbaudrate := 115200;
   fflags    := [];
-  fhandle   := 0;
+  fhandle   := -1;
   fparity   := noneparity;
   fstopbits := 1;
   ftimeout  := 1000;
@@ -81,9 +81,8 @@ end;
 function tvpserialstream.open(const device: string): boolean;
 begin
   close;
-
   fhandle := seropen(device);
-  result  := fhandle <> 0;
+  result := connected;
   if result then
   begin
     sersetparams(fhandle, fbaudrate, fbits, noneparity, fstopbits, fflags);
@@ -99,7 +98,7 @@ begin
   begin
     serflushinput (fhandle);
     serflushoutput(fhandle);
-    while serreadtimeout(fhandle, cc, 100) > 0 do;
+    while serreadtimeout(fhandle, cc, 10) > 0 do;
   end;
 end;
 
@@ -110,22 +109,24 @@ begin
     sersync       (fhandle);
     serflushoutput(fhandle);
     serclose      (fhandle);
-    fhandle := 0
   end;
+  fhandle := -1;
 end;
 
 function tvpserialstream.read(var buffer; count: longint): longint;
 var
-  data: array[0..maxint-1] of byte absolute buffer;
-     x: tdatetime;
+  d: array[0..maxint-1] of byte absolute buffer;
+  x: tdatetime;
 begin
   x := now;
   result := 0;
-  while (result < count) do
-  begin
-    inc(result, serread(fhandle, data[result], 1));
-    if millisecondsbetween(now, x) > ftimeout then exit;
-  end;
+  repeat
+    inc(result, serread(fhandle, d[result], count - result));
+    if (result = count) then
+      break
+    else
+      sleepmicroseconds(20);
+  until millisecondsbetween(now, x) > ftimeout;
 end;
 
 function tvpserialstream.write(var buffer; count: longint): longint;
@@ -133,14 +134,9 @@ begin
   result := serwrite(fhandle, buffer, count);
 end;
 
-
 function tvpserialstream.connected: boolean;
 begin
-  {$IFDEF WINDOWS}
-    result := fhandle <> 0;
-  {$ELSE}
-    result := fhandle <> thandle(-1);
-  {$ENDIF}
+  result := fhandle > 0;
 end;
 
 end.

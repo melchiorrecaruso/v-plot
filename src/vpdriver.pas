@@ -241,7 +241,7 @@ var
       t0, t1: tvppoint;
 begin
   //find tangent point t0
-  t0 := setting.point0;
+  t0 := setting.layout0;
   lx := sqrt(sqr(distance_between_two_points(t0, p))-sqr(setting.mxradius));
   c0 := circle_by_center_and_radius(t0, setting.mxradius);
   cx := circle_by_center_and_radius(p, lx);
@@ -250,7 +250,7 @@ begin
   a0 := angle(line_by_two_points(s0, t0));
   lx := lx + a0*setting.mxradius;
   //find tangent point t1
-  t1 := setting.point1;
+  t1 := setting.layout1;
   ly := sqrt(sqr(distance_between_two_points(t1, p))-sqr(setting.myradius));
   c1 := circle_by_center_and_radius(t1, setting.myradius);
   cx := circle_by_center_and_radius(p, ly);

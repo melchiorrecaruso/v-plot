@@ -443,11 +443,11 @@ begin
     driver.ontick  := @onplottertick;
     driver.init;
 
-    xoffset := setting.point8.x;
-    yoffset := setting.point8.y +
+    xoffset := setting.layout8.x;
+    yoffset := setting.layout8.y +
       pageheight * setting.scale + setting.offset;
 
-    point1 := setting.point8;
+    point1 := setting.layout8;
     for i := 0 to page.count -1 do
     begin
       element := page.items[i];
@@ -521,7 +521,7 @@ begin
     driver.ontick  := @onplottertick;
     driver.init;
     driver.movez(setting.mzmax);
-    calculatexy(setting.point8, cx, cy);
+    calculatexy(setting.layout8, cx, cy);
     driver.move(cx, cy);
     driver.start;
   end;
@@ -894,7 +894,7 @@ procedure tmainform.onplotterinit;
 var
   cx, cy: longint;
 begin
-  calculatexy(setting.point8, cx,  cy);
+  calculatexy(setting.layout8, cx,  cy);
 
   if not serversetxcount(serialstream, cx) then showmessage('error setting X ');
   if not servergetxcount(serialstream, cx) then showmessage('error reading X ');

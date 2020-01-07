@@ -32,9 +32,9 @@ type
   tvpsetting = class
   private
     // points
-    fpoint0:   tvppoint;
-    fpoint1:   tvppoint;
-    fpoint8:   tvppoint;
+    flayout0:  tvppoint;
+    flayout1:  tvppoint;
+    flayout8:  tvppoint;
     foffset:   vpfloat;
     fscale:    vpfloat;
     // x-motor
@@ -71,9 +71,9 @@ type
     destructor destroy; override;
     procedure load(const filename: rawbytestring);
  public
-    property point0:         tvppoint read fpoint0   write fpoint0;
-    property point1:         tvppoint read fpoint1   write fpoint1;
-    property point8:         tvppoint read fpoint8   write fpoint8;
+    property layout0:        tvppoint read flayout0  write flayout0;
+    property layout1:        tvppoint read flayout1  write flayout1;
+    property layout8:        tvppoint read flayout8  write flayout8;
     property offset:         vpfloat  read foffset   write foffset;
     property scale:          vpfloat  read fscale    write fscale;
 
@@ -121,14 +121,14 @@ begin
   ini := tinifile.create(filename);
   ini.formatsettings.decimalseparator := '.';
 
-  fpoint0.x := ini.readfloat('LAYOUT', 'P0.X',   0);
-  fpoint0.y := ini.readfloat('LAYOUT', 'P0.Y',   0);
-  fpoint1.x := ini.readfloat('LAYOUT', 'P1.X',   0);
-  fpoint1.y := ini.readfloat('LAYOUT', 'P1.Y',   0);
-  fpoint8.x := ini.readfloat('LAYOUT', 'P8.X',   0);
-  fpoint8.y := ini.readfloat('LAYOUT', 'P8.Y',   0);
-  foffset   := ini.readfloat('LAYOUT', 'OFFSET', 0);
-  fscale    := ini.readfloat('LAYOUT', 'SCALE',  0);
+  flayout0.x := ini.readfloat('LAYOUT', 'L0.X',   0);
+  flayout0.y := ini.readfloat('LAYOUT', 'L0.Y',   0);
+  flayout1.x := ini.readfloat('LAYOUT', 'L1.X',   0);
+  flayout1.y := ini.readfloat('LAYOUT', 'L1.Y',   0);
+  flayout8.x := ini.readfloat('LAYOUT', 'L8.X',   0);
+  flayout8.y := ini.readfloat('LAYOUT', 'L8.Y',   0);
+  foffset    := ini.readfloat('LAYOUT', 'OFFSET', 0);
+  fscale     := ini.readfloat('LAYOUT', 'SCALE',  0);
 
   fmxradius := ini.readfloat  ('X-AXIS', 'RADIUS', 0);
   fmxratio  := ini.readfloat  ('X-AXIS', 'RATIO',  0);
@@ -137,34 +137,34 @@ begin
   fmzmin    := ini.readinteger('Z-AXIS', 'MIN',    0);
   fmzmax    := ini.readinteger('Z-AXIS', 'MAX',    0);
 
-  fspacewave0.x := ini.readfloat('SPACE-WAVE', '00.X', 0);
-  fspacewave0.y := ini.readfloat('SPACE-WAVE', '00.Y', 0);
-  fspacewave1.x := ini.readfloat('SPACE-WAVE', '01.X', 0);
-  fspacewave1.y := ini.readfloat('SPACE-WAVE', '01.Y', 0);
-  fspacewave2.x := ini.readfloat('SPACE-WAVE', '02.X', 0);
-  fspacewave2.y := ini.readfloat('SPACE-WAVE', '02.Y', 0);
-  fspacewave3.x := ini.readfloat('SPACE-WAVE', '03.X', 0);
-  fspacewave3.y := ini.readfloat('SPACE-WAVE', '03.Y', 0);
-  fspacewave4.x := ini.readfloat('SPACE-WAVE', '04.X', 0);
-  fspacewave4.y := ini.readfloat('SPACE-WAVE', '04.Y', 0);
-  fspacewave5.x := ini.readfloat('SPACE-WAVE', '05.X', 0);
-  fspacewave5.y := ini.readfloat('SPACE-WAVE', '05.Y', 0);
-  fspacewave6.x := ini.readfloat('SPACE-WAVE', '06.X', 0);
-  fspacewave6.y := ini.readfloat('SPACE-WAVE', '06.Y', 0);
-  fspacewave7.x := ini.readfloat('SPACE-WAVE', '07.X', 0);
-  fspacewave7.y := ini.readfloat('SPACE-WAVE', '07.Y', 0);
-  fspacewave8.x := ini.readfloat('SPACE-WAVE', '08.X', 0);
-  fspacewave8.y := ini.readfloat('SPACE-WAVE', '08.Y', 0);
-  fspacewavedxmax := ini.readfloat('SPACE-WAVE', 'DXMAX', 0);
-  fspacewavedymax := ini.readfloat('SPACE-WAVE', 'DYMAX', 0);
-  fspacewavescale := ini.readfloat('SPACE-WAVE', 'SCALE', 0);
-  fspacewaveon    := ini.readinteger('SPACE-WAVE', 'ON', 0);
+  fspacewave0.x   := ini.readfloat  ('SPACE-WAVE', 'W0.X',  0);
+  fspacewave0.y   := ini.readfloat  ('SPACE-WAVE', 'W0.Y',  0);
+  fspacewave1.x   := ini.readfloat  ('SPACE-WAVE', 'W1.X',  0);
+  fspacewave1.y   := ini.readfloat  ('SPACE-WAVE', 'W1.Y',  0);
+  fspacewave2.x   := ini.readfloat  ('SPACE-WAVE', 'W2.X',  0);
+  fspacewave2.y   := ini.readfloat  ('SPACE-WAVE', 'W2.Y',  0);
+  fspacewave3.x   := ini.readfloat  ('SPACE-WAVE', 'W3.X',  0);
+  fspacewave3.y   := ini.readfloat  ('SPACE-WAVE', 'W3.Y',  0);
+  fspacewave4.x   := ini.readfloat  ('SPACE-WAVE', 'W4.X',  0);
+  fspacewave4.y   := ini.readfloat  ('SPACE-WAVE', 'W4.Y',  0);
+  fspacewave5.x   := ini.readfloat  ('SPACE-WAVE', 'W5.X',  0);
+  fspacewave5.y   := ini.readfloat  ('SPACE-WAVE', 'W5.Y',  0);
+  fspacewave6.x   := ini.readfloat  ('SPACE-WAVE', 'W6.X',  0);
+  fspacewave6.y   := ini.readfloat  ('SPACE-WAVE', 'W6.Y',  0);
+  fspacewave7.x   := ini.readfloat  ('SPACE-WAVE', 'W7.X',  0);
+  fspacewave7.y   := ini.readfloat  ('SPACE-WAVE', 'W7.Y',  0);
+  fspacewave8.x   := ini.readfloat  ('SPACE-WAVE', 'W8.X',  0);
+  fspacewave8.y   := ini.readfloat  ('SPACE-WAVE', 'W8.Y',  0);
+  fspacewavedxmax := ini.readfloat  ('SPACE-WAVE', 'DXMAX', 0);
+  fspacewavedymax := ini.readfloat  ('SPACE-WAVE', 'DYMAX', 0);
+  fspacewavescale := ini.readfloat  ('SPACE-WAVE', 'SCALE', 0);
+  fspacewaveon    := ini.readinteger('SPACE-WAVE', 'ON',    0);
 
   if enabledebug then
   begin
-    writeln(format('  LAYOUT::L0.X   = %12.5f  L0.Y = %12.5f', [fpoint0.x, fpoint0.y]));
-    writeln(format('  LAYOUT::L1.X   = %12.5f  L1.Y = %12.5f', [fpoint1.x, fpoint1.y]));
-    writeln(format('  LAYOUT::L8.X   = %12.5f  L8.Y = %12.5f', [fpoint8.x, fpoint8.y]));
+    writeln(format('  LAYOUT::L0.X   = %12.5f  L0.Y = %12.5f', [flayout0.x, flayout0.y]));
+    writeln(format('  LAYOUT::L1.X   = %12.5f  L1.Y = %12.5f', [flayout1.x, flayout1.y]));
+    writeln(format('  LAYOUT::L8.X   = %12.5f  L8.Y = %12.5f', [flayout8.x, flayout8.y]));
     writeln(format('  LAYOUT::OFFSET = %12.5f', [foffset   ]));
     writeln(format('  LAYOUT::SCALE  = %12.5f', [fscale    ]));
 
@@ -175,15 +175,15 @@ begin
     writeln(format('  Z-AXIS::MIN    = %12.5u', [fmzmin    ]));
     writeln(format('  Z-AXIS::MAX    = %12.5u', [fmzmax    ]));
 
-    writeln(format(' SPACE-W::00.X   = %12.5f  00.Y = %12.5f', [fspacewave0.x, fspacewave0.y]));
-    writeln(format(' SPACE-W::01.X   = %12.5f  01.Y = %12.5f', [fspacewave1.x, fspacewave1.y]));
-    writeln(format(' SPACE-W::02.X   = %12.5f  02.Y = %12.5f', [fspacewave2.x, fspacewave2.y]));
-    writeln(format(' SPACE-W::03.X   = %12.5f  03.Y = %12.5f', [fspacewave3.x, fspacewave3.y]));
-    writeln(format(' SPACE-W::04.X   = %12.5f  04.Y = %12.5f', [fspacewave4.x, fspacewave4.y]));
-    writeln(format(' SPACE-W::05.X   = %12.5f  05.Y = %12.5f', [fspacewave5.x, fspacewave5.y]));
-    writeln(format(' SPACE-W::06.X   = %12.5f  06.Y = %12.5f', [fspacewave6.x, fspacewave6.y]));
-    writeln(format(' SPACE-W::07.X   = %12.5f  07.Y = %12.5f', [fspacewave7.x, fspacewave7.y]));
-    writeln(format(' SPACE-W::08.X   = %12.5f  08.Y = %12.5f', [fspacewave8.x, fspacewave8.y]));
+    writeln(format(' SPACE-W::W0.X   = %12.5f  W0.Y = %12.5f', [fspacewave0.x, fspacewave0.y]));
+    writeln(format(' SPACE-W::W1.X   = %12.5f  W1.Y = %12.5f', [fspacewave1.x, fspacewave1.y]));
+    writeln(format(' SPACE-W::W2.X   = %12.5f  W2.Y = %12.5f', [fspacewave2.x, fspacewave2.y]));
+    writeln(format(' SPACE-W::W3.X   = %12.5f  W3.Y = %12.5f', [fspacewave3.x, fspacewave3.y]));
+    writeln(format(' SPACE-W::W4.X   = %12.5f  W4.Y = %12.5f', [fspacewave4.x, fspacewave4.y]));
+    writeln(format(' SPACE-W::W5.X   = %12.5f  W5.Y = %12.5f', [fspacewave5.x, fspacewave5.y]));
+    writeln(format(' SPACE-W::W6.X   = %12.5f  W6.Y = %12.5f', [fspacewave6.x, fspacewave6.y]));
+    writeln(format(' SPACE-W::W7.X   = %12.5f  W7.Y = %12.5f', [fspacewave7.x, fspacewave7.y]));
+    writeln(format(' SPACE-W::W8.X   = %12.5f  W8.Y = %12.5f', [fspacewave8.x, fspacewave8.y]));
     writeln(format(' SPACE-W::DXMAX  = %12.5f',                [fspacewavedxmax]));
     writeln(format(' SPACE-W::DYMAX  = %12.5f',                [fspacewavedymax]));
     writeln(format(' SPACE-W::SCALE  = %12.5f',                [fspacewavescale]));

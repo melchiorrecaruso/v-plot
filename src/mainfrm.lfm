@@ -1,11 +1,11 @@
 object tmainform: tmainform
-  Left = 299
-  Height = 620
-  Top = 39
+  Left = 286
+  Height = 667
+  Top = 52
   Width = 920
   Anchors = []
   Caption = 'Vertical Plotter - Client'
-  ClientHeight = 620
+  ClientHeight = 667
   ClientWidth = 920
   Constraints.MinHeight = 620
   Constraints.MinWidth = 920
@@ -23,7 +23,7 @@ object tmainform: tmainform
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 290
-    Height = 608
+    Height = 655
     Top = 12
     Width = 630
     OnRedraw = screenredraw
@@ -32,7 +32,7 @@ object tmainform: tmainform
     BorderSpacing.Left = 4
     BorderSpacing.Top = 6
     BorderStyle = bsSingle
-    ClientHeight = 606
+    ClientHeight = 653
     ClientWidth = 628
     Color = clWhite
     ParentColor = False
@@ -613,7 +613,7 @@ object tmainform: tmainform
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 608
+    Height = 655
     Top = 6
     Width = 280
     Anchors = [akTop, akLeft, akBottom]
@@ -621,7 +621,7 @@ object tmainform: tmainform
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     BevelOuter = bvNone
-    ClientHeight = 608
+    ClientHeight = 655
     ClientWidth = 280
     Color = clForm
     ParentColor = False

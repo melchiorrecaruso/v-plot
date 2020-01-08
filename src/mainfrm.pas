@@ -138,6 +138,7 @@ type
     procedure onplotterinit;
     procedure onplotterstart;
     procedure onplotterstop;
+    procedure onplotterstopraise;
     procedure onplottertick;
     procedure lockinternal(value: boolean);
   public
@@ -439,7 +440,7 @@ begin
     driver.onerror := @onplottererror;
     driver.oninit  := nil;
     driver.onstart := @onplotterstart;
-    driver.onstop  := @onplotterstop;
+    driver.onstop  := @onplotterstopraise;
     driver.ontick  := @onplottertick;
     driver.init;
 
@@ -476,7 +477,6 @@ begin
         path := nil;
       end;
     end;
-    driver.movez(setting.mzmax);
     driver.start;
   end else
   begin
@@ -880,10 +880,15 @@ begin
   application.processmessages;
 end;
 
+procedure tmainform.onplotterstopraise;
+begin
+  driver := nil;
+  penbtnclick(penupbtn);
+end;
+
 procedure tmainform.onplotterstop;
 begin
   driver := nil;
-
   unlock;
   startbvl.caption    := 'Start';
   startbvl.imageindex := 6;

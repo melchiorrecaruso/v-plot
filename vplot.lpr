@@ -1,7 +1,7 @@
 {
-  Description: vPlot application.
+  Description: vPlotter application.
 
-  Copyright (C) 2017-2019 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This source is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -32,7 +32,7 @@ uses
 begin
   requirederivedformresource := true;
   application.scaled := true;
-  Application.Title:='vPlot Driver';
+  application.title := 'vPlotter Client';
   application.initialize;
   application.createform(tmainform, mainform);
   application.run;

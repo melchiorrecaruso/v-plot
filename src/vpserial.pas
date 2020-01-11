@@ -26,7 +26,7 @@ unit vpserial;
 interface
 
 uses
-  classes, dateutils, serial, sysutils, vputils;
+  classes, dateutils, serial, sysutils, vputils, baseunix, unix;
 
 type
   tvpserialstream = class
@@ -54,6 +54,8 @@ type
     property parity:   tparitytype  read fparity   write fparity;
     property stopbits: longint      read fstopbits write fstopbits;
   end;
+
+  function getserialportnames: tstringlist;
 
 var
   serialstream: tvpserialstream = nil;
@@ -138,6 +140,36 @@ function tvpserialstream.connected: boolean;
 begin
   result := fhandle > 0;
 end;
+
+{$IFDEF MSWINDOWS}
+function getserialportnames: tstringlist;
+var
+  reg: tregistry;
+begin
+  reg    := tregistry.create;
+  result := tstringlist.create;
+  try
+  {$IFNDEF VER100}
+  {$IFNDEF VER120}
+    reg.access := KEY_READ;
+  {$ENDIF}
+  {$ENDIF}
+    reg.rootkey := HKEY_LOCAL_MACHINE;
+    reg.openkey('\HARDWARE\DEVICEMAP\SERIALCOMM\', false);
+    reg.getvaluenames(result);
+  finally
+    reg.free;
+  end;
+end;
+{$ENDIF}
+{$IFNDEF MSWINDOWS}
+function getserialportnames: tstringlist;
+begin
+  result := tstringlist.create;
+  result.add('/dev/ttyACM0');
+  result.add('/dev/ttyACM1');
+end;
+{$ENDIF}
 
 end.
 

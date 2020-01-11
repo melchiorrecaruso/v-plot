@@ -43,7 +43,7 @@ type
     fonstart: tthreadmethod;
     fonstop: tthreadmethod;
     fontick: tthreadmethod;
-    procedure smooth;
+    procedure createramps;
   public
     constructor create(aserial: tvpserialstream);
     destructor destroy; override;
@@ -372,7 +372,7 @@ begin
   fzcount := cz;
 end;
 
-procedure tvpdriver.smooth;
+procedure tvpdriver.createramps;
 const
   ramp_ds  = 2;
   ramp_dx  = 2;
@@ -460,7 +460,7 @@ begin
   fserial.clear;
   if assigned(onstart) then
     synchronize(fonstart);
-  smooth;
+  createramps;
 
   fstream.seek(0, sofrombeginning);
   bs := fstream.read(b, system.length(b));

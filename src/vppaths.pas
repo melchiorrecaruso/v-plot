@@ -187,7 +187,7 @@ type
 implementation
 
 uses
-  math, vpsetting;
+  math;
 
 // tvpelement routines
 

@@ -1,7 +1,7 @@
 {
   Description: vPlot setting class.
 
-  Copyright (C) 2017-2019 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This source is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -65,7 +65,7 @@ type
     fspacewavedxmax: vpfloat;
     fspacewavedymax: vpfloat;
     fspacewavescale: vpfloat;
-    fspacewaveon: longint;
+    fspacewaveoff: longint;
  public
     constructor create;
     destructor destroy; override;
@@ -96,7 +96,7 @@ type
     property spacewavedxmax: vpfloat  read fspacewavedxmax;
     property spacewavedymax: vpfloat  read fspacewavedymax;
     property spacewavescale: vpfloat  read fspacewavescale;
-    property spacewaveon:    longint  read fspacewaveon;
+    property spacewaveoff:   longint  read fspacewaveoff;
  end;
 
 var
@@ -158,7 +158,7 @@ begin
   fspacewavedxmax := ini.readfloat  ('SPACE-WAVE', 'DXMAX', 0);
   fspacewavedymax := ini.readfloat  ('SPACE-WAVE', 'DYMAX', 0);
   fspacewavescale := ini.readfloat  ('SPACE-WAVE', 'SCALE', 0);
-  fspacewaveon    := ini.readinteger('SPACE-WAVE', 'ON',    0);
+  fspacewaveoff   := ini.readinteger('SPACE-WAVE', 'OFF',   0);
 
   if enabledebug then
   begin
@@ -187,7 +187,7 @@ begin
     writeln(format(' SPACE-W::DXMAX  = %12.5f',                [fspacewavedxmax]));
     writeln(format(' SPACE-W::DYMAX  = %12.5f',                [fspacewavedymax]));
     writeln(format(' SPACE-W::SCALE  = %12.5f',                [fspacewavescale]));
-    writeln(format(' SPACE-W::ON     = %12.5u',                [fspacewaveon   ]));
+    writeln(format(' SPACE-W::OFF    = %12.5u',                [fspacewaveoff  ]));
   end;
   ini.destroy;
 end;

@@ -1,10 +1,10 @@
 object tmainform: tmainform
-  Left = 286
+  Left = 317
   Height = 667
-  Top = 52
+  Top = 51
   Width = 920
   Anchors = []
-  Caption = 'Vertical Plotter - Client'
+  Caption = 'vPlotter Client'
   ClientHeight = 667
   ClientWidth = 920
   Constraints.MinHeight = 620
@@ -676,18 +676,7 @@ object tmainform: tmainform
       Constraints.MaxWidth = 180
       Constraints.MinWidth = 180
       ItemHeight = 0
-      ItemIndex = 0
-      Items.Strings = (
-        '/dev/ttyACM0'
-        '/dev/ttyACM1'
-        'COM0'
-        'COM1'
-        'COM2'
-        'COM3'
-        'COM4'
-      )
       TabOrder = 0
-      Text = '/dev/ttyACM0'
     end
     object portbtn: TBitBtn
       AnchorSideLeft.Control = controlpnl
@@ -1353,11 +1342,10 @@ object tmainform: tmainform
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 6
       BorderSpacing.Right = 4
-      DecimalPlaces = 1
       MaxValue = 0
       MinValue = 0
       TabOrder = 12
-      Value = 0
+      Value = 1
     end
     object editingbtn: TBitBtn
       AnchorSideLeft.Control = controlpnl

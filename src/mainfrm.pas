@@ -1,7 +1,7 @@
 {
   Description: vPlot main form.
 
-  Copyright (C) 2017-2019 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This source is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -162,6 +162,8 @@ uses
 
 procedure tmainform.formcreate(sender: tobject);
 var
+  i: longint;
+  list: tstringlist;
   wavemesh: twavemesh;
 begin
   // load setting
@@ -184,11 +186,19 @@ begin
     setting.spacewavedymax,
     setting.spacewavescale,
     wavemesh);
-  spacewave.enabled := setting.spacewaveon = 1;
+  spacewave.enabled := not (setting.spacewaveoff = 1);
   spacewave.debug;
   // create preview and empty page
   page        := tvpelementlist.create;
   screenimage := tbgrabitmap.create(screen.width, screen.height);
+  // update port combobox
+  list := getserialportnames;
+  for i := 0 to list.count -1 do
+  begin
+    portcb.items.add(list[i]);
+  end;
+  list.destroy;
+  portcb.itemindex := 0;
   // main form updates
   pagesizebtnclick(nil);
   fitmiclick(nil);
@@ -198,19 +208,18 @@ end;
 
 procedure tmainform.formdestroy(sender: tobject);
 begin
-  screenimage.destroy;
-  //
   page.destroy;
-  spacewave.destroy;
-  setting.destroy;
   serialstream.destroy;
+  setting.destroy;
+  screenimage.destroy;
+  spacewave.destroy;
 end;
 
 procedure tmainform.formclose(sender: tobject; var closeaction: tcloseaction);
 begin
   if assigned(driver) then
   begin
-    messagedlg('vPlotter Error', 'There is an active process!', mterror, [mbok], 0);
+    messagedlg('vPlotter', 'There is an active process !', mterror, [mbok], 0);
     closeaction := canone;
   end else
     closeaction := cafree;
@@ -234,8 +243,8 @@ begin
     end else
     begin
       portbtn.caption := 'Connect';
-      messagedlg('Connection error',
-        'Unable to connect with plotter.', mterror, [mbok], 0);
+      messagedlg('vPlotter',
+        'Unable connecting to server !', mterror, [mbok], 0);
     end;
   end;
   unlock;
@@ -301,7 +310,7 @@ begin
   opendialog.filter := 'Supported files (*.svg, *.dxf, *.png, *.bmp)|*.svg; *.dxf; *.png; *.bmp';
   if opendialog.execute then
   begin
-    caption := 'vPlotter - ' + opendialog.filename;
+    caption := 'vPlotter Client - ' + opendialog.filename;
 
     lock;
     if (lowercase(extractfileext(opendialog.filename)) = '.dxf') then
@@ -344,7 +353,6 @@ begin
       end;
       importform.destroy;
     end;
-
     pagecount := page.count;
     updatescreen;
     unlock;
@@ -353,11 +361,10 @@ end;
 
 procedure tmainform.clearbtnclick(sender: tobject);
 begin
-  caption := 'vPlotter Client';
-
   lock;
   page.clear;
   pagecount := page.count;
+  caption := 'vPlotter Client';
   fitmiclick(sender);
   unlock;
 end;
@@ -367,15 +374,16 @@ end;
 procedure tmainform.editingcbchange(sender: tobject);
 begin
   editingedt.enabled := editingbtn.enabled;
-  case editingcb.itemindex of
-    0: editingedt.value   := 1.0;   // SCALE
-    1: editingedt.value   := 0.0;   // X-OFFSET
-    2: editingedt.value   := 0.0;   // Y-OFFSET
-    3: editingedt.enabled := false; // X-MIRROR
-    4: editingedt.enabled := false; // Y-MIRROR
-    5: editingedt.value   := 90.0;  // ROTATE
-    6: editingedt.enabled := false; // MOVE TO ORIGIN
-  end;
+  if sender = editingcb then
+    case editingcb.itemindex of
+      0: editingedt.value   := 1.0;   // SCALE
+      1: editingedt.value   := 0.0;   // X-OFFSET
+      2: editingedt.value   := 0.0;   // Y-OFFSET
+      3: editingedt.enabled := false; // X-MIRROR
+      4: editingedt.enabled := false; // Y-MIRROR
+      5: editingedt.value   := 90.0;  // ROTATE
+      6: editingedt.enabled := false; // MOVE TO ORIGIN
+    end;
 end;
 
 procedure tmainform.editingbtnclick(sender: tobject);
@@ -457,9 +465,9 @@ begin
         element.interpolate(path, 0.05);
         for j := 0 to high(path) do
         begin
-          point2   := path[j];
-          //if (abs(point2.x) < (pagewidth /2)) and
-          //   (abs(point2.y) < (pageheight/2)) then
+          point2 := path[j];
+          if (abs(point2.x) < (pagewidth /2+1)) and
+             (abs(point2.y) < (pageheight/2+1)) then
           begin
             point2.x := point2.x + xoffset;
             point2.y := point2.y + yoffset;
@@ -582,7 +590,10 @@ end;
 // ZOOM BUTTONS
 
 procedure tmainform.changezoombtnclick(sender: tobject);
+var
+  azoom: vpfloat;
 begin
+  azoom := zoom;
   if sender = inczoombtn then
   begin
     if zoom =  0.25 then zoom :=  0.50 else
@@ -609,7 +620,11 @@ begin
     if zoom =  0.75 then zoom :=  0.50 else
     if zoom =  0.50 then zoom :=  0.25;
   end;
-  fitmiclick(sender);
+
+  if zoom <> azoom then
+  begin
+    fitmiclick(sender);
+  end;
 end;
 
 procedure tmainform.fitmiclick(sender: tobject);
@@ -651,7 +666,6 @@ begin
     p0.x := ((x - pagewidth /2)*zoom) - movex;
     p0.y := ((y - pageheight/2)*zoom) - movey;
 
-    //showmessage(format('X%d Y%d', [trunc(p0.x), trunc(p0.y)]));
     for i := 0 to page.count -1 do
     begin
       elem := page.items[i];
@@ -900,12 +914,14 @@ var
   cx, cy: longint;
 begin
   calculatexy(setting.layout8, cx,  cy);
-
-  if not serversetxcount(serialstream, cx) then showmessage('error setting X ');
-  if not servergetxcount(serialstream, cx) then showmessage('error reading X ');
-
-  if not serversetycount(serialstream, cy) then showmessage('error setting Y ');
-  if not servergetycount(serialstream, cy) then showmessage('error reading Y ');
+  if not serversetxcount(serialstream, cx) then
+    messagedlg('vPlotter', 'Axis X syncing error !',  mterror, [mbok], 0);
+  if not servergetxcount(serialstream, cx) then
+    messagedlg('vPlotter', 'Axis X checking error !', mterror, [mbok], 0);
+  if not serversetycount(serialstream, cy) then
+    messagedlg('vPlotter', 'Axis Y syncing error !',  mterror, [mbok], 0);
+  if not servergetycount(serialstream, cy) then
+    messagedlg('vPlotter', 'Axis Y checking error !', mterror, [mbok], 0);
   application.processmessages;
 end;
 
@@ -917,11 +933,11 @@ end;
 procedure tmainform.onplottererror;
 begin
   case driver.error of
-   1: messagedlg('vPlotter Error', 'Unable to initialize server!', mterror, [mbok], 0);
-   2: messagedlg('vPlotter Error', 'Server sync error-X !',        mterror, [mbok], 0);
-   3: messagedlg('vPlotter Error', 'Server sync error-Y !',        mterror, [mbok], 0);
-   4: messagedlg('vPlotter Error', 'Server sync error-Z !',        mterror, [mbok], 0);
-   5: messagedlg('vPlotter Error', 'Unknown error !',              mterror, [mbok], 0);
+   1: messagedlg('vPlotter', 'Unable connecting to server !', mterror, [mbok], 0);
+   2: messagedlg('vPlotter', 'Axis X checking error !',       mterror, [mbok], 0);
+   3: messagedlg('vPlotter', 'Axis Y checking error !',       mterror, [mbok], 0);
+   4: messagedlg('vPlotter', 'Axis Z checking error !',       mterror, [mbok], 0);
+   5: messagedlg('vPlotter', 'Unknown error !',               mterror, [mbok], 0);
   end;
   application.processmessages;
 end;

@@ -207,7 +207,8 @@
         <Filename Value="src/vpdriver.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="3" Y="463"/>
+        <TopLine Value="363"/>
+        <CursorPos X="58" Y="388"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -1357,9 +1358,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="306"/>
-        <CursorPos X="9" Y="386"/>
-        <FoldState Value=" T3md0Q32114!"/>
+        <TopLine Value="450"/>
+        <CursorPos X="48" Y="470"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1540,7 +1540,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
         <CursorPos X="47" Y="11"/>
-        <UsageCount Value="176"/>
+        <UsageCount Value="178"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -1666,10 +1666,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="32" Column="3" TopLine="10"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
         <Caret Line="419" TopLine="397"/>
       </Position>
       <Position>
@@ -1783,6 +1779,10 @@
       <Position>
         <Filename Value="src/mainfrm.pas"/>
         <Caret Line="389" Column="3" TopLine="304"/>
+      </Position>
+      <Position>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="470" Column="46" TopLine="447"/>
       </Position>
     </JumpHistory>
   </ProjectOptions>

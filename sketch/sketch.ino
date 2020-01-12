@@ -2,7 +2,7 @@
 
 //  Author:   Melchiorre Caruso
 //  Date:     20 November 2019
-//  Modified: 10 January  2020
+//  Modified: 11 January  2020
 
 //  Librerie utilizzate nel codice sorgente
 
@@ -30,7 +30,7 @@
 
 // define ramp consts
 
-#define RAMP_KB           20000 
+#define RAMP_KB           40000
 #define RAMP_KC           1
 #define RAMP_MIN          1
 #define RAMP_MAX          200

@@ -466,8 +466,8 @@ begin
         for j := 0 to high(path) do
         begin
           point2 := path[j];
-          if (abs(point2.x) < (pagewidth /2+1)) and
-             (abs(point2.y) < (pageheight/2+1)) then
+          if (abs(point2.x) < (pagewidth /2+2)) and
+             (abs(point2.y) < (pageheight/2+2)) then
           begin
             point2.x := point2.x + xoffset;
             point2.y := point2.y + yoffset;

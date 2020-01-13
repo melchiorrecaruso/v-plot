@@ -1,7 +1,7 @@
 {
   Description: vPlot paths class.
 
-  Copyright (C) 2017-2019 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This source is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -978,16 +978,20 @@ procedure tvpelementlist.createtoolpath4layer(list: tfplist);
 var
       i: longint;
    elem: tvpelement;
+   last: tvppoint;
   list1: tfplist;
   list2: tfplist;
 begin
-  list1 := tfplist.create;
-  list2 := tfplist.create;
+  list1  := tfplist.create;
+  list2  := tfplist.create;
+  last.x := 0;
+  last.y := 0;
   // create toolpath
   while list.count > 0 do
   begin
-    list1.add(list[0]);
-    list.delete(0);
+    i := getnear(last, list);
+    list1.add(list[i]);
+    list.delete(i);
 
     if isaloop(tvpelement(list1[0])) = false then
     begin
@@ -1030,6 +1034,7 @@ begin
     // move toolpath
     while list1.count > 0 do
     begin
+      last :=   tvpelement(list1[0]).getlastpoint;
       list2.add(tvpelement(list1[0]));
       list1.delete(0);
     end;

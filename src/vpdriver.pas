@@ -26,13 +26,13 @@ unit vpdriver;
 interface
 
 uses
-  classes, dialogs, math, sysutils, vpmath, vpserial, vpsetting, vputils;
+  classes, math, sysutils, vpmath, vpserial, vpsetting, vputils;
 
 type
   tvpdriver = class(tthread)
   private
     fenabled: boolean;
-    ferror:  longint;
+    fmessage: string;
     fserial: tvpserialstream;
     fstream: tmemorystream;
     fxcount: longint;
@@ -53,12 +53,12 @@ type
     procedure execute; override;
   published
     property enabled: boolean       read fenabled write fenabled;
+    property message: string        read fmessage;
     property onerror: tthreadmethod read fonerror write fonerror;
     property oninit:  tthreadmethod read foninit  write foninit;
     property onstart: tthreadmethod read fonstart write fonstart;
     property onstop:  tthreadmethod read fonstop  write fonstop;
     property ontick:  tthreadmethod read fontick  write fontick;
-    property error:   longint       read ferror;
     property xcount:  longint       read fxcount;
     property ycount:  longint       read fycount;
     property zcount:  longint       read fzcount;
@@ -275,12 +275,12 @@ end;
 constructor tvpdriver.create(aserial: tvpserialstream);
 begin
   fenabled := true;
-  ferror  := 0;
-  fserial := aserial;
-  fstream := tmemorystream.create;
-  fxcount := 0;
-  fycount := 0;
-  fzcount := 0;
+  fmessage := '';
+  fserial  := aserial;
+  fstream  := tmemorystream.create;
+  fxcount  := 0;
+  fycount  := 0;
+  fzcount  := 0;
 
   fonerror := nil;
   foninit  := nil;
@@ -307,7 +307,7 @@ begin
      (not servergetycount(fserial, fycount)) or
      (not servergetzcount(fserial, fzcount)) then
   begin
-    ferror := 1;
+    fmessage := 'Unable connecting to server !';
     if assigned(fonerror) then
       synchronize(fonerror);
   end;
@@ -453,9 +453,9 @@ end;
 
 procedure tvpdriver.execute;
 var
+  i:  longint;
   b:  array [0..59]of byte;
   bs: byte;
-  i:  longint;
 begin
   fserial.clear;
   if assigned(onstart) then
@@ -467,6 +467,8 @@ begin
   while (bs > 0) and (not terminated) do
   begin
     fserial.write(b, bs);
+    if assigned(fontick) then
+      synchronize(ontick);
     while (not terminated) do
     begin
       bs := 0;
@@ -492,31 +494,19 @@ begin
     end;
   end;
 
-  if (not servergetxcount(fserial, i)) or (fxcount <> i) then
+  if ((not servergetxcount(fserial, i)) or (fxcount <> i)) or
+     ((not servergetycount(fserial, i)) or (fycount <> i)) or
+     ((not servergetzcount(fserial, i)) or (fzcount <> i)) then
   begin
-    ferror := 2;
+    fmessage := 'Server syncing error !';
     if assigned(fonerror) then
       synchronize(fonerror);
   end;
-
-  if (not servergetycount(fserial, i)) or (fycount <> i) then
-  begin
-    ferror := 3;
-    if assigned(fonerror) then
-      synchronize(fonerror);
-  end;
-
-  if (not servergetzcount(fserial, i)) or (fzcount <> i) then
-  begin
-    ferror := 4;
-    if assigned(fonerror) then
-      synchronize(fonerror);
-  end;
-
   if assigned(foninit) then
     synchronize(foninit);
   if assigned(fonstop) then
     synchronize(fonstop);
 end;
+
 end.
 

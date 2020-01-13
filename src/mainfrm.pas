@@ -932,13 +932,7 @@ end;
 
 procedure tmainform.onplottererror;
 begin
-  case driver.error of
-   1: messagedlg('vPlotter', 'Unable connecting to server !', mterror, [mbok], 0);
-   2: messagedlg('vPlotter', 'Axis X checking error !',       mterror, [mbok], 0);
-   3: messagedlg('vPlotter', 'Axis Y checking error !',       mterror, [mbok], 0);
-   4: messagedlg('vPlotter', 'Axis Z checking error !',       mterror, [mbok], 0);
-   5: messagedlg('vPlotter', 'Unknown error !',               mterror, [mbok], 0);
-  end;
+  messagedlg('vPlotter', driver.message, mterror, [mbok], 0);
   application.processmessages;
 end;
 

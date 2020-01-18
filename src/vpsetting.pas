@@ -1,5 +1,5 @@
 {
-  Description: vPlot setting class.
+  Description: Setting class.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 

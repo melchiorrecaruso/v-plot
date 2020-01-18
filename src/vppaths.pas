@@ -1,5 +1,5 @@
 {
-  Description: vPlot paths class.
+  Description: Paths class.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 

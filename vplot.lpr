@@ -1,5 +1,5 @@
 {
-  Description: vPlotter application.
+  Description: vPlotter Client application.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 

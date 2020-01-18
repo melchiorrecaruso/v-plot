@@ -1,5 +1,5 @@
 {
-  Description: vPlot tools.
+  Description: Utils unit.
 
   Copyright (C) 2019-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 

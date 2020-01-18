@@ -1,5 +1,5 @@
 {
-  Description: vPlot about form.
+  Description: About form class.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 

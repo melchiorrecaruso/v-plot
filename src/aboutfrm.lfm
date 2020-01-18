@@ -44,7 +44,7 @@ object taboutform: taboutform
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 12
-    Caption = 'vPlot 5.0'
+    Caption = 'vPlotter Client 5.0'
     Font.Style = [fsBold]
     Layout = tlCenter
     ParentColor = False
@@ -156,7 +156,7 @@ object taboutform: taboutform
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 10
-    Caption = 'Visita il sito di vPlot'
+    Caption = 'Visita il sito'
     Font.Style = [fsUnderline]
     Layout = tlCenter
     ParentColor = False
@@ -195,7 +195,7 @@ object taboutform: taboutform
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 12
-    Caption = 'Build 20200111'
+    Caption = 'Build 20200118'
     Layout = tlCenter
     ParentColor = False
   end

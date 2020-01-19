@@ -508,6 +508,7 @@ begin
     startbvl.enabled := false;
     killbtn .enabled := false;
     homebtn .enabled := false;
+    driver.onerror   := nil;
     driver.enabled   := true;
     driver.terminate;
   end;

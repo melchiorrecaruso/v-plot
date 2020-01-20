@@ -28,11 +28,24 @@ interface
 uses
   classes, math, sysutils, vpmath, vpserial, vpsetting, vputils;
 
+const
+  vpserver_getxcount = 240;
+  vpserver_getycount = 241;
+  vpserver_getzcount = 242;
+  vpserver_getrampkb = 243;
+
+  vpserver_setxcount = 230;
+  vpserver_setycount = 231;
+  vpserver_setzcount = 232;
+  vpserver_setrampkb = 233;
+
 type
   tvpdriver = class(tthread)
   private
     fenabled: boolean;
     fmessage: string;
+    frampkb: longint;
+    frampkl: longint;
     fserial: tvpserialstream;
     fstream: tmemorystream;
     fxcount: longint;
@@ -64,12 +77,8 @@ type
     property zcount:  longint       read fzcount;
   end;
 
-  function servergetxcount(serial: tvpserialstream; var cx: longint): boolean;
-  function servergetycount(serial: tvpserialstream; var cy: longint): boolean;
-  function servergetzcount(serial: tvpserialstream; var cz: longint): boolean;
-  function serversetxcount(serial: tvpserialstream;     cx: longint): boolean;
-  function serversetycount(serial: tvpserialstream;     cy: longint): boolean;
-  function serversetzcount(serial: tvpserialstream;     cz: longint): boolean;
+  function serverget(serial: tvpserialstream; id: byte; var value: longint): boolean;
+  function serverset(serial: tvpserialstream; id: byte;     value: longint): boolean;
 
   procedure calculatexy(const p: tvppoint; out lx, ly: vpfloat); overload;
   procedure calculatexy(const p: tvppoint; out cx, cy: longint); overload;
@@ -79,19 +88,12 @@ type
 var
   driver: tvpdriver = nil;
 
+
 implementation
 
-const
-  vpserver_getxcount = 240;
-  vpserver_getycount = 241;
-  vpserver_getzcount = 242;
-  vpserver_setxcount = 230;
-  vpserver_setycount = 231;
-  vpserver_setzcount = 232;
+// server get/set routines
 
-// server direct routines
-
-function servergetxcount(serial: tvpserialstream; var cx: longint): boolean;
+function serverget(serial: tvpserialstream; id: byte; var value: longint): boolean;
 var
   cc: byte;
 begin
@@ -99,17 +101,16 @@ begin
   if result then
   begin
     serial.clear;
-    cc := vpserver_getxcount;
-    result := (serial.write(cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cx, sizeof(cx)) = sizeof(cx));
+    result := (serial.write(id,    sizeof(id   )) = sizeof(id   )) and
+              (serial.read (cc,    sizeof(cc   )) = sizeof(cc   )) and
+              (serial.read (cc,    sizeof(cc   )) = sizeof(cc   )) and
+              (serial.read (value, sizeof(value)) = sizeof(value));
 
-    result := result and (cc = vpserver_getxcount);
+    result := result and (cc = id);
   end;
 end;
 
-function servergetycount(serial: tvpserialstream; var cy: longint): boolean;
+function serverset(serial: tvpserialstream; id: byte; value: longint): boolean;
 var
   cc: byte;
 begin
@@ -117,89 +118,16 @@ begin
   if result then
   begin
     serial.clear;
-    cc := vpserver_getycount;
-    result := (serial.write(cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cy, sizeof(cy)) = sizeof(cy));
+    result := (serial.write(id,    sizeof(id   )) = sizeof(id   )) and
+              (serial.read (cc,    sizeof(cc   )) = sizeof(cc   )) and
+              (serial.write(value, sizeof(value)) = sizeof(value)) and
+              (serial.read (cc,    sizeof(cc   )) = sizeof(cc   ));
 
-    result := result and (cc = vpserver_getycount);
+    result := result and (cc = id);
   end;
 end;
 
-function servergetzcount(serial: tvpserialstream; var cz: longint): boolean;
-var
-  cc: byte;
-begin
-  result := serial.connected;
-  if result then
-  begin
-    serial.clear;
-    cc := vpserver_getzcount;
-    result := (serial.write(cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cz, sizeof(cz)) = sizeof(cz));
-
-    result := result and (cc = vpserver_getzcount);
-  end;
-end;
-
-function serversetxcount(serial: tvpserialstream; cx: longint): boolean;
-var
-  cc: byte;
-begin
-  result := serial.connected;
-  if result then
-  begin
-    serial.clear;
-    cc := vpserver_setxcount;
-    result := (serial.write(cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.write(cx, sizeof(cx)) = sizeof(cx)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc));
-
-    result := result and (cc = vpserver_setxcount);
-  end;
-end;
-
-function serversetycount(serial: tvpserialstream; cy: longint): boolean;
-var
-  cc: byte;
-begin
-  result := serial.connected;
-  if result then
-  begin
-    serial.clear;
-    cc := vpserver_setycount;
-    result := (serial.write(cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.write(cy, sizeof(cy)) = sizeof(cy)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc));
-
-    result := result and (cc = vpserver_setycount);
-  end;
-end;
-
-function serversetzcount(serial: tvpserialstream; cz: longint): boolean;
-var
-  cc: byte;
-begin
-  result := serial.connected;
-  if result then
-  begin
-    serial.clear;
-    cc := vpserver_setzcount;
-    result := (serial.write(cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc)) and
-              (serial.write(cz, sizeof(cz)) = sizeof(cz)) and
-              (serial.read (cc, sizeof(cc)) = sizeof(cc));
-
-    result := result and (cc = vpserver_setzcount);
-  end;
-end;
-
-//
+// calculate belt lengths
 
 function calculatex(const p, t0: tvppoint; r0: vpfloat): vpfloat;
 var
@@ -276,6 +204,8 @@ constructor tvpdriver.create(aserial: tvpserialstream);
 begin
   fenabled := true;
   fmessage := '';
+  frampkb  := setting.rampkb;
+  frampkl  := setting.rampkl;
   fserial  := aserial;
   fstream  := tmemorystream.create;
   fxcount  := 0;
@@ -303,9 +233,10 @@ procedure tvpdriver.init;
 begin
   fstream.clear;
   fserial.clear;
-  if (not servergetxcount(fserial, fxcount)) or
-     (not servergetycount(fserial, fycount)) or
-     (not servergetzcount(fserial, fzcount)) then
+  if (not serverget(fserial, vpserver_getxcount, fxcount)) or
+     (not serverget(fserial, vpserver_getycount, fycount)) or
+     (not serverget(fserial, vpserver_getzcount, fzcount)) then
+   //(not serverget(fserial, vpserver_getrampkb, frampkb)) then
   begin
     fmessage := 'Unable connecting to server !';
     if assigned(fonerror) then
@@ -494,9 +425,10 @@ begin
     end;
   end;
 
-  if ((not servergetxcount(fserial, i)) or (fxcount <> i)) or
-     ((not servergetycount(fserial, i)) or (fycount <> i)) or
-     ((not servergetzcount(fserial, i)) or (fzcount <> i)) then
+  if ((not serverget(fserial, vpserver_getxcount ,i)) or (fxcount <> i)) or
+     ((not serverget(fserial, vpserver_getycount ,i)) or (fycount <> i)) or
+     ((not serverget(fserial, vpserver_getzcount ,i)) or (fzcount <> i)) then
+   //((not serverget(fserial, vpserver_getrampkb ,i)) or (frampkb <> i)) then
   begin
     fmessage := 'Server syncing error !';
     if assigned(fonerror) then

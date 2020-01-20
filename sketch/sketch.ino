@@ -1,12 +1,11 @@
-//  vPlotter server for Arduino uno R3 board
+//  vPlotter Server for Arduino Uno R3 board
 
 //  Author:   Melchiorre Caruso
 //  Date:     20 November 2019
-//  Modified: 11 January  2020
+//  Modified: 20 January  2020
 
 //  Librerie utilizzate nel codice sorgente
 
-#include <math.h>
 #include <Servo.h>
 
 // definizione PIN shield CNC V3
@@ -19,23 +18,18 @@
 #define MOTOR_Y_DIR_PIN   6
 #define MOTOR_Z_PIN       11
 
-// define serial protocol consts
+// definizione costanti protocollo seriale 
 
 #define GETXCOUNT         240
 #define GETYCOUNT         241
 #define GETZCOUNT         242
+#define GETKB             243
 #define SETXCOUNT         230
 #define SETYCOUNT         231
 #define SETZCOUNT         232
+#define SETKB             233
 
-// define ramp consts
-
-#define RAMP_KB           40000
-#define RAMP_KC           1
-#define RAMP_MIN          1
-#define RAMP_MAX          200
-
-// define main variables
+// definizione variabili principali
 
 static byte Buffer[128];
 static long BufferIndex;
@@ -43,6 +37,7 @@ static long BufferSize;
 static unsigned long LoopStart;
 static unsigned long LoopDelay;
 static long RampIndex;
+static long RampKB;
 static long xCount;
 static long yCount;
 static long zCount;
@@ -60,7 +55,7 @@ union {
 void ExecRamp(byte bt) {  
   if (bitRead(bt, 6) == 1) { RampIndex++; }
   if (bitRead(bt, 7) == 1) { RampIndex--; }
-  RampIndex = max(RAMP_MIN, min(RAMP_MAX, RampIndex));
+  RampIndex = max(1, RampIndex);
 }
 
 void ExecServo(byte bt) {
@@ -121,6 +116,11 @@ void ExecInternal(byte bt) {
       Serial.write(SETZCOUNT);
       zCount = data.aslong;
       break; 
+    case SETKB:
+      Serial.readBytes(data.asbytes, 4);
+      Serial.write(SETKB);
+      RampKB = data.aslong;
+      break;             
     case GETXCOUNT:
       data.aslong = xCount;
       Serial.write(GETXCOUNT);
@@ -136,6 +136,11 @@ void ExecInternal(byte bt) {
       Serial.write(GETZCOUNT);
       Serial.write(data.asbytes, 4);
       break;
+    case GETKB:
+      data.aslong = RampKB;
+      Serial.write(GETKB);
+      Serial.write(data.asbytes, 4);
+      break;      
     default:
       Serial.write(bt);
       break;      
@@ -168,7 +173,8 @@ void setup() {
   BufferSize = 0;
   LoopStart = micros();
   LoopDelay = 400;
-  RampIndex = RAMP_MIN;
+  RampIndex = 1;
+  RampKB = 40000;
   xCount = 0;
   yCount = 0;
   zCount = motorZ.read();
@@ -200,6 +206,6 @@ void loop() {
       }
       BufferIndex++;          
     }   
-    LoopDelay = round(RAMP_KB*(sqrt(RampIndex/RAMP_KC+1)-sqrt(RampIndex/RAMP_KC)));   
+    LoopDelay = round(RampKB*(sqrt(RampIndex+1)-sqrt(RampIndex)));   
   }
 }

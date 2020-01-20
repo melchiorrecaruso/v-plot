@@ -48,10 +48,7 @@ type
     fmzmax:    longint;
     // ramps
     frampkb:   longint;
-    frampkc:   longint;
-    frampkd:   longint;
-    frampmin:  longint;
-    frampmax:  longint;
+    frampkl:   longint;
     // space wave
     fspacewave0: tvppoint;
     fspacewave1: tvppoint;
@@ -83,6 +80,9 @@ type
     property myratio:        vpfloat  read fmyratio  write fmyratio;
     property mzmin:          longint  read fmzmin;
     property mzmax:          longint  read fmzmax;
+
+    property rampkb:         longint  read frampkb;
+    property rampkl:         longint  read frampkl;
 
     property spacewave0:     tvppoint read fspacewave0;
     property spacewave1:     tvppoint read fspacewave1;
@@ -137,6 +137,9 @@ begin
   fmzmin    := ini.readinteger('Z-AXIS', 'MIN',    0);
   fmzmax    := ini.readinteger('Z-AXIS', 'MAX',    0);
 
+  frampkb   := ini.readinteger('RAMPS',  'KB',     0);
+  frampkl   := ini.readinteger('RAMPS',  'KL',     0);
+
   fspacewave0.x   := ini.readfloat  ('SPACE-WAVE', 'W0.X',  0);
   fspacewave0.y   := ini.readfloat  ('SPACE-WAVE', 'W0.Y',  0);
   fspacewave1.x   := ini.readfloat  ('SPACE-WAVE', 'W1.X',  0);
@@ -174,6 +177,9 @@ begin
     writeln(format('  Y-AXIS::RATIO  = %12.5f', [fmyratio  ]));
     writeln(format('  Z-AXIS::MIN    = %12.5u', [fmzmin    ]));
     writeln(format('  Z-AXIS::MAX    = %12.5u', [fmzmax    ]));
+
+    writeln(format('   RAMPS::KB     = %12.5u', [frampkb   ]));
+    writeln(format('   RAMPS::KL     = %12.5u', [frampkl   ]));
 
     writeln(format(' SPACE-W::W0.X   = %12.5f  W0.Y = %12.5f', [fspacewave0.x, fspacewave0.y]));
     writeln(format(' SPACE-W::W1.X   = %12.5f  W1.Y = %12.5f', [fspacewave1.x, fspacewave1.y]));

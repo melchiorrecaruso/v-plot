@@ -235,8 +235,8 @@ begin
   fserial.clear;
   if (not serverget(fserial, vpserver_getxcount, fxcount)) or
      (not serverget(fserial, vpserver_getycount, fycount)) or
-     (not serverget(fserial, vpserver_getzcount, fzcount)) then
-   //(not serverget(fserial, vpserver_getrampkb, frampkb)) then
+     (not serverget(fserial, vpserver_getzcount, fzcount)) or
+     (not serverset(fserial, vpserver_setrampkb, frampkb)) then
   begin
     fmessage := 'Unable connecting to server !';
     if assigned(fonerror) then
@@ -305,88 +305,92 @@ end;
 
 procedure tvpdriver.createramps;
 const
-  ramp_ds  = 2;
-  ramp_dx  = 2;
-  ramp_dy  = 2;
-  ramp_len = 200;
+  ds    = 2;
+  maxdx = 4;
+  maxdy = 4;
 var
-  b: array of byte;
-  x: array of longint;
-  y: array of longint;
-
-  bs: longint;
-  i: longint;
-  j: longint;
-  k: longint;
-  r: longint;
+  bufsize: longint;
+  buf: array of byte;
+  dx:  array of longint;
+  dy:  array of longint;
+  i, j, k, r: longint;
 begin
-  bs := fstream.size;
-  if bs > 0 then
+  bufsize := fstream.size;
+  if bufsize > 0 then
   begin
-    setlength(b, bs);
-    setlength(x, bs);
-    setlength(y, bs);
+    setlength(dx,  bufsize);
+    setlength(dy,  bufsize);
+    setlength(buf, bufsize);
     fstream.seek(0, sofrombeginning);
-    fstream.read(b[0], bs);
+    fstream.read(buf[0], bufsize);
 
-    for i := 0 to bs -1 do
+    // store data in dx and dy arrays
+    for i := 0 to bufsize -1 do
     begin
-      x[i] := 0;
-      y[i] := 0;
-      for j := max(i-ramp_ds,    0) to
-               min(i+ramp_ds, bs-1) do
+      dx[i] := 0;
+      dy[i] := 0;
+      for j := max(i-ds, 0) to min(i+ds, bufsize-1) do
       begin
-        if getbit1(b[j], 0) then
+        if getbit1(buf[j], 0) then
         begin
-          if getbit1(b[j], 1) then
-            dec(x[i])
+          if getbit1(buf[j], 1) then
+            dec(dx[i])
           else
-            inc(x[i]);
+            inc(dx[i]);
         end;
 
-        if getbit1(b[j], 2) then
+        if getbit1(buf[j], 2) then
         begin
-          if getbit1(b[j], 3) then
-            dec(y[i])
+          if getbit1(buf[j], 3) then
+            dec(dy[i])
           else
-            inc(y[i]);
+            inc(dy[i]);
         end;
       end;
     end;
 
     i := 0;
     j := i + 1;
-    while (j < bs) do
+    while (j < bufsize) do
     begin
-      while (abs(x[j]-x[i])<=ramp_dx) and
-            (abs(y[j]-y[i])<=ramp_dy) do
+      k := i;
+      while (abs(dx[j] - dx[k]) <= maxdx) and
+            (abs(dy[j] - dy[k]) <= maxdy) do
       begin
-        if j = bs -1 then break;
+        if j = bufsize -1 then break;
         inc(j);
+
+        if (j - k) > (2*frampkl) then
+        begin
+          k := j - frampkl;
+        end;
       end;
 
       if j - i > 10 then
       begin
-        r := min((j-i) div 2, ramp_len);
-        for k := (i  ) to (i+r-1) do setbit1(b[k], 6);
-        for k := (j-r+1) to (  j) do setbit1(b[k], 7);
+        r := min((j-i) div 2, frampkl);
+        for k := (i) to (i+r-1) do
+          setbit1(buf[k], 6);
+
+        for k := (j-r+1) to (j) do
+          setbit1(buf[k], 7);
       end;
       i := j + 1;
       j := i + 1;
     end;
     fstream.seek(0, sofrombeginning);
-    fstream.write(b[0], bs);
+    fstream.write(buf[0], bufsize);
+    setlength(dx,  0);
+    setlength(dy,  0);
+    setlength(buf, 0);
   end;
-  b := nil;
-  x := nil;
-  y := nil;
 end;
 
 procedure tvpdriver.execute;
 var
-  i:  longint;
-  b:  array [0..59]of byte;
-  bs: byte;
+  buf: array[0..59]of byte;
+  bufsize: byte;
+  i: longint;
 begin
   fserial.clear;
   if assigned(onstart) then
@@ -394,32 +398,32 @@ begin
   createramps;
 
   fstream.seek(0, sofrombeginning);
-  bs := fstream.read(b, system.length(b));
-  while (bs > 0) and (not terminated) do
+  bufsize := fstream.read(buf, system.length(buf));
+  while (bufsize > 0) and (not terminated) do
   begin
-    fserial.write(b, bs);
+    fserial.write(buf, bufsize);
     if assigned(fontick) then
       synchronize(ontick);
     while (not terminated) do
     begin
-      bs := 0;
-      fserial.read(bs, sizeof(bs));
-      if bs > 0 then
+      bufsize := 0;
+      fserial.read(bufsize, sizeof(bufsize));
+      if bufsize > 0 then
       begin
         break;
       end;
     end;
-    bs := fstream.read(b, bs);
+    bufsize := fstream.read(buf, bufsize);
     while (not fenabled) do sleep(200);
   end;
 
-  bs := 255;
-  fserial.write(bs, sizeof(bs));
+  bufsize := 255;
+  fserial.write(bufsize, sizeof(bufsize));
   while true do
   begin
-    bs := 0;
-    fserial.read(bs, sizeof(bs));
-    if bs = 255 then
+    bufsize := 0;
+    fserial.read(bufsize, sizeof(bufsize));
+    if bufsize = 255 then
     begin
       break;
     end;
@@ -427,8 +431,8 @@ begin
 
   if ((not serverget(fserial, vpserver_getxcount ,i)) or (fxcount <> i)) or
      ((not serverget(fserial, vpserver_getycount ,i)) or (fycount <> i)) or
-     ((not serverget(fserial, vpserver_getzcount ,i)) or (fzcount <> i)) then
-   //((not serverget(fserial, vpserver_getrampkb ,i)) or (frampkb <> i)) then
+     ((not serverget(fserial, vpserver_getzcount ,i)) or (fzcount <> i)) or
+     ((not serverget(fserial, vpserver_getrampkb ,i)) or (frampkb <> i)) then
   begin
     fmessage := 'Server syncing error !';
     if assigned(fonerror) then

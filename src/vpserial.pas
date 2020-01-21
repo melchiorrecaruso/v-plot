@@ -62,6 +62,8 @@ var
 
 implementation
 
+// tvpserialstream
+
 constructor tvpserialstream.create;
 begin
   inherited create;

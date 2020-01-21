@@ -912,17 +912,26 @@ end;
 
 procedure tmainform.onplotterinit;
 var
-  cx, cy: longint;
+  cx, cy, kb: longint;
 begin
   calculatexy(setting.layout8, cx,  cy);
-  if not serversetxcount(serialstream, cx) then
-    messagedlg('vPlotter', 'Axis X syncing error !',  mterror, [mbok], 0);
-  if not servergetxcount(serialstream, cx) then
-    messagedlg('vPlotter', 'Axis X checking error !', mterror, [mbok], 0);
-  if not serversetycount(serialstream, cy) then
-    messagedlg('vPlotter', 'Axis Y syncing error !',  mterror, [mbok], 0);
-  if not servergetycount(serialstream, cy) then
-    messagedlg('vPlotter', 'Axis Y checking error !', mterror, [mbok], 0);
+  if not serverset(serialstream, vpserver_setxcount, cx) then
+    messagedlg('vPlotter', 'Axis X syncing error !',   mterror, [mbok], 0);
+  if not serverget(serialstream, vpserver_getxcount, cx) then
+    messagedlg('vPlotter', 'Axis X checking error !',  mterror, [mbok], 0);
+  if not serverset(serialstream, vpserver_setycount, cy) then
+    messagedlg('vPlotter', 'Axis Y syncing error !',   mterror, [mbok], 0);
+  if not serverget(serialstream, vpserver_getycount, cy) then
+    messagedlg('vPlotter', 'Axis Y checking error !',  mterror, [mbok], 0);
+//if not serverset(serialstream, vpserver_setzcount, cz) then
+//  messagedlg('vPlotter', 'Axis Z syncing error !',   mterror, [mbok], 0);
+//if not serverget(serialstream, vpserver_getzcount, cz) then
+//  messagedlg('vPlotter', 'Axis Z checking error !',  mterror, [mbok], 0);
+  kb := setting.rampkb;
+  if not serverset(serialstream, vpserver_setrampkb, kb) then
+    messagedlg('vPlotter', 'Ramp KB syncing error !',  mterror, [mbok], 0);
+  if not serverget(serialstream, vpserver_getrampkb, kb) then
+    messagedlg('vPlotter', 'Ramp KB checking error !', mterror, [mbok], 0);
   application.processmessages;
 end;
 
@@ -933,7 +942,7 @@ end;
 
 procedure tmainform.onplottererror;
 begin
-  messagedlg('vPlotter', driver.message, mterror, [mbok], 0);
+  messagedlg('vPlotter Client', driver.message, mterror, [mbok], 0);
   application.processmessages;
 end;
 

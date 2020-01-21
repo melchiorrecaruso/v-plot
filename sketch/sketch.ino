@@ -2,10 +2,11 @@
 
 //  Author:   Melchiorre Caruso
 //  Date:     20 November 2019
-//  Modified: 20 January  2020
+//  Modified: 21 January  2020
 
 //  Librerie utilizzate nel codice sorgente
 
+#include <math.h>
 #include <Servo.h>
 
 // definizione PIN shield CNC V3
@@ -145,6 +146,7 @@ void ExecInternal(byte bt) {
       Serial.write(bt);
       break;      
   }
+  RampIndex = 1;  
 }
 
 // Setup routine
@@ -206,6 +208,6 @@ void loop() {
       }
       BufferIndex++;          
     }   
-    LoopDelay = round(RampKB*(sqrt(RampIndex+1)-sqrt(RampIndex)));   
+    LoopDelay = round(RampKB*(sqrt(RampIndex+1)-sqrt(RampIndex)));
   }
 }

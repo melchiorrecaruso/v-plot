@@ -1,7 +1,7 @@
 object taboutform: taboutform
-  Left = 491
+  Left = 478
   Height = 320
-  Top = 255
+  Top = 234
   Width = 400
   BorderStyle = bsDialog
   Caption = 'About ...'
@@ -138,7 +138,7 @@ object taboutform: taboutform
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    Caption = 'Vertical Plotter interface '
+    Caption = 'Vertical Plotter Client '
     Layout = tlCenter
     ParentColor = False
   end
@@ -195,7 +195,7 @@ object taboutform: taboutform
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 12
-    Caption = 'Build 20200118'
+    Caption = 'Build 20200121'
     Layout = tlCenter
     ParentColor = False
   end

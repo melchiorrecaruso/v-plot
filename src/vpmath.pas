@@ -224,7 +224,7 @@ begin
     py := point.x * sn + point.y * cs;
   end;
   point.x := px;
-  point.y := py;;
+  point.y := py;
 end;
 
 procedure rotate(var line: tvpline; angle: vpfloat);

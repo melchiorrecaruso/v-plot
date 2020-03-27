@@ -4,7 +4,7 @@
     <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
-      <Title Value="vPlotter - Layout Designer"/>
+      <Title Value="vPlot - Layout Designer"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -35,7 +35,9 @@
       <Unit>
         <Filename Value="vplayout.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="39" Y="16"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="6"/>
+        <CursorPos X="48" Y="33"/>
         <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit>
@@ -45,9 +47,8 @@
         <ComponentName Value="layoutform"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="306"/>
+        <TopLine Value="207"/>
         <CursorPos X="26" Y="207"/>
         <UsageCount Value="58"/>
         <Loaded Value="True"/>
@@ -208,7 +209,7 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="23">
+    <JumpHistory HistoryIndex="22">
       <Position>
         <Filename Value="src\layoutfrm.pas"/>
         <Caret Line="153" Column="6" TopLine="133"/>
@@ -279,10 +280,6 @@
       </Position>
       <Position>
         <Filename Value="src\layoutfrm.pas"/>
-        <Caret Line="5" Column="18" TopLine="51"/>
-      </Position>
-      <Position>
-        <Filename Value="src\layoutfrm.pas"/>
         <Caret Line="151" Column="12" TopLine="133"/>
       </Position>
       <Position>
@@ -311,12 +308,12 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="build\$(TargetCPU)-$(TargetOS)\bin\vplayout"/>
+      <Filename Value="build\vplayout"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <OtherUnitFiles Value="src"/>
-      <UnitOutputDirectory Value="build\$(TargetCPU)-$(TargetOS)\lib"/>
+      <UnitOutputDirectory Value="build\lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

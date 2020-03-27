@@ -26,7 +26,7 @@ unit vppaths;
 interface
 
 uses
-  classes, graphics, sysutils, vpmath, vpwave, bgrapath, bgrabitmaptypes;
+  classes, graphics, sysutils, vpmath, bgrapath;
 
 type
   tvpelement = class(tobject)

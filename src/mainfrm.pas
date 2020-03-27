@@ -168,7 +168,20 @@ var
 begin
   // load setting
   setting := tvpsetting.create;
-  setting.load(changefileext(paramstr(0), '.ini'));
+  {$IFDEF MSWINDOWS}
+    if fileexists(changefileext(paramstr(0), 'ini')) then
+    begin
+      setting.load(changefileext(paramstr(0), 'ini'));
+    end else
+      messagedlg('vPlot Client', 'Setting file not found !', mterror, [mbok], 0);
+  {$ENDIF}
+  {$IFDEF UNIX}
+    if fileexists('/opt/vplot/vplot.ini') then
+    begin
+      setting.load('/opt/vplot/vplot.ini');
+    end else
+      messagedlg('vPlot Client', 'Setting file not found !', mterror, [mbok], 0);
+  {$ENDIF}
   // open serial port
   serialstream := tvpserialstream.create;
   // init space wave
@@ -219,7 +232,7 @@ procedure tmainform.formclose(sender: tobject; var closeaction: tcloseaction);
 begin
   if assigned(driver) then
   begin
-    messagedlg('vPlotter', 'There is an active process !', mterror, [mbok], 0);
+    messagedlg('vPlot Client', 'There is an active process !', mterror, [mbok], 0);
     closeaction := canone;
   end else
     closeaction := cafree;
@@ -243,7 +256,7 @@ begin
     end else
     begin
       portbtn.caption := 'Connect';
-      messagedlg('vPlotter',
+      messagedlg('vPlot Client',
         'Unable connecting to server !', mterror, [mbok], 0);
     end;
   end;
@@ -310,7 +323,7 @@ begin
   opendialog.filter := 'Supported files (*.svg, *.dxf, *.png, *.bmp)|*.svg; *.dxf; *.png; *.bmp';
   if opendialog.execute then
   begin
-    caption := 'vPlotter Client - ' + opendialog.filename;
+    caption := 'vPlot Client - ' + opendialog.filename;
 
     lock;
     if (lowercase(extractfileext(opendialog.filename)) = '.dxf') then
@@ -364,7 +377,7 @@ begin
   lock;
   page.clear;
   pagecount := page.count;
-  caption := 'vPlotter Client';
+  caption := 'vPlot Client';
   fitmiclick(sender);
   unlock;
 end;
@@ -916,22 +929,22 @@ var
 begin
   calculatexy(setting.layout8, cx,  cy);
   if not serverset(serialstream, vpserver_setxcount, cx) then
-    messagedlg('vPlotter', 'Axis X syncing error !',   mterror, [mbok], 0);
+    messagedlg('vPlot Client', 'Axis X syncing error !',   mterror, [mbok], 0);
   if not serverget(serialstream, vpserver_getxcount, cx) then
-    messagedlg('vPlotter', 'Axis X checking error !',  mterror, [mbok], 0);
+    messagedlg('vPlot Client', 'Axis X checking error !',  mterror, [mbok], 0);
   if not serverset(serialstream, vpserver_setycount, cy) then
-    messagedlg('vPlotter', 'Axis Y syncing error !',   mterror, [mbok], 0);
+    messagedlg('vPlot Client', 'Axis Y syncing error !',   mterror, [mbok], 0);
   if not serverget(serialstream, vpserver_getycount, cy) then
-    messagedlg('vPlotter', 'Axis Y checking error !',  mterror, [mbok], 0);
+    messagedlg('vPlot Client', 'Axis Y checking error !',  mterror, [mbok], 0);
 //if not serverset(serialstream, vpserver_setzcount, cz) then
-//  messagedlg('vPlotter', 'Axis Z syncing error !',   mterror, [mbok], 0);
+//  messagedlg('vPlot Client', 'Axis Z syncing error !',   mterror, [mbok], 0);
 //if not serverget(serialstream, vpserver_getzcount, cz) then
-//  messagedlg('vPlotter', 'Axis Z checking error !',  mterror, [mbok], 0);
+//  messagedlg('vPlot Client', 'Axis Z checking error !',  mterror, [mbok], 0);
   kb := setting.rampkb;
   if not serverset(serialstream, vpserver_setrampkb, kb) then
-    messagedlg('vPlotter', 'Ramp KB syncing error !',  mterror, [mbok], 0);
+    messagedlg('vPlot Client', 'Ramp KB syncing error !',  mterror, [mbok], 0);
   if not serverget(serialstream, vpserver_getrampkb, kb) then
-    messagedlg('vPlotter', 'Ramp KB checking error !', mterror, [mbok], 0);
+    messagedlg('vPlot Client', 'Ramp KB checking error !', mterror, [mbok], 0);
   application.processmessages;
 end;
 
@@ -942,7 +955,7 @@ end;
 
 procedure tmainform.onplottererror;
 begin
-  messagedlg('vPlotter Client', driver.message, mterror, [mbok], 0);
+  messagedlg('vPlot Client', driver.message, mterror, [mbok], 0);
   application.processmessages;
 end;
 

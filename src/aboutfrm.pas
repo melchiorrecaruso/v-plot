@@ -63,7 +63,7 @@ end;
 
 procedure taboutform.aboutlinklbmouseleave(sender: tobject);
 begin
-  aboutlinklb.font.color := clblack;
+  aboutlinklb.font.color := cldefault;
 end;
 
 procedure taboutform.aboutlinklbmousemove(sender: tobject; shift: tshiftstate; x, y: integer);

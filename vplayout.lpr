@@ -30,8 +30,8 @@ uses
 
 begin
   requirederivedformresource := true;
-  Application.Title:='vPlotter - Layout Designer';
-  application.scaled := true;
+  Application.Title:='vPlot - Layout Designer';
+  Application.Scaled:=True;
   application.initialize;
   application.createform(tlayoutform, layoutform);
   application.run;

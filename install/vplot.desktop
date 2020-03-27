@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=vPlot
+GenericName= Vertical Plotter Client
+Comment=A simple vertical plotter interface
+Keywords=printer;
+
+Icon=/opt/vplot/icons/vplot.ico
+
+Type=Application
+Categories=Graphics;2DGraphics;GTK;
+
+Exec=/usr/bin/vplot
+StartupNotify=false
+Terminal=false
+MimeType=application/x-dxf;

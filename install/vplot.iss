@@ -9,7 +9,7 @@
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
+; (To generate a new GUID, {B2211742-D9AC-4662-90BE-C433670E9D72}click Tools | Generate GUID inside the IDE.)
 AppId={{CB989AE8-055B-4AEC-8A32-D2C234C32603}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
@@ -24,7 +24,7 @@ LicenseFile=LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputBaseFilename=audiometer
+OutputBaseFilename=vplot
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -36,9 +36,10 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "audiometer.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "LICENSE";        DestDir: "{app}"; Flags: ignoreversion
-Source: "README";         DestDir: "{app}"; Flags: ignoreversion
+Source: "..\build\vplot.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\vplot.ini";       DestDir: "{app}"; Flags: ignoreversion
+Source: "LICENSE";            DestDir: "{app}"; Flags: ignoreversion
+Source: "README";             DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

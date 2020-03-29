@@ -169,9 +169,9 @@ begin
   // load setting
   setting := tvpsetting.create;
   {$IFDEF MSWINDOWS}
-    if fileexists(changefileext(paramstr(0), 'ini')) then
+    if fileexists(changefileext(paramstr(0), '.ini')) then
     begin
-      setting.load(changefileext(paramstr(0), 'ini'));
+      setting.load(changefileext(paramstr(0), '.ini'));
     end else
       messagedlg('vPlot Client', 'Setting file not found !', mterror, [mbok], 0);
   {$ENDIF}

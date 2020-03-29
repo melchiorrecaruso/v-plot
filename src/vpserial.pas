@@ -26,7 +26,8 @@ unit vpserial;
 interface
 
 uses
-  classes, dateutils, serial, sysutils, vputils, baseunix, unix;
+  {$IFDEF UNIX} baseunix, unix, {$ENDIF} classes,
+  dateutils, serial, sysutils, vputils;
 
 type
   tvpserialstream = class
@@ -145,26 +146,14 @@ end;
 
 {$IFDEF MSWINDOWS}
 function getserialportnames: tstringlist;
-var
-  reg: tregistry;
 begin
-  reg    := tregistry.create;
   result := tstringlist.create;
-  try
-  {$IFNDEF VER100}
-  {$IFNDEF VER120}
-    reg.access := KEY_READ;
-  {$ENDIF}
-  {$ENDIF}
-    reg.rootkey := HKEY_LOCAL_MACHINE;
-    reg.openkey('\HARDWARE\DEVICEMAP\SERIALCOMM\', false);
-    reg.getvaluenames(result);
-  finally
-    reg.free;
-  end;
+  result.add('COM0');
+  result.add('COM1');
+  result.add('COM2');
 end;
 {$ENDIF}
-{$IFNDEF MSWINDOWS}
+{$IFDEF UNIX}
 function getserialportnames: tstringlist;
 begin
   result := tstringlist.create;

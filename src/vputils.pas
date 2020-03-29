@@ -33,7 +33,8 @@ procedure sleepmicroseconds(microseconds: longword);
 implementation
 
 uses
-  baseunix, sysutils, unix;
+ {$IFDEF UNIX} baseunix, unix, {$ENDIF}
+ {$IFDEF MSWINDOWS} Windows, {$ENDIF} sysutils;
 
 function getbit1(const bits: byte; index: longint): boolean;
 var
@@ -53,6 +54,8 @@ begin
   bits := bits or bt;
 end;
 
+{$IFDEF UNIX}
+
 procedure sleepmicroseconds(microseconds: longword);
 var
   timeout: ttimespec;
@@ -66,6 +69,27 @@ begin
     timeout := timeoutresult;
   until (res <> -1) or (fpgeterrno <> esyseintr);
 end;
+
+{$ENDIF}
+
+{$IFDEF MSWINDOWS}
+
+procedure sleepmicroseconds(microseconds: longword);
+var
+  startcounter: int64;
+  stopcounter:  int64;
+  freq:         int64;
+begin
+  queryperformancecounter  (startcounter);
+  queryperformancefrequency(freq);
+
+  stopcounter := startcounter + (microseconds*freq) div (60*1000000);
+  repeat
+    queryperformancecounter(startcounter);
+  until startcounter >= stopcounter;
+end;
+
+{$ENDIF}
 
 end.
 

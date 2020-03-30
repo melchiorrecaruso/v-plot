@@ -13,7 +13,7 @@
       </XPManifest>
       <Icon Value="0"/>
     </General>
-    <BuildModes Active="Debug">
+    <BuildModes Active="Release">
       <Item Name="Release" Default="True"/>
       <Item Name="Debug">
         <CompilerOptions>
@@ -77,8 +77,8 @@
       <Unit>
         <Filename Value="vplot.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="7"/>
-        <CursorPos X="15" Y="36"/>
+        <TopLine Value="12"/>
+        <CursorPos X="27" Y="22"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -208,8 +208,9 @@
         <Filename Value="src/vpdriver.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="249"/>
-        <CursorPos X="46" Y="327"/>
+        <TopLine Value="357"/>
+        <CursorPos Y="96"/>
+        <FoldState Value=" T3j90F5R"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -250,10 +251,9 @@
       <Unit>
         <Filename Value="src/vppaths.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="26"/>
-        <CursorPos X="12" Y="33"/>
+        <CursorPos X="33" Y="31"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -273,7 +273,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="8"/>
         <TopLine Value="42"/>
-        <CursorPos X="98" Y="52"/>
+        <CursorPos X="32" Y="55"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1357,8 +1357,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="205"/>
-        <CursorPos X="123" Y="178"/>
+        <TopLine Value="928"/>
+        <CursorPos X="119" Y="211"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1480,8 +1480,8 @@
       <Unit>
         <Filename Value="src/vpserial.pas"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="147"/>
-        <CursorPos X="5" Y="156"/>
+        <TopLine Value="146"/>
+        <CursorPos X="48" Y="160"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
       </Unit>
@@ -1538,10 +1538,11 @@
       <Unit>
         <Filename Value="src/vputils.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="79"/>
-        <CursorPos X="69" Y="86"/>
-        <UsageCount Value="196"/>
+        <TopLine Value="54"/>
+        <CursorPos X="28" Y="62"/>
+        <UsageCount Value="199"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -1677,56 +1678,15 @@
         <CursorPos X="10" Y="109"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../../../../FPC/3.0.4/source/rtl/objpas/sysutils/sysutilh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4"/>
+        <CursorPos X="10" Y="28"/>
+        <UsageCount Value="10"/>
+      </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="291" Column="55" TopLine="291"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="509" Column="3" TopLine="507"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="291" Column="19" TopLine="270"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="171" Column="3" TopLine="151"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="269" Column="7" TopLine="249"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="291" Column="7" TopLine="271"/>
-      </Position>
-      <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="316" Column="23" TopLine="245"/>
-      </Position>
-      <Position>
-        <Filename Value="src/aboutfrm.pas"/>
-        <Caret Line="71" Column="35" TopLine="42"/>
-      </Position>
-      <Position>
-        <Filename Value="src/aboutfrm.pas"/>
-        <Caret Line="72" Column="35" TopLine="42"/>
-      </Position>
-      <Position>
-        <Filename Value="src/aboutfrm.pas"/>
-        <Caret Line="71" Column="35" TopLine="42"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="171" Column="29" TopLine="160"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="172" Column="53" TopLine="158"/>
-      </Position>
       <Position>
         <Filename Value="src/vppaths.pas"/>
         <Caret Line="29" Column="55" TopLine="11"/>
@@ -1799,6 +1759,54 @@
         <Filename Value="src/vpserial.pas"/>
         <Caret Line="153" Column="18" TopLine="86"/>
       </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="88" Column="22" TopLine="68"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="93" Column="21" TopLine="71"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="84" Column="14" TopLine="73"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpserial.pas"/>
+        <Caret Line="153" Column="48" TopLine="116"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpdriver.pas"/>
+        <Caret Line="102" Column="41" TopLine="94"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpserial.pas"/>
+        <Caret Line="133" Column="24" TopLine="124"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="31" Column="11" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="59" Column="11" TopLine="45"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="77" Column="11" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="59" Column="11" TopLine="45"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vputils.pas"/>
+        <Caret Line="31" Column="11" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpserial.pas"/>
+        <Caret Line="75" Column="43" TopLine="58"/>
+      </Position>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -1831,11 +1839,6 @@
         <UseLineInfoUnit Value="False"/>
       </Debugging>
       <LinkSmart Value="True"/>
-      <Options>
-        <Win32>
-          <GraphicApplication Value="True"/>
-        </Win32>
-      </Options>
     </Linking>
   </CompilerOptions>
   <Debugging>

@@ -55,12 +55,11 @@ begin
 end;
 
 {$IFDEF UNIX}
-
 procedure sleepmicroseconds(microseconds: longword);
 var
+  res: longint;
   timeout: ttimespec;
   timeoutresult: ttimespec;
-  res: longint;
 begin
   timeout.tv_sec := (microseconds div 1000000);
   timeout.tv_nsec := 1000*(microseconds mod 1000000);
@@ -69,26 +68,20 @@ begin
     timeout := timeoutresult;
   until (res <> -1) or (fpgeterrno <> esyseintr);
 end;
-
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
-
 procedure sleepmicroseconds(microseconds: longword);
 var
-  startcounter: int64;
-  stopcounter:  int64;
-  freq:         int64;
+  start, stop, freq: int64;
 begin
-  queryperformancecounter  (startcounter);
+  queryperformancecounter(start);
   queryperformancefrequency(freq);
-
-  stopcounter := startcounter + (microseconds*freq) div (60*1000000);
+  stop := start + (microseconds*freq) div 1000000;
   repeat
-    queryperformancecounter(startcounter);
-  until startcounter >= stopcounter;
+    queryperformancecounter(start);
+  until start >= stop;
 end;
-
 {$ENDIF}
 
 end.

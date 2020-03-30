@@ -146,19 +146,27 @@ end;
 
 {$IFDEF MSWINDOWS}
 function getserialportnames: tstringlist;
+var
+  i: longint;
 begin
   result := tstringlist.create;
-  result.add('COM0');
-  result.add('COM1');
-  result.add('COM2');
+  for i := 0 to 12 do
+  begin
+    result.add('COM' + inttostr(i));
+  end;
 end;
 {$ENDIF}
+
 {$IFDEF UNIX}
 function getserialportnames: tstringlist;
+var
+  i: longint;
 begin
   result := tstringlist.create;
-  result.add('/dev/ttyACM0');
-  result.add('/dev/ttyACM1');
+  for i := 0 to 9 do
+  begin
+    result.add('/dev/ttyACM' + inttostr(i));
+  end;
 end;
 {$ENDIF}
 

@@ -2,13 +2,6 @@
 
 **vPlot** is a vertical printer, a kind of printer that draws lines and shapes by moving a pen on a vertical surface using two motors and gravity force.
 
-## **Features**
-
-- 
-- DXF file support
-- SVG file support
-
-
 ## **Working principle**
 
 Each pen holder position is defined by two lengths, A and B.

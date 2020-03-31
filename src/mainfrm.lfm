@@ -32,8 +32,8 @@ object tmainform: tmainform
     BorderSpacing.Left = 4
     BorderSpacing.Top = 6
     BorderStyle = bsSingle
-    ClientHeight = 606
-    ClientWidth = 628
+    ClientHeight = 604
+    ClientWidth = 626
     Color = clWhite
     ParentColor = False
     TabOrder = 0
@@ -382,7 +382,7 @@ object tmainform: tmainform
       AnchorSideTop.Control = screen
       AnchorSideRight.Control = aboutbtn
       AnchorSideBottom.Side = asrBottom
-      Left = 551
+      Left = 549
       Height = 32
       Top = 6
       Width = 32
@@ -469,10 +469,10 @@ object tmainform: tmainform
       AnchorSideRight.Control = deczoombtn
       AnchorSideBottom.Control = deczoombtn
       AnchorSideBottom.Side = asrBottom
-      Left = 412
+      Left = 405
       Height = 32
       Top = 6
-      Width = 61
+      Width = 66
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 6
       Caption = 'Zoom 100%'
@@ -486,7 +486,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = inczoombtn
       AnchorSideBottom.Control = inczoombtn
       AnchorSideBottom.Side = asrBottom
-      Left = 479
+      Left = 477
       Height = 32
       Top = 6
       Width = 32
@@ -507,7 +507,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = fitbtn
       AnchorSideBottom.Control = fitbtn
       AnchorSideBottom.Side = asrBottom
-      Left = 515
+      Left = 513
       Height = 32
       Top = 6
       Width = 32
@@ -571,7 +571,7 @@ object tmainform: tmainform
       Left = 227
       Height = 32
       Top = 6
-      Width = 39
+      Width = 43
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 6
       Caption = 'Step x1'
@@ -585,7 +585,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = screen
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
-      Left = 589
+      Left = 587
       Height = 32
       Top = 6
       Width = 32
@@ -599,6 +599,7 @@ object tmainform: tmainform
       Images = btnimages
       ImageIndex = 13
       OnClick = aboutmiclick
+      Spacing = 0
       TabOrder = 9
     end
   end
@@ -627,7 +628,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
+      Height = 15
       Top = 0
       Width = 280
       Caption = 'Connection'
@@ -645,8 +646,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = portcb
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 28
-      Top = 24
+      Height = 23
+      Top = 23
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -663,8 +664,8 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 96
-      Height = 28
-      Top = 24
+      Height = 23
+      Top = 23
       Width = 180
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 4
@@ -672,7 +673,7 @@ object tmainform: tmainform
       BorderSpacing.Right = 4
       Constraints.MaxWidth = 180
       Constraints.MinWidth = 180
-      ItemHeight = 0
+      ItemHeight = 15
       TabOrder = 0
     end
     object portbtn: TBitBtn
@@ -684,7 +685,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 58
+      Top = 52
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -705,8 +706,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 98
+      Height = 15
+      Top = 92
       Width = 280
       Caption = 'Calibration'
       Anchors = [akTop, akLeft, akRight]
@@ -722,8 +723,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = stepnumberedt
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 28
-      Top = 122
+      Height = 23
+      Top = 115
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -739,8 +740,8 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 96
-      Height = 28
-      Top = 122
+      Height = 23
+      Top = 115
       Width = 180
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
@@ -758,7 +759,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 156
+      Top = 144
       Width = 85
       BorderSpacing.Left = 4
       BorderSpacing.Top = 6
@@ -856,7 +857,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 95
       Height = 30
-      Top = 156
+      Top = 144
       Width = 85
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 6
@@ -953,7 +954,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 191
       Height = 30
-      Top = 190
+      Top = 178
       Width = 85
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 4
@@ -975,7 +976,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 191
       Height = 30
-      Top = 156
+      Top = 144
       Width = 85
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 6
@@ -996,7 +997,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 95
       Height = 30
-      Top = 190
+      Top = 178
       Width = 85
       Caption = 'Right'
       Color = clScrollBar
@@ -1090,7 +1091,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 190
+      Top = 178
       Width = 85
       BorderSpacing.Top = 4
       Caption = 'Left'
@@ -1185,8 +1186,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 228
+      Height = 15
+      Top = 216
       Width = 280
       Caption = 'Drawing'
       Anchors = [akTop, akLeft, akRight]
@@ -1203,7 +1204,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 252
+      Top = 239
       Width = 176
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1226,7 +1227,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 191
       Height = 32
-      Top = 252
+      Top = 239
       Width = 85
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 4
@@ -1249,8 +1250,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 292
+      Height = 15
+      Top = 279
       Width = 280
       Caption = 'Drawing editing'
       Anchors = [akTop, akLeft, akRight]
@@ -1266,8 +1267,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = editingcb
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 26
-      Top = 316
+      Height = 23
+      Top = 302
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1283,15 +1284,15 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 96
-      Height = 26
-      Top = 316
+      Height = 23
+      Top = 302
       Width = 180
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 8
       BorderSpacing.Right = 4
       Constraints.MaxWidth = 180
       Constraints.MinWidth = 180
-      ItemHeight = 0
+      ItemHeight = 15
       ItemIndex = 0
       Items.Strings = (
         'SCALE'
@@ -1315,8 +1316,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = editingedt
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 28
-      Top = 348
+      Height = 23
+      Top = 331
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1332,8 +1333,8 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 96
-      Height = 28
-      Top = 348
+      Height = 23
+      Top = 331
       Width = 180
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
@@ -1352,7 +1353,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 382
+      Top = 360
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1371,8 +1372,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 420
+      Height = 15
+      Top = 398
       Width = 280
       Caption = 'Page sizing'
       Anchors = [akTop, akLeft, akRight]
@@ -1388,13 +1389,13 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 96
-      Height = 26
-      Top = 444
+      Height = 23
+      Top = 421
       Width = 180
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
       BorderSpacing.Right = 4
-      ItemHeight = 0
+      ItemHeight = 15
       ItemIndex = 8
       Items.Strings = (
         'A0 - Landscape'
@@ -1421,8 +1422,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = pagesizecb
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 26
-      Top = 444
+      Height = 23
+      Top = 421
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1439,8 +1440,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 514
+      Height = 15
+      Top = 488
       Width = 280
       Caption = 'Control'
       Anchors = [akTop, akLeft, akRight]
@@ -1458,7 +1459,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 536
+      Top = 509
       Width = 176
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1477,7 +1478,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 191
       Height = 32
-      Top = 536
+      Top = 509
       Width = 85
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 4
@@ -1499,7 +1500,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 574
+      Top = 547
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1521,7 +1522,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 476
+      Top = 450
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4

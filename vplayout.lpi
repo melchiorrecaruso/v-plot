@@ -73,6 +73,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="46"/>
         <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\..\AppData\Local\lazarus\onlinepackagemanager\packages\bgrabitmap-master\bgrabitmap\bgrasvg.pas"/>
@@ -96,6 +97,7 @@
         <TopLine Value="72"/>
         <CursorPos X="33" Y="88"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="C:\FPC\3.0.4\source\packages\fcl-image\src\fpcanvas.pp"/>
@@ -169,6 +171,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="..\lazarus\lcl\graphics.pp"/>

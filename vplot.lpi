@@ -218,8 +218,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="8"/>
-        <CursorPos X="53" Y="118"/>
+        <TopLine Value="113"/>
+        <CursorPos X="19" Y="123"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -1688,14 +1688,13 @@
       <Unit>
         <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/inifiles.pp"/>
         <UnitName Value="IniFiles"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="120"/>
         <CursorPos X="98" Y="142"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="15">
+    <JumpHistory HistoryIndex="10">
       <Position>
         <Filename Value="src/vpsetting.pas"/>
         <Caret Line="113" Column="38" TopLine="109"/>
@@ -1713,28 +1712,8 @@
         <Caret Line="122" Column="5" TopLine="106"/>
       </Position>
       <Position>
-        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/inifiles.pp"/>
-        <Caret Line="174" Column="23" TopLine="155"/>
-      </Position>
-      <Position>
         <Filename Value="src/vpsetting.pas"/>
         <Caret Line="123" Column="29" TopLine="106"/>
-      </Position>
-      <Position>
-        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/inifiles.pp"/>
-        <Caret Line="195" Column="14" TopLine="168"/>
-      </Position>
-      <Position>
-        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/inifiles.pp"/>
-        <Caret Line="157" Column="15" TopLine="139"/>
-      </Position>
-      <Position>
-        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/inifiles.pp"/>
-        <Caret Line="143" Column="3" TopLine="139"/>
-      </Position>
-      <Position>
-        <Filename Value="/usr/share/fpcsrc/3.0.4/packages/fcl-base/src/inifiles.pp"/>
-        <Caret Line="142" Column="98" TopLine="120"/>
       </Position>
       <Position>
         <Filename Value="src/mainfrm.pas"/>
@@ -1792,6 +1771,11 @@
         <UseLineInfoUnit Value="False"/>
       </Debugging>
       <LinkSmart Value="True"/>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
     </Linking>
   </CompilerOptions>
   <Debugging>

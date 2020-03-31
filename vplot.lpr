@@ -31,8 +31,8 @@ uses
 
 begin
   requirederivedformresource := true;
-  application.scaled:=true;
-  application.title := 'vPlot Client';
+  Application.Scaled:=True;
+  Application.Title:='vPlot Client';
   application.initialize;
   application.createform(tmainform, mainform);
   application.run;

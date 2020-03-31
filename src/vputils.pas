@@ -55,6 +55,7 @@ begin
 end;
 
 {$IFDEF UNIX}
+
 procedure sleepmicroseconds(microseconds: longword);
 var
   res: longint;
@@ -68,9 +69,11 @@ begin
     timeout := timeoutresult;
   until (res <> -1) or (fpgeterrno <> esyseintr);
 end;
+
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
+
 procedure sleepmicroseconds(microseconds: longword);
 var
   start, stop, freq: int64;
@@ -82,6 +85,7 @@ begin
     queryperformancecounter(start);
   until start >= stop;
 end;
+
 {$ENDIF}
 
 end.

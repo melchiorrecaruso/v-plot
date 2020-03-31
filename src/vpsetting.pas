@@ -120,6 +120,7 @@ var
 begin
   ini := tinifile.create(filename);
   ini.formatsettings.decimalseparator := '.';
+  ini.options := [ifostripcomments, ifostripinvalid, ifoformatsettingsactive];
 
   flayout0.x := ini.readfloat('LAYOUT', 'L0.X',   0);
   flayout0.y := ini.readfloat('LAYOUT', 'L0.Y',   0);

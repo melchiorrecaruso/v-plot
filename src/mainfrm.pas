@@ -26,10 +26,10 @@ unit mainfrm;
 interface
 
 uses
-  bgrabitmap, bgrabitmaptypes, bgragradientscanner, bgravirtualscreen,
-  bgrapath, buttons, classes, comctrls, controls, dialogs, extctrls, forms,
-  graphics, menus, spin, stdctrls, shellctrls, dividerbevel, spinex, vpdriver,
-  vppaths, vpmath, vpserial;
+  bgrabitmap, bgrabitmaptypes, bgragradientscanner, bgravirtualscreen, bgrapath,
+  buttons, classes, comctrls, controls, dialogs, extctrls, forms, graphics,
+  menus, spin, stdctrls, shellctrls, dividerbevel, spinex, vpdriver, vppaths,
+  vpmath, vpserial;
 
 type
   { tmainform }

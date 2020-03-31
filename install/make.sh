@@ -1,1 +1,1 @@
-equivs-build  vplotter.equivs
+equivs-build  vplot.equivs

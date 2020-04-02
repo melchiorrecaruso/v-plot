@@ -201,6 +201,9 @@ begin
     wavemesh);
   spacewave.enabled := not (setting.spacewaveoff = 1);
   spacewave.debug;
+  // init driver-engine
+  driverengine := tvpdriverengine.create(setting);
+  driverengine.debug;
   // create preview and empty page
   page        := tvpelementlist.create;
   screenimage := tbgrabitmap.create(screen.width, screen.height);
@@ -226,6 +229,7 @@ begin
   setting.destroy;
   screenimage.destroy;
   spacewave.destroy;
+  driverengine.destroy;
 end;
 
 procedure tmainform.formclose(sender: tobject; var closeaction: tcloseaction);
@@ -256,8 +260,7 @@ begin
     end else
     begin
       portbtn.caption := 'Connect';
-      messagedlg('vPlot Client',
-        'Unable connecting to server !', mterror, [mbok], 0);
+      messagedlg('vPlot Client', 'Unable connecting to server !', mterror, [mbok], 0);
     end;
   end;
   unlock;
@@ -490,7 +493,7 @@ begin
             else
               driver.movez(setting.mzmin);
 
-            calculatexy(point2, cx, cy);
+            driverengine.calcsteps(point2, cx, cy);
             driver.move(cx, cy);
             point1 := point2;
           end;
@@ -543,7 +546,7 @@ begin
     driver.ontick  := @onplottertick;
     driver.init;
     driver.movez(setting.mzmax);
-    calculatexy(setting.layout8, cx, cy);
+    driverengine.calcsteps(setting.layout8, cx, cy);
     driver.move(cx, cy);
     driver.start;
   end;
@@ -927,7 +930,7 @@ procedure tmainform.onplotterinit;
 var
   cx, cy, kb: longint;
 begin
-  calculatexy(setting.layout8, cx,  cy);
+  driverengine.calcsteps(setting.layout8, cx,  cy);
   if not serverset(serialstream, vpserver_setxcount, cx) then
     messagedlg('vPlot Client', 'Axis X syncing error !',   mterror, [mbok], 0);
   if not serverget(serialstream, vpserver_getxcount, cx) then

@@ -77,17 +77,27 @@ type
     property zcount:  longint       read fzcount;
   end;
 
+  tvpdriverengine = class
+  private
+    fsetting: tvpsetting;
+    fspace: array[0..2, 0..2] of tvppoint;
+  public
+    constructor create(asetting: tvpsetting);
+    destructor destroy; override;
+    function  calclength0(const p, t0: tvppoint; r0: vpfloat): vpfloat;
+    function  calclength1(const p, t1: tvppoint; r1: vpfloat): vpfloat;
+    procedure calclengths(const p: tvppoint; out lx, ly: vpfloat);
+    procedure calcsteps  (const p: tvppoint; out cx, cy: longint);
+    procedure debug;
+  end;
+
+
   function serverget(serial: tvpserialstream; id: byte; var value: longint): boolean;
   function serverset(serial: tvpserialstream; id: byte;     value: longint): boolean;
 
-  procedure calculatexy(const p: tvppoint; out lx, ly: vpfloat); overload;
-  procedure calculatexy(const p: tvppoint; out cx, cy: longint); overload;
-  function  calculatex (const p, t0: tvppoint; r0: vpfloat): vpfloat;
-  function  calculatey (const p, t1: tvppoint; r1: vpfloat): vpfloat;
-
 var
-  driver: tvpdriver = nil;
-
+  driver:       tvpdriver       = nil;
+  driverengine: tvpdriverengine = nil;
 
 implementation
 
@@ -129,7 +139,38 @@ end;
 
 // calculate belt lengths
 
-function calculatex(const p, t0: tvppoint; r0: vpfloat): vpfloat;
+constructor tvpdriverengine.create(asetting: tvpsetting);
+begin
+  inherited create;
+  fsetting       :=  asetting;
+  fspace[0, 0].x := -fsetting.spacewavedxmax;
+  fspace[0, 0].y := +fsetting.spacewavedymax;
+  fspace[0, 1].x := +0.000;
+  fspace[0, 1].y := +fsetting.spacewavedymax;
+  fspace[0, 2].x := +fsetting.spacewavedxmax;
+  fspace[0, 2].y := +fsetting.spacewavedymax;
+
+  fspace[1, 0].x := -fsetting.spacewavedxmax;
+  fspace[1, 0].y := +0.000;
+  fspace[1, 1].y := +0.000;
+  fspace[1, 1].y := +0.000;
+  fspace[1, 2].x := +0.000;
+  fspace[1, 2].x := +fsetting.spacewavedxmax;
+
+  fspace[2, 0].x := -fsetting.spacewavedxmax;
+  fspace[2, 0].y := -fsetting.spacewavedymax;
+  fspace[2, 1].x := +0.000;
+  fspace[2, 1].y := -fsetting.spacewavedymax;
+  fspace[2, 2].x := +fsetting.spacewavedxmax;
+  fspace[2, 2].y := -fsetting.spacewavedymax;
+end;
+
+destructor tvpdriverengine.destroy;
+begin
+  inherited destroy;
+end;
+
+function tvpdriverengine.calclength0(const p, t0: tvppoint; r0: vpfloat): vpfloat;
 var
       a0: vpfloat;
   c0, cx: tvpcircleimp;
@@ -145,7 +186,7 @@ begin
   result := result + a0*r0;
 end;
 
-function calculatey(const p, t1: tvppoint; r1: vpfloat): vpfloat;
+function tvpdriverengine.calclength1(const p, t1: tvppoint; r1: vpfloat): vpfloat;
 var
       a1: vpfloat;
   c1, cx: tvpcircleimp;
@@ -161,7 +202,7 @@ begin
   result := result + a1*r1;
 end;
 
-procedure calculatexy(const p: tvppoint; out lx, ly: vpfloat);
+procedure tvpdriverengine.calclengths(const p: tvppoint; out lx, ly: vpfloat);
 var
       a0, a1: vpfloat;
   c0, c1, cx: tvpcircleimp;
@@ -188,14 +229,45 @@ begin
   ly := ly + a1*setting.myradius;
 end;
 
-procedure calculatexy(const p: tvppoint; out cx, cy: longint);
+procedure tvpdriverengine.calcsteps(const p: tvppoint; out cx, cy: longint);
 var
   lx, ly: vpfloat;
 begin
-  calculatexy(p, lx, ly);
+  calclengths(p, lx, ly);
   // calculate steps
   cx := round(lx/setting.mxratio);
   cy := round(ly/setting.myratio);
+end;
+
+procedure tvpdriverengine.debug;
+const
+  str = '    CALC::P.X    = %12.5f  P.Y  = %12.5f  |  LX = %12.5f  LY = %12.5f';
+var
+  i: longint;
+  j: longint;
+  lx: vpfloat;
+  ly: vpfloat;
+  offsetx: vpfloat;
+  offsety: vpfloat;
+  p: tvppoint;
+begin
+  if enabledebug then
+  begin
+    offsetx := fsetting.layout8.x;
+    offsety := fsetting.layout8.y +
+      (2*fsetting.spacewavedymax)*fsetting.scale + fsetting.offset;
+
+    for i := 0 to 2 do
+      for j := 0 to 2 do
+      begin
+        p   := fspace[i, j];
+        p.x := p.x + offsetx;
+        p.y := p.y + offsety;
+        calclengths(p, lx, ly);
+
+        writeln(format(str, [p.x, p.y, lx, ly]));
+      end;
+  end;
 end;
 
 // tvpdriver

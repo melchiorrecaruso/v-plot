@@ -884,14 +884,14 @@ begin
     enabledebug := (paramstr(1) =  '-debug') or
                    (paramstr(1) = '--debug');
     if enabledebug then
-      writeln('VPLOTTER::START-DEBUGGER');
+      writeln(' VPLOT::START-DEBUGGER');
   end;
 end;
 
 procedure finalizedebug;
 begin
   if enabledebug then
-    writeln('VPLOTTER::END-DEBUGGER');
+    writeln(' VPLOT::END-DEBUGGER');
 end;
 
 initialization

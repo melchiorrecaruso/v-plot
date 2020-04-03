@@ -185,22 +185,22 @@ begin
   // open serial port
   serialstream := tvpserialstream.create;
   // init space wave
-  wavemesh[0] := setting.spacewave0;
-  wavemesh[1] := setting.spacewave1;
-  wavemesh[2] := setting.spacewave2;
-  wavemesh[3] := setting.spacewave3;
-  wavemesh[4] := setting.spacewave4;
-  wavemesh[5] := setting.spacewave5;
-  wavemesh[6] := setting.spacewave6;
-  wavemesh[7] := setting.spacewave7;
-  wavemesh[8] := setting.spacewave8;
-  spacewave := tspacewave.create(
-    setting.spacewavedxmax,
-    setting.spacewavedymax,
-    setting.spacewavescale,
+  wavemesh[0] := setting.wavepoint0;
+  wavemesh[1] := setting.wavepoint1;
+  wavemesh[2] := setting.wavepoint2;
+  wavemesh[3] := setting.wavepoint3;
+  wavemesh[4] := setting.wavepoint4;
+  wavemesh[5] := setting.wavepoint5;
+  wavemesh[6] := setting.wavepoint6;
+  wavemesh[7] := setting.wavepoint7;
+  wavemesh[8] := setting.wavepoint8;
+  wave := twave.create(
+    setting.pagewidth  / 2,
+    setting.pageheight / 2,
+    setting.wavescale,
     wavemesh);
-  spacewave.enabled := not (setting.spacewaveoff = 1);
-  spacewave.debug;
+  wave.enabled := not (setting.waveoff = 1);
+  wave.debug;
   // init driver-engine
   driverengine := tvpdriverengine.create(setting);
   driverengine.debug;
@@ -228,8 +228,8 @@ begin
   serialstream.destroy;
   setting.destroy;
   screenimage.destroy;
-  spacewave.destroy;
   driverengine.destroy;
+  wave.destroy;
 end;
 
 procedure tmainform.formclose(sender: tobject; var closeaction: tcloseaction);
@@ -468,11 +468,11 @@ begin
     driver.ontick  := @onplottertick;
     driver.init;
 
-    xoffset := setting.layout8.x;
-    yoffset := setting.layout8.y +
-      pageheight * setting.scale + setting.offset;
+    xoffset := setting.point8.x;
+    yoffset := setting.point8.y +
+      pageheight * setting.point9factor + setting.point9offset;
 
-    point1 := setting.layout8;
+    point1 := setting.point8;
     for i := 0 to page.count -1 do
     begin
       element := page.items[i];
@@ -546,7 +546,7 @@ begin
     driver.ontick  := @onplottertick;
     driver.init;
     driver.movez(setting.mzmax);
-    driverengine.calcsteps(setting.layout8, cx, cy);
+    driverengine.calcsteps(setting.point8, cx, cy);
     driver.move(cx, cy);
     driver.start;
   end;
@@ -928,9 +928,9 @@ end;
 
 procedure tmainform.onplotterinit;
 var
-  cx, cy, kb: longint;
+  cx, cy, kb, km: longint;
 begin
-  driverengine.calcsteps(setting.layout8, cx,  cy);
+  driverengine.calcsteps(setting.point8, cx,  cy);
   if not serverset(serialstream, vpserver_setxcount, cx) then
     messagedlg('vPlot Client', 'Axis X syncing error !',   mterror, [mbok], 0);
   if not serverget(serialstream, vpserver_getxcount, cx) then
@@ -948,6 +948,11 @@ begin
     messagedlg('vPlot Client', 'Ramp KB syncing error !',  mterror, [mbok], 0);
   if not serverget(serialstream, vpserver_getrampkb, kb) then
     messagedlg('vPlot Client', 'Ramp KB checking error !', mterror, [mbok], 0);
+  km := setting.rampkm;
+  if not serverset(serialstream, vpserver_setrampkm, km) then
+    messagedlg('vPlot Client', 'Ramp KM syncing error !',  mterror, [mbok], 0);
+  if not serverget(serialstream, vpserver_getrampkm, km) then
+    messagedlg('vPlot Client', 'Ramp KM checking error !', mterror, [mbok], 0);
   application.processmessages;
 end;
 

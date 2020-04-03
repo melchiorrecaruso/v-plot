@@ -167,7 +167,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="39" Y="42"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit>
       <Unit>
         <Filename Value="build/arm-linux/lib/main.lrs"/>
@@ -208,9 +208,9 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="163"/>
-        <CursorPos X="42" Y="244"/>
-        <FoldState Value=" T3jJ0F115W"/>
+        <TopLine Value="104"/>
+        <CursorPos X="16" Y="147"/>
+        <FoldState Value=" T3jL0F11311;"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -218,8 +218,8 @@
         <Filename Value="src/vpsetting.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="72"/>
-        <CursorPos X="3" Y="73"/>
+        <TopLine Value="119"/>
+        <CursorPos X="47" Y="124"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -272,7 +272,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
         <TopLine Value="34"/>
-        <CursorPos X="114" Y="50"/>
+        <CursorPos X="58" Y="38"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -294,8 +294,8 @@
         <Filename Value="src/vpmath.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="133"/>
-        <CursorPos X="26" Y="4"/>
+        <TopLine Value="748"/>
+        <CursorPos X="115" Y="879"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -303,8 +303,7 @@
         <Filename Value="src/vpwave.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="45"/>
-        <CursorPos X="31" Y="60"/>
+        <CursorPos X="16" Y="9"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -1358,8 +1357,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="184"/>
-        <CursorPos X="7" Y="189"/>
+        <TopLine Value="889"/>
+        <CursorPos X="96" Y="900"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -1699,126 +1698,122 @@
         <UsageCount Value="9"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="28">
       <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="247" Column="67" TopLine="231"/>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="181" Column="65" TopLine="160"/>
       </Position>
       <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="82" Column="26" TopLine="72"/>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="188" Column="35" TopLine="168"/>
       </Position>
       <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="245" Column="21" TopLine="163"/>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="200" Column="30" TopLine="178"/>
       </Position>
       <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="143" Column="40" TopLine="106"/>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="197" Column="65" TopLine="164"/>
       </Position>
       <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="262" Column="7" TopLine="231"/>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="65" Column="36" TopLine="45"/>
       </Position>
       <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="191" Column="29" TopLine="176"/>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="196" Column="48" TopLine="164"/>
       </Position>
       <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="262" Column="13" TopLine="200"/>
-      </Position>
-      <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="245" Column="27" TopLine="200"/>
-      </Position>
-      <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="205" Column="38" TopLine="168"/>
-      </Position>
-      <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="232" Column="36" TopLine="167"/>
-      </Position>
-      <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="236" Column="14" TopLine="168"/>
-      </Position>
-      <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="235" Column="44" TopLine="282"/>
-      </Position>
-      <Position>
-        <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="100" Column="10" TopLine="91"/>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="65" Column="5" TopLine="46"/>
       </Position>
       <Position>
         <Filename Value="src/vpmath.pas"/>
-        <Caret Line="4" Column="26" TopLine="133"/>
+        <Caret Line="32" Column="3" TopLine="13"/>
       </Position>
       <Position>
-        <Filename Value="vplot.lpr"/>
-        <Caret Line="28" Column="34"/>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="196" Column="48" TopLine="164"/>
       </Position>
       <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="281" Column="5" TopLine="260"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="232" Column="24" TopLine="210"/>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="196" Column="46" TopLine="164"/>
       </Position>
       <Position>
         <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="205" Column="49" TopLine="177"/>
+        <Caret Line="200" Column="57" TopLine="178"/>
       </Position>
       <Position>
         <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="496" Column="24" TopLine="476"/>
+        <Caret Line="202" Column="37" TopLine="182"/>
       </Position>
       <Position>
         <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="501" Column="52" TopLine="485"/>
+        <Caret Line="471" Column="45" TopLine="452"/>
       </Position>
       <Position>
         <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="546" Column="53" TopLine="529"/>
+        <Caret Line="473" Column="40" TopLine="453"/>
+      </Position>
+      <Position>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="475" Column="28" TopLine="455"/>
+      </Position>
+      <Position>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="549" Column="41" TopLine="529"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpwave.pas"/>
+        <Caret Line="204" Column="45" TopLine="179"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpwave.pas"/>
+        <Caret Line="189" Column="12" TopLine="179"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpwave.pas"/>
+        <Caret Line="60" Column="3" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="203" Column="3" TopLine="178"/>
+      </Position>
+      <Position>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="197" Column="12" TopLine="177"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="135" Column="36" TopLine="124"/>
+      </Position>
+      <Position>
+        <Filename Value="src/vpsetting.pas"/>
+        <Caret Line="41" Column="5" TopLine="20"/>
+      </Position>
+      <Position>
+        <Filename Value="src/mainfrm.pas"/>
+        <Caret Line="954" Column="56" TopLine="926"/>
       </Position>
       <Position>
         <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="21" Column="33" TopLine="22"/>
+        <Caret Line="96" Column="12" TopLine="76"/>
       </Position>
       <Position>
         <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="929" Column="51" TopLine="916"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="459" Column="3" TopLine="466"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="276" Column="3" TopLine="271"/>
+        <Caret Line="952" Column="34" TopLine="933"/>
       </Position>
       <Position>
         <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="63" Column="19" TopLine="43"/>
+        <Caret Line="96" Column="12" TopLine="76"/>
       </Position>
       <Position>
         <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="276" Column="3" TopLine="271"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="459" Column="3" TopLine="458"/>
-      </Position>
-      <Position>
-        <Filename Value="src/mainfrm.pas"/>
-        <Caret Line="931" Column="35" TopLine="201"/>
+        <Caret Line="952" Column="34" TopLine="932"/>
       </Position>
       <Position>
         <Filename Value="src/vpdriver.pas"/>
-        <Caret Line="267" Column="9" TopLine="205"/>
+        <Caret Line="85" Column="10" TopLine="65"/>
       </Position>
     </JumpHistory>
   </ProjectOptions>

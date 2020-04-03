@@ -35,10 +35,11 @@ implementation
 
 procedure element2paths(element: tsvgelement; elements: tvpelementlist);
 var
-     bmp: tbgrabitmap;
-       i: longint;
-    line: tvpline;
-  points: arrayoftpointf;
+      bmp: tbgrabitmap;
+  content: tsvgcontent;
+        i: longint;
+     line: tvpline;
+   points: arrayoftpointf;
 begin
   bmp := tbgrabitmap.create;
   bmp.canvas2d.fontrenderer := tbgravectorizedfontrenderer.create;
@@ -66,12 +67,17 @@ begin
   end else
   if (element is tsvggroup) then
   begin
-    with tsvggroup(element).content do
-      for i := 0 to elementcount -1 do
-        element2paths(element[i], elements);
+    content := tsvggroup(element).content;
+    for i := 0 to content.elementcount -1 do
+      if content.issvgelement[i] then
+      begin
+        element2paths(content.element[i], elements);
+      end;
   end else
   if enabledebug then
+  begin
     writeln(element.classname);
+  end;
   bmp.destroy;
 end;
 
@@ -81,10 +87,11 @@ var
   svg: tbgrasvg;
 begin
   svg := tbgrasvg.create(afilename);
-  for i := 0 to svg.content.elementcount - 1 do
-  begin
-    element2paths(svg.content.element[i], elements);
-  end;
+  for i := 0 to svg.content.elementcount -1 do
+    if svg.content.issvgelement[i] then
+    begin
+      element2paths(svg.content.element[i], elements);
+    end;
   svg.destroy;
 
   elements.mirrorx;

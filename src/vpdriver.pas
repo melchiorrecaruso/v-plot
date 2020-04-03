@@ -48,6 +48,7 @@ type
     fmessage: string;
     frampkb: longint;
     frampkl: longint;
+    frampkm: longint;
     fserial: tvpserialstream;
     fstream: tmemorystream;
     fxcount: longint;
@@ -280,6 +281,7 @@ begin
   fmessage := '';
   frampkb  := setting.rampkb;
   frampkl  := setting.rampkl;
+  frampkm  := setting.rampkm;
   fserial  := aserial;
   fstream  := tmemorystream.create;
   fxcount  := 0;
@@ -310,7 +312,8 @@ begin
   if (not serverget(fserial, vpserver_getxcount, fxcount)) or
      (not serverget(fserial, vpserver_getycount, fycount)) or
      (not serverget(fserial, vpserver_getzcount, fzcount)) or
-     (not serverset(fserial, vpserver_setrampkb, frampkb)) then
+     (not serverset(fserial, vpserver_setrampkb, frampkb)) or
+     (not serverset(fserial, vpserver_setrampkm, frampkm))then
   begin
     fmessage := 'Unable connecting to server !';
     if assigned(fonerror) then
@@ -506,7 +509,8 @@ begin
   if ((not serverget(fserial, vpserver_getxcount ,i)) or (fxcount <> i)) or
      ((not serverget(fserial, vpserver_getycount ,i)) or (fycount <> i)) or
      ((not serverget(fserial, vpserver_getzcount ,i)) or (fzcount <> i)) or
-     ((not serverget(fserial, vpserver_getrampkb ,i)) or (frampkb <> i)) then
+     ((not serverget(fserial, vpserver_getrampkb ,i)) or (frampkb <> i)) or
+     ((not serverget(fserial, vpserver_getrampkm ,i)) or (frampkm <> i)) then
   begin
     fmessage := 'Server syncing error !';
     if assigned(fonerror) then

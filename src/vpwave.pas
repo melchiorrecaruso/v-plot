@@ -26,7 +26,7 @@ unit vpwave;
 interface
 
 uses
-  classes, sysutils, vpmath;
+  classes, sysutils, vpmath, vpsetting;
 
 type
   tdegres = 0..10;
@@ -38,7 +38,7 @@ type
 
   twavemesh = array[0..8] of tvppoint;
 
-  tspacewave = class
+  twave = class
   private
     lax, lay: tpolynome;
     lbx, lby: tpolynome;
@@ -57,7 +57,7 @@ type
   function polyeval(const apoly: tpolynome; x: vpfloat): vpfloat;
 
 var
-  spacewave: tspacewave = nil;
+  wave: twave = nil;
 
 implementation
 
@@ -80,7 +80,7 @@ end;
 
 // tspacewave
 
-constructor tspacewave.create(xmax, ymax, scale: vpfloat; const mesh: twavemesh);
+constructor twave.create(xmax, ymax, scale: vpfloat; const mesh: twavemesh);
 var
   a, aa: tvector3_double;
   b, bb: tvector3_double;
@@ -151,12 +151,12 @@ begin
   fenabled     := false;
 end;
 
-destructor tspacewave.destroy;
+destructor twave.destroy;
 begin
   inherited destroy;
 end;
 
-function tspacewave.update(const p: tvppoint): tvppoint;
+function twave.update(const p: tvppoint): tvppoint;
 var
   ly,
   lx: tpolynome;
@@ -186,28 +186,32 @@ begin
   end;
 end;
 
-procedure tspacewave.debug;
+procedure twave.debug;
 var
-  p0,p1: tvppoint;
+  dx, dy: vpfloat;
+  p0, p1: tvppoint;
 
 procedure test_print;
 begin
-  writeln(format('  WAVING::P.X    = %12.5f  P''.X = %12.5f', [p0.x, p1.x]));
-  writeln(format('  WAVING::P.Y    = %12.5f  P''.Y = %12.5f', [p0.y, p1.y]));
+  writeln(format('WAVING::PNT.X       = %12.5f  PNT''.X = %12.5f', [p0.x, p1.x]));
+  writeln(format('WAVING::PNT.Y       = %12.5f  PNT''.Y = %12.5f', [p0.y, p1.y]));
 end;
 
 begin
   if enabledebug then
   begin
-    p0.x := -594.5;  p0.y := +420.5;  p1 := update(p0);  test_print;
-    p0.x := +0.000;  p0.y := +420.5;  p1 := update(p0);  test_print;
-    p0.x := +594.5;  p0.y := +420.5;  p1 := update(p0);  test_print;
-    p0.x := -594.5;  p0.y := +0.000;  p1 := update(p0);  test_print;
-    p0.x := +0.000;  p0.y := +0.000;  p1 := update(p0);  test_print;
-    p0.x := +594.5;  p0.y := +0.000;  p1 := update(p0);  test_print;
-    p0.x := -594.5;  p0.y := -420.5;  p1 := update(p0);  test_print;
-    p0.x := +0.000;  p0.y := -420.5;  p1 := update(p0);  test_print;
-    p0.x := +594.5;  p0.y := -420.5;  p1 := update(p0);  test_print;
+    dx := setting.pagewidth  / 2;
+    dy := setting.pageheight / 2;
+
+    p0.x := -dx;  p0.y := +dy;  p1 := update(p0);  test_print;
+    p0.x := + 0;  p0.y := +dy;  p1 := update(p0);  test_print;
+    p0.x := +dx;  p0.y := +dy;  p1 := update(p0);  test_print;
+    p0.x := -dx;  p0.y := + 0;  p1 := update(p0);  test_print;
+    p0.x := + 0;  p0.y := + 0;  p1 := update(p0);  test_print;
+    p0.x := +dx;  p0.y := + 0;  p1 := update(p0);  test_print;
+    p0.x := -dx;  p0.y := -dy;  p1 := update(p0);  test_print;
+    p0.x := + 0;  p0.y := -dy;  p1 := update(p0);  test_print;
+    p0.x := +dx;  p0.y := -dy;  p1 := update(p0);  test_print;
   end;
 end;
 

@@ -33,11 +33,13 @@ const
   vpserver_getycount = 241;
   vpserver_getzcount = 242;
   vpserver_getrampkb = 243;
+  vpserver_getrampkm = 244;
 
   vpserver_setxcount = 230;
   vpserver_setycount = 231;
   vpserver_setzcount = 232;
   vpserver_setrampkb = 233;
+  vpserver_setrampkm = 234;
 
 type
   tvpdriver = class(tthread)
@@ -80,7 +82,7 @@ type
   tvpdriverengine = class
   private
     fsetting: tvpsetting;
-    fspace: array[0..2, 0..2] of tvppoint;
+    fpage: array[0..2, 0..2] of tvppoint;
   public
     constructor create(asetting: tvpsetting);
     destructor destroy; override;
@@ -142,27 +144,27 @@ end;
 constructor tvpdriverengine.create(asetting: tvpsetting);
 begin
   inherited create;
-  fsetting       :=  asetting;
-  fspace[0, 0].x := -fsetting.spacewavedxmax;
-  fspace[0, 0].y := +fsetting.spacewavedymax;
-  fspace[0, 1].x := +0.000;
-  fspace[0, 1].y := +fsetting.spacewavedymax;
-  fspace[0, 2].x := +fsetting.spacewavedxmax;
-  fspace[0, 2].y := +fsetting.spacewavedymax;
+  fsetting      :=  asetting;
+  fpage[0, 0].x := -fsetting.pagewidth  / 2;
+  fpage[0, 0].y := +fsetting.pageheight / 2;
+  fpage[0, 1].x := +0.000;
+  fpage[0, 1].y := +fsetting.pageheight / 2;
+  fpage[0, 2].x := +fsetting.pagewidth  / 2;
+  fpage[0, 2].y := +fsetting.pageheight / 2;
 
-  fspace[1, 0].x := -fsetting.spacewavedxmax;
-  fspace[1, 0].y := +0.000;
-  fspace[1, 1].y := +0.000;
-  fspace[1, 1].y := +0.000;
-  fspace[1, 2].x := +0.000;
-  fspace[1, 2].x := +fsetting.spacewavedxmax;
+  fpage[1, 0].x := -fsetting.pagewidth  / 2;
+  fpage[1, 0].y := +0.000;
+  fpage[1, 1].y := +0.000;
+  fpage[1, 1].y := +0.000;
+  fpage[1, 2].x := +0.000;
+  fpage[1, 2].x := +fsetting.pagewidth  / 2;
 
-  fspace[2, 0].x := -fsetting.spacewavedxmax;
-  fspace[2, 0].y := -fsetting.spacewavedymax;
-  fspace[2, 1].x := +0.000;
-  fspace[2, 1].y := -fsetting.spacewavedymax;
-  fspace[2, 2].x := +fsetting.spacewavedxmax;
-  fspace[2, 2].y := -fsetting.spacewavedymax;
+  fpage[2, 0].x := -fsetting.pagewidth  / 2;
+  fpage[2, 0].y := -fsetting.pageheight / 2;
+  fpage[2, 1].x := +0.000;
+  fpage[2, 1].y := -fsetting.pageheight / 2;
+  fpage[2, 2].x := +fsetting.pagewidth  / 2;
+  fpage[2, 2].y := -fsetting.pageheight / 2;
 end;
 
 destructor tvpdriverengine.destroy;
@@ -210,7 +212,7 @@ var
       t0, t1: tvppoint;
 begin
   //find tangent point t0
-  t0 := setting.layout0;
+  t0 := setting.point0;
   lx := sqrt(sqr(distance_between_two_points(t0, p))-sqr(setting.mxradius));
   c0 := circle_by_center_and_radius(t0, setting.mxradius);
   cx := circle_by_center_and_radius(p, lx);
@@ -219,7 +221,7 @@ begin
   a0 := angle(line_by_two_points(s0, t0));
   lx := lx + a0*setting.mxradius;
   //find tangent point t1
-  t1 := setting.layout1;
+  t1 := setting.point1;
   ly := sqrt(sqr(distance_between_two_points(t1, p))-sqr(setting.myradius));
   c1 := circle_by_center_and_radius(t1, setting.myradius);
   cx := circle_by_center_and_radius(p, ly);
@@ -241,7 +243,7 @@ end;
 
 procedure tvpdriverengine.debug;
 const
-  str = '    CALC::P.X    = %12.5f  P.Y  = %12.5f  |  LX = %12.5f  LY = %12.5f';
+  str = '  CALC::PNT.X       = %12.5f  PNT.Y  = %12.5f  |  LX = %12.5f  LY = %12.5f' ;
 var
   i: longint;
   j: longint;
@@ -253,14 +255,14 @@ var
 begin
   if enabledebug then
   begin
-    offsetx := fsetting.layout8.x;
-    offsety := fsetting.layout8.y +
-      (2*fsetting.spacewavedymax)*fsetting.scale + fsetting.offset;
+    offsetx := fsetting.point8.x;
+    offsety := fsetting.point8.y +
+      (fsetting.pageheight)*fsetting.point9factor + fsetting.point9offset;
 
     for i := 0 to 2 do
       for j := 0 to 2 do
       begin
-        p   := fspace[i, j];
+        p   := fpage[i, j];
         p.x := p.x + offsetx;
         p.y := p.y + offsety;
         calclengths(p, lx, ly);

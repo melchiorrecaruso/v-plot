@@ -1,11 +1,11 @@
 object tmainform: tmainform
-  Left = 317
-  Height = 620
-  Top = 98
+  Left = 257
+  Height = 650
+  Top = 63
   Width = 920
   Anchors = []
   Caption = 'vPlot Client'
-  ClientHeight = 620
+  ClientHeight = 650
   ClientWidth = 920
   Constraints.MinHeight = 620
   Constraints.MinWidth = 920
@@ -23,7 +23,7 @@ object tmainform: tmainform
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 290
-    Height = 608
+    Height = 638
     Top = 12
     Width = 630
     OnRedraw = screenredraw
@@ -32,7 +32,7 @@ object tmainform: tmainform
     BorderSpacing.Left = 4
     BorderSpacing.Top = 6
     BorderStyle = bsSingle
-    ClientHeight = 606
+    ClientHeight = 636
     ClientWidth = 628
     Color = clWhite
     ParentColor = False
@@ -609,7 +609,7 @@ object tmainform: tmainform
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 608
+    Height = 638
     Top = 6
     Width = 280
     Anchors = [akTop, akLeft, akBottom]
@@ -617,7 +617,7 @@ object tmainform: tmainform
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     BevelOuter = bvNone
-    ClientHeight = 608
+    ClientHeight = 638
     ClientWidth = 280
     Color = clForm
     ParentColor = False

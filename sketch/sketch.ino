@@ -2,7 +2,7 @@
 
 //  Author:   Melchiorre Caruso
 //  Date:     20 November 2019
-//  Modified: 21 January  2020
+//  Modified: 03 April    2020
 
 //  Librerie utilizzate nel codice sorgente
 
@@ -25,10 +25,12 @@
 #define GETYCOUNT         241
 #define GETZCOUNT         242
 #define GETKB             243
+#define GETKM             244
 #define SETXCOUNT         230
 #define SETYCOUNT         231
 #define SETZCOUNT         232
 #define SETKB             233
+#define SETKM             234
 
 // definizione variabili principali
 
@@ -39,6 +41,7 @@ static unsigned long LoopStart;
 static unsigned long LoopDelay;
 static long RampIndex;
 static long RampKB;
+static long RampKM;
 static long xCount;
 static long yCount;
 static long zCount;
@@ -56,7 +59,7 @@ union {
 void ExecRamp(byte bt) {  
   if (bitRead(bt, 6) == 1) { RampIndex++; }
   if (bitRead(bt, 7) == 1) { RampIndex--; }
-  RampIndex = max(1, RampIndex);
+  RampIndex = max(RampKM, RampIndex);
 }
 
 void ExecServo(byte bt) {
@@ -121,7 +124,12 @@ void ExecInternal(byte bt) {
       Serial.readBytes(data.asbytes, 4);
       Serial.write(SETKB);
       RampKB = data.aslong;
-      break;             
+      break;  
+    case SETKM:
+      Serial.readBytes(data.asbytes, 4);
+      Serial.write(SETKM);
+      RampKM = max(1, data.aslong);
+      break;                  
     case GETXCOUNT:
       data.aslong = xCount;
       Serial.write(GETXCOUNT);
@@ -141,12 +149,17 @@ void ExecInternal(byte bt) {
       data.aslong = RampKB;
       Serial.write(GETKB);
       Serial.write(data.asbytes, 4);
-      break;      
+      break;  
+    case GETKM:
+      data.aslong = RampKM;
+      Serial.write(GETKM);
+      Serial.write(data.asbytes, 4);
+      break;           
     default:
       Serial.write(bt);
       break;      
   }
-  RampIndex = 1;  
+  RampIndex = RampKM;  
 }
 
 // Setup routine
@@ -177,6 +190,7 @@ void setup() {
   LoopDelay = 400;
   RampIndex = 1;
   RampKB = 40000;
+  RampKM = 1;
   xCount = 0;
   yCount = 0;
   zCount = motorZ.read();

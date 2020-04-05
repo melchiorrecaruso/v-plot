@@ -168,20 +168,7 @@ var
 begin
   // load setting
   setting := tvpsetting.create;
-  {$IFDEF MSWINDOWS}
-    if fileexists(changefileext(paramstr(0), '.ini')) then
-    begin
-      setting.load(changefileext(paramstr(0), '.ini'));
-    end else
-      messagedlg('vPlot Client', 'Setting file not found !', mterror, [mbok], 0);
-  {$ENDIF}
-  {$IFDEF UNIX}
-    if fileexists('/opt/vplot/vplot.ini') then
-    begin
-      setting.load('/opt/vplot/vplot.ini');
-    end else
-      messagedlg('vPlot Client', 'Setting file not found !', mterror, [mbok], 0);
-  {$ENDIF}
+  setting.load;
   // open serial port
   serialstream := tvpserialstream.create;
   // init space wave
@@ -470,7 +457,8 @@ begin
 
     xoffset := setting.point8.x;
     yoffset := setting.point8.y +
-      pageheight * setting.point9factor + setting.point9offset;
+      pageheight * setting.point9factor
+                 + setting.point9offset;
 
     point1 := setting.point8;
     for i := 0 to page.count -1 do
@@ -930,6 +918,8 @@ procedure tmainform.onplotterinit;
 var
   cx, cy, kb, km: longint;
 begin
+  setting.load;
+  // ---
   driverengine.calcsteps(setting.point8, cx,  cy);
   if not serverset(serialstream, vpserver_setxcount, cx) then
     messagedlg('vPlot Client', 'Axis X syncing error !',   mterror, [mbok], 0);

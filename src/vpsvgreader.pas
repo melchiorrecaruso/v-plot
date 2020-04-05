@@ -94,7 +94,7 @@ begin
     end;
   svg.destroy;
 
-  elements.mirrorx;
+//elements.mirrorx;
   elements.movetoorigin;
 end;
 

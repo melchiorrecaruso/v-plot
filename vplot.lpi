@@ -269,9 +269,10 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
         <TopLine Value="36"/>
-        <CursorPos X="38" Y="69"/>
+        <CursorPos X="50" Y="55"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="src/vpsketch.pas"/>
@@ -289,11 +290,9 @@
       <Unit>
         <Filename Value="src/vpmath.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="14"/>
-        <TopLine Value="746"/>
+        <TopLine Value="745"/>
         <CursorPos X="18" Y="639"/>
-        <FoldState Value=" T3l1044AE picmE037 pj4jR0Z042P"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -1356,6 +1355,7 @@
         <ComponentName Value="tmainform"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="778"/>
         <CursorPos X="12" Y="810"/>

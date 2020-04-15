@@ -16,7 +16,7 @@ Usually, the motors are positioned at the same height from the ground.
 
 ## **Working area**
 
-vPlot-Layout calculates best print area dimensions by
+vPlot-Layout tool calculates best print area dimensions by
 
 >- distance between the two motors
 >- min ratio between belt tension and pen holder weigth (default 0.5)

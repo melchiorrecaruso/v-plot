@@ -9,8 +9,8 @@
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
-; (To generate a new GUID, {B2211742-D9AC-4662-90BE-C433670E9D72}click Tools | Generate GUID inside the IDE.)
-AppId={{CB989AE8-055B-4AEC-8A32-D2C234C32603}
+; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
+AppId={{5AF0BF87-7A8F-4482-92A4-573C03470577}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -36,10 +36,11 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\build\vplot.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\vplot.ini";       DestDir: "{app}"; Flags: ignoreversion
-Source: "LICENSE";            DestDir: "{app}"; Flags: ignoreversion
-Source: "README";             DestDir: "{app}"; Flags: ignoreversion
+Source: "..\build\vplotdbg.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\build\vplot.exe";    DestDir: "{app}"; Flags: ignoreversion
+Source: "..\vplot.ini";          DestDir: "{app}"; Flags: ignoreversion
+Source: "LICENSE";               DestDir: "{app}"; Flags: ignoreversion
+Source: "README";                DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

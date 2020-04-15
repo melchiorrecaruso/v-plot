@@ -1,5 +1,5 @@
 {
-  Description: vPlotter Layout Designer form.
+  Description: vPlot layout design form.
 
   Copyright (C) 2019-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -27,7 +27,7 @@ interface
 
 uses                     
   buttons, classes, sysutils, forms, controls, graphics, dialogs, extctrls,
-  math, bcradialprogressbar, spin, stdctrls, extdlgs, vpmath;
+  bcradialprogressbar, intfgraphics, math, spin, stdctrls, extdlgs, vpmath;
 
 type
   { tlayoutform }
@@ -57,7 +57,6 @@ type
     minresolutiolb: tlabel;
     sheetoffsetse: tspinedit;
     sheetmodecb: tcombobox;
-
     procedure formcreate(sender: tobject);
     procedure maxloadsechange(sender: tobject);
     procedure minloadsechange(sender: tobject);
@@ -133,10 +132,10 @@ begin
   rect.bottom := rect.bottom - 1;
 
   b.canvas.pen.color   := clblack;
-  b.canvas.brush.color := clltgray;
+  b.canvas.brush.color := rgbtocolor(207, 216, 220);
   b.canvas.rectangle(rect);
 
-  b.canvas.brush.color := clltgray;
+  b.canvas.brush.color := rgbtocolor(207, 216, 220);;
   b.canvas.textout(rect.left +gap15, rect.bottom -b.canvas.textheight(s)-2, s);
 end;
 
@@ -159,9 +158,16 @@ begin
 end;
 
 procedure tlayoutform.savebtnclick(sender: tobject);
+var
+  limage: tlazintfimage;
 begin
   if savedialog.execute then
-    image.picture.savetofile(savedialog.filename);
+  begin
+    limage := tlazintfimage.create(image.width, image.height);
+    limage.loadfrombitmap(image.picture.bitmap.handle, 0);
+    limage.savetofile(savedialog.filename);
+    limage.destroy;
+  end;
 end;
 
 procedure tlayoutform.resetbtnclick(sender: tobject);
@@ -207,9 +213,17 @@ var
 begin
   image.picture.clear;
   lock(false);
-  // init colors array, blu and red scale
-  for x := 0 to 4 do clrs[x+0] := rgbtocolor(175-x*30, 175-x*30, 255);
-  for x := 0 to 4 do clrs[x+5] := rgbtocolor(255, 150-x*35, 150-x*35);
+  // init colors array, blu scale
+  clrs[0] := rgbtocolor( 66, 165, 245);
+  clrs[1] := rgbtocolor( 66, 165, 245);
+  clrs[2] := rgbtocolor( 66, 165, 245);
+  clrs[3] := rgbtocolor( 66, 165, 245);
+  clrs[4] := rgbtocolor( 66, 165, 245);
+  clrs[5] := rgbtocolor(239,  83,  80);
+  clrs[6] := rgbtocolor(239,  83,  80);
+  clrs[7] := rgbtocolor(239,  83,  80);
+  clrs[8] := rgbtocolor(239,  83,  80);
+  clrs[9] := rgbtocolor(239,  83,  80);
   // init motors position
   dx   :=       distancese.value;
   dy   := round(distancese.value*0.75);
@@ -270,8 +284,8 @@ begin
         pp.y := pp.y + m0.y;
         d1   := distance_between_two_points(p, pp);
 
-        if d0 > minresolutionse.value then clr := rgbtocolor(255, 255,  55) else
-        if d1 > minresolutionse.value then clr := rgbtocolor(255, 255,  55);
+        if d0 > minresolutionse.value then clr := rgbtocolor(255, 238,  88) else
+        if d1 > minresolutionse.value then clr := rgbtocolor(255, 238,  88);
       end;
       bit.canvas.pixels[x, dy -y] := clr;
     end;

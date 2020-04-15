@@ -1,5 +1,5 @@
 {
-  Description: Math unit.
+  Description: vPlot math unit.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -83,7 +83,6 @@ type
   tvppolygonal = array of tvppoint;
 
 // MOVE
-procedure move(var point:     tvppoint;  const cc: tvppoint);
 procedure move(var point:     tvppoint;     dx, dy: vpfloat);
 procedure move(var line:      tvpline;      dx, dy: vpfloat);
 procedure move(var circle:    tvpcircle;    dx, dy: vpfloat);
@@ -165,19 +164,12 @@ function itsthesame(const p0, p1: tvppoint): boolean;
 procedure smooth(var l0, l1: tvpline; var a0: tvpcirclearc; const radius: vpfloat);
 
 
-var
-  enabledebug: boolean = false;
-
-
 implementation
 
-// MOVE
+uses
+  matrix;
 
-procedure move(var point: tvppoint; const cc: tvppoint);
-begin
-  point.x := point.x + cc.x;
-  point.y := point.y + cc.y;
-end;
+// MOVE
 
 procedure move(var point: tvppoint; dx, dy: vpfloat);
 begin
@@ -478,7 +470,8 @@ begin
   begin
     path[i].x := i*dx;
     path[i].y := i*dy;
-    move(path[i], line.p0);
+    move(path[i], line.p0.x,
+                  line.p0.y);
   end;
 end;
 
@@ -496,7 +489,8 @@ begin
     path[i].x := circle.radius;
     path[i].y := 0.0;
     rotate(path[i], i*ds);
-    move(path[i], circle.center);
+    move(path[i], circle.center.x,
+                  circle.center.y);
   end;
 end;
 
@@ -514,7 +508,8 @@ begin
     path[i].x := circlearc.radius;
     path[i].y := 0.0;
     rotate(path[i], degtorad(circlearc.startangle+(i*ds)));
-    move(path[i], circlearc.center);
+    move(path[i], circlearc.center.x,
+                  circlearc.center.y);
   end;
 end;
 
@@ -585,8 +580,45 @@ begin
 end;
 
 function circle_by_three_points(const p0, p1, p2: tvppoint): tvpcircleimp;
+var
+  cc: tmatrix2_double;
+  d0: tmatrix3_double;
+  d1: tmatrix3_double;
+  d2: tmatrix3_double;
+  dd: tmatrix3_double;
+  dt: double;
+  n0: double;
+  n1: double;
+  n2: double;
 begin
-  raise exception.create('circle_by_three_points exception');
+  result.a := 0;
+  result.b := 0;
+  result.c := 0;
+  cc.init(p1.x-p0.x, p1.y-p0.y,
+          p2.x-p0.x, p2.y-p0.y);
+  if cc.determinant <> 0 then
+  begin
+    n0 := -sqr(p0.x)-sqr(p0.y);
+    n1 := -sqr(p1.x)-sqr(p1.y);
+    n2 := -sqr(p2.x)-sqr(p2.y);
+    dd.init(p0.x, p0.y, 1,
+            p1.x, p1.y, 1,
+            p2.x, p2.y, 1);
+    d0.init(n0, p0.y, 1,
+            n1, p1.y, 1,
+            n2, p2.y, 1);
+    d1.init(p0.x, n0, 1,
+            p1.x, n1, 1,
+            p2.x, n2, 1);
+    d2.init(p0.x, p0.y, n0,
+            p1.x, p1.y, n1,
+          p2.x, p2.y, n2);
+
+    dt       := dd.determinant;
+    result.a := d0.determinant/dt;
+    result.b := d1.determinant/dt;
+    result.c := d2.determinant/dt;
+  end;
 end;
 
 function circle_by_center_and_radius(const cc: tvppoint; radius: vpfloat): tvpcircleimp;
@@ -879,19 +911,16 @@ end;
 
 procedure initializedebug;
 begin
-  if paramcount = 1 then
-  begin
-    enabledebug := (paramstr(1) =  '-debug') or
-                   (paramstr(1) = '--debug');
-    if enabledebug then
-      writeln(' VPLOT::START-DEBUGGER');
-  end;
+  {$IFOPT D+}
+  writeln(' VPLOT::START-DEBUGGER');
+  {$ENDIF}
 end;
 
 procedure finalizedebug;
 begin
-  if enabledebug then
-    writeln(' VPLOT::END-DEBUGGER');
+  {$IFOPT D+}
+  writeln(' VPLOT::END-DEBUGGER');
+  {$ENDIF}
 end;
 
 initialization

@@ -1,5 +1,5 @@
 {
-  Description: Utils unit.
+  Description: vPlot utils unit.
 
   Copyright (C) 2019-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -34,7 +34,7 @@ implementation
 
 uses
  {$IFDEF UNIX} baseunix, unix, {$ENDIF}
- {$IFDEF MSWINDOWS} Windows, {$ENDIF} sysutils;
+ {$IFDEF MSWINDOWS} windows, {$ENDIF} sysutils;
 
 function getbit1(const bits: byte; index: longint): boolean;
 var

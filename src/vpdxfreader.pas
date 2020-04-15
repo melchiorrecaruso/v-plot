@@ -1,5 +1,5 @@
 {
-  Description: DXF file reader class.
+  Description: vPlot DXF file reader class.
 
   This unit derives from LAZARUS/FREEPASCAL dxfvectorialreader unit.
 

@@ -1,5 +1,5 @@
 {
-  Description: Serial class.
+  Description: vPlot serial class.
 
   Copyright (C) 2019-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -60,6 +60,7 @@ type
 
 var
   serialstream: tvpserialstream = nil;
+
 
 implementation
 

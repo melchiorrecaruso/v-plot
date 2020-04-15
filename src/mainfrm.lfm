@@ -1,13 +1,14 @@
 object tmainform: tmainform
-  Left = 257
-  Height = 650
-  Top = 63
+  Left = 293
+  Height = 660
+  Top = 74
   Width = 920
   Anchors = []
   Caption = 'vPlot Client'
-  ClientHeight = 650
+  ClientHeight = 660
   ClientWidth = 920
-  Constraints.MinHeight = 620
+  Color = clWindow
+  Constraints.MinHeight = 650
   Constraints.MinWidth = 920
   OnClose = FormClose
   OnCreate = FormCreate
@@ -23,7 +24,7 @@ object tmainform: tmainform
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 290
-    Height = 638
+    Height = 648
     Top = 12
     Width = 630
     OnRedraw = screenredraw
@@ -32,9 +33,9 @@ object tmainform: tmainform
     BorderSpacing.Left = 4
     BorderSpacing.Top = 6
     BorderStyle = bsSingle
-    ClientHeight = 636
-    ClientWidth = 628
-    Color = clWhite
+    ClientHeight = 644
+    ClientWidth = 626
+    Color = clWindow
     ParentColor = False
     TabOrder = 0
     OnMouseDown = imagemousedown
@@ -382,7 +383,7 @@ object tmainform: tmainform
       AnchorSideTop.Control = screen
       AnchorSideRight.Control = aboutbtn
       AnchorSideBottom.Side = asrBottom
-      Left = 551
+      Left = 549
       Height = 32
       Top = 6
       Width = 32
@@ -469,10 +470,10 @@ object tmainform: tmainform
       AnchorSideRight.Control = deczoombtn
       AnchorSideBottom.Control = deczoombtn
       AnchorSideBottom.Side = asrBottom
-      Left = 412
+      Left = 405
       Height = 32
       Top = 6
-      Width = 61
+      Width = 66
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 6
       Caption = 'Zoom 100%'
@@ -486,7 +487,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = inczoombtn
       AnchorSideBottom.Control = inczoombtn
       AnchorSideBottom.Side = asrBottom
-      Left = 479
+      Left = 477
       Height = 32
       Top = 6
       Width = 32
@@ -507,7 +508,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = fitbtn
       AnchorSideBottom.Control = fitbtn
       AnchorSideBottom.Side = asrBottom
-      Left = 515
+      Left = 513
       Height = 32
       Top = 6
       Width = 32
@@ -571,7 +572,7 @@ object tmainform: tmainform
       Left = 227
       Height = 32
       Top = 6
-      Width = 39
+      Width = 43
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 6
       Caption = 'Step x1'
@@ -585,7 +586,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = screen
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
-      Left = 589
+      Left = 587
       Height = 32
       Top = 6
       Width = 32
@@ -598,7 +599,7 @@ object tmainform: tmainform
       Constraints.MinWidth = 32
       Images = btnimages
       ImageIndex = 13
-      OnClick = aboutmiclick
+      OnClick = aboutbtnclick
       Spacing = 0
       TabOrder = 9
     end
@@ -609,7 +610,7 @@ object tmainform: tmainform
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
     Left = 6
-    Height = 638
+    Height = 648
     Top = 6
     Width = 280
     Anchors = [akTop, akLeft, akBottom]
@@ -617,10 +618,8 @@ object tmainform: tmainform
     BorderSpacing.Top = 6
     BorderSpacing.Bottom = 6
     BevelOuter = bvNone
-    ClientHeight = 638
+    ClientHeight = 648
     ClientWidth = 280
-    Color = clForm
-    ParentColor = False
     TabOrder = 1
     object connectionbvl: TDividerBevel
       AnchorSideLeft.Control = controlpnl
@@ -628,7 +627,7 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
+      Height = 15
       Top = 0
       Width = 280
       Caption = 'Connection'
@@ -646,8 +645,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = portcb
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 28
-      Top = 24
+      Height = 23
+      Top = 23
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -664,8 +663,8 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 96
-      Height = 28
-      Top = 24
+      Height = 23
+      Top = 23
       Width = 180
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 4
@@ -673,8 +672,8 @@ object tmainform: tmainform
       BorderSpacing.Right = 4
       Constraints.MaxWidth = 180
       Constraints.MinWidth = 180
-      ItemHeight = 0
-      TabOrder = 0
+      ItemHeight = 15
+      TabOrder = 1
     end
     object portbtn: TBitBtn
       AnchorSideLeft.Control = controlpnl
@@ -685,7 +684,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 58
+      Top = 52
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -694,10 +693,11 @@ object tmainform: tmainform
       Caption = 'Connect'
       Constraints.MaxHeight = 32
       Constraints.MinHeight = 32
+      Default = True
       Images = btnimages
       ImageIndex = 12
       OnClick = connectbtnclick
-      TabOrder = 1
+      TabOrder = 0
     end
     object calibrationbvl: TDividerBevel
       AnchorSideLeft.Control = controlpnl
@@ -706,8 +706,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 98
+      Height = 15
+      Top = 92
       Width = 280
       Caption = 'Calibration'
       Anchors = [akTop, akLeft, akRight]
@@ -723,8 +723,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = stepnumberedt
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 28
-      Top = 122
+      Height = 23
+      Top = 115
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -740,8 +740,8 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 96
-      Height = 28
-      Top = 122
+      Height = 23
+      Top = 115
       Width = 180
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
@@ -759,7 +759,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 156
+      Top = 144
       Width = 85
       BorderSpacing.Left = 4
       BorderSpacing.Top = 6
@@ -857,7 +857,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 95
       Height = 30
-      Top = 156
+      Top = 144
       Width = 85
       Anchors = [akTop, akLeft, akBottom]
       BorderSpacing.Left = 6
@@ -954,7 +954,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 191
       Height = 30
-      Top = 190
+      Top = 178
       Width = 85
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 4
@@ -976,7 +976,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 191
       Height = 30
-      Top = 156
+      Top = 144
       Width = 85
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 6
@@ -997,7 +997,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 95
       Height = 30
-      Top = 190
+      Top = 178
       Width = 85
       Caption = 'Right'
       Color = clScrollBar
@@ -1091,7 +1091,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 190
+      Top = 178
       Width = 85
       BorderSpacing.Top = 4
       Caption = 'Left'
@@ -1186,8 +1186,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 228
+      Height = 15
+      Top = 216
       Width = 280
       Caption = 'Drawing'
       Anchors = [akTop, akLeft, akRight]
@@ -1204,7 +1204,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 252
+      Top = 239
       Width = 176
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1227,7 +1227,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 191
       Height = 32
-      Top = 252
+      Top = 239
       Width = 85
       Anchors = [akTop, akRight]
       BorderSpacing.Left = 4
@@ -1250,8 +1250,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 292
+      Height = 15
+      Top = 279
       Width = 280
       Caption = 'Drawing editing'
       Anchors = [akTop, akLeft, akRight]
@@ -1267,8 +1267,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = editingcb
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 26
-      Top = 316
+      Height = 23
+      Top = 302
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1284,15 +1284,15 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 96
-      Height = 26
-      Top = 316
+      Height = 23
+      Top = 302
       Width = 180
       Anchors = [akTop, akRight]
       BorderSpacing.Top = 8
       BorderSpacing.Right = 4
       Constraints.MaxWidth = 180
       Constraints.MinWidth = 180
-      ItemHeight = 0
+      ItemHeight = 15
       ItemIndex = 0
       Items.Strings = (
         'SCALE'
@@ -1316,8 +1316,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = editingedt
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 28
-      Top = 348
+      Height = 23
+      Top = 331
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1333,8 +1333,8 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Side = asrBottom
       Left = 96
-      Height = 28
-      Top = 348
+      Height = 23
+      Top = 331
       Width = 180
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight]
@@ -1353,7 +1353,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 382
+      Top = 360
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1372,8 +1372,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 420
+      Height = 15
+      Top = 398
       Width = 280
       Caption = 'Page sizing'
       Anchors = [akTop, akLeft, akRight]
@@ -1389,13 +1389,13 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 96
-      Height = 26
-      Top = 444
+      Height = 23
+      Top = 421
       Width = 180
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Top = 8
       BorderSpacing.Right = 4
-      ItemHeight = 0
+      ItemHeight = 15
       ItemIndex = 8
       Items.Strings = (
         'A0 - Landscape'
@@ -1422,8 +1422,8 @@ object tmainform: tmainform
       AnchorSideBottom.Control = pagesizecb
       AnchorSideBottom.Side = asrBottom
       Left = 4
-      Height = 26
-      Top = 444
+      Height = 23
+      Top = 421
       Width = 84
       Alignment = taRightJustify
       Anchors = [akTop, akLeft, akRight, akBottom]
@@ -1440,8 +1440,8 @@ object tmainform: tmainform
       AnchorSideRight.Control = controlpnl
       AnchorSideRight.Side = asrBottom
       Left = 0
-      Height = 16
-      Top = 514
+      Height = 15
+      Top = 488
       Width = 280
       Caption = 'Control'
       Anchors = [akTop, akLeft, akRight]
@@ -1459,12 +1459,14 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 536
+      Top = 509
       Width = 176
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
       BorderSpacing.Top = 6
       Caption = 'Start'
+      Constraints.MaxHeight = 32
+      Constraints.MinHeight = 32
       Images = btnimages
       ImageIndex = 6
       OnClick = startmiclick
@@ -1478,7 +1480,7 @@ object tmainform: tmainform
       AnchorSideBottom.Side = asrBottom
       Left = 191
       Height = 32
-      Top = 536
+      Top = 509
       Width = 85
       Anchors = [akTop, akRight, akBottom]
       BorderSpacing.Right = 4
@@ -1493,14 +1495,14 @@ object tmainform: tmainform
       TabOrder = 16
     end
     object homebtn: TBitBtn
-      AnchorSideLeft.Control = controlpnl
+      AnchorSideLeft.Control = controlbvl
       AnchorSideTop.Control = startbvl
       AnchorSideTop.Side = asrBottom
-      AnchorSideRight.Control = controlpnl
+      AnchorSideRight.Control = controlbvl
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 32
-      Top = 574
+      Top = 547
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1522,7 +1524,7 @@ object tmainform: tmainform
       AnchorSideRight.Side = asrBottom
       Left = 4
       Height = 30
-      Top = 476
+      Top = 450
       Width = 272
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Left = 4
@@ -1884,7 +1886,136 @@ object tmainform: tmainform
     }
   end
   object popup: TPopupMenu
+    Alignment = paRight
+    AutoPopup = False
     left = 352
     top = 288
+    object layoutmi: TMenuItem
+      Caption = 'Layout design'
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000009EC150019BBBCD11A4C4F407A2C4FC01A0C4FF01A0C4FF08A1
+        C4FC0EA1C1F3049BBBCF0098BA4A000000000000000000000000000000000000
+        000006A2C4CE00A0C4FF5AC1D8FFC7EAF2FFF0F9FBFFFDFEFEFFFDFEFEFFF0F9
+        FBFFC7EAF2FF5AC1D8FF00A0C4FF039FC0C800000000000000000000000000A0
+        C4BB00A0C4FFDDF2F7FF93E3EDFF9AE5EEFFA0E6EFFFA6E8F0FFABEAF1FFAFEA
+        F1FFB1EAF1FFAFEAF1FFDDF2F7FF00A0C4FF00A0C4AB000000000000000001A0
+        C4FCE3F4F8FFA3E7EFFFBAEDF3FF84DEEAFF75DBE7FF3FCCDEFF0BBFD5FF4CD0
+        E0FF9BE1EAFFC9F0F6FFC9F1F6FFE3F4F8FF019FC3FC000000000000000000A0
+        C4FFC9F1F6FF8AE1EBFF00BCD3FF22C5D9FF00BCD3FF00BCD3FF00BCD3FF00BC
+        D3FF00AFC4FF01BCD3FF87DFEAFFFFFFFFFF00A0C4FF000000000000000000A0
+        C4FF8BE1EBFF01BCD3FF04BED4FF31C9DDFF08BFD5FF09BFD6FF09BFD6FF08BF
+        D5FF05B0C5FF04BED4FF01BCD3FFFFFFFFFF00A0C4FF000000000000000000A0
+        C4FF79DDE8FF23C7DCFF16C5DAFF65D9E7FF55D5E5FF47D2E3FF38CEE1FF28C9
+        DDFF13B7CBFF16C5DAFF13C3D9FF11C2D8FF00A0C4FF000000000000000003A1
+        C4FF9BE6F0FF66DAE8FF69DBE9FF5CD9E7FF50D6E6FF51D6E7FF4FD6E6FF42D3
+        E3FF32CDE1FF29CCE0FF24CADEFF1FC8DDFF00A0C4FF000000000000000002A1
+        C4FEA4E8F1FF80E2EDFF8BE5F0FF90E6F1FF90E7F1FF8BE6F0FF82E4EFFF74DF
+        EDFF6CDEECFF63DCEAFF3BD2E4FF40D1E3FF01A0C4FD000000000000000005A3
+        C6EC91DEEBFF93E8F2FFA1EBF4FFCDF4F9FFAEEEF6FFA1ECF5FF96EAF4FF81E2
+        EFFF4ECFDFFF9EEBF4FF59DCEBFF54CDE0FE01A0C4E2000000000000000001A1
+        C49D1AACCBFEC4F3F8FFAEEFF7FFE0F9FCFFBDF3F9FFAEF1F9FFA4EFF8FF8EE6
+        F2FF54D2E1FFC1F4F9FF6FE3EFFF13A9C9F900A0C48A000000000000000000A0
+        C41B01A0C4FC7DD5E5FFCDF6FAFFEAFBFDFFB8F4FBFFB5F4FCFFADF3FBFF9CEE
+        F8FF52CFE0FFA7EFF8FF61CDE0FC00A0C4FA00A0C41B00000000000000000000
+        000000A0C46800A0C4FF83D4E5FEEFFCFDFFCEF7FCFFAFF4FCFFA9F4FCFF9CF0
+        FAFF4ECCDEFF5ECBDFFA00A0C4FF00A0C4640000000000000000000000000000
+        00000000000000A0C46401A0C4FBEEF8FAFFF4FBFCFFE4F9FCFFE4F9FCFFC3ED
+        F4FF18AACAFA00A0C4F800A0C464000000000000000000000000000000000000
+        0000000000000000000000A0C41B02A1C5A404A2C5EA02A1C4FD02A1C4FD03A2
+        C5EA01A1C49800A0C41B00000000000000000000000000000000
+      }
+      OnClick = layoutbtnclick
+    end
+    object checkmi: TMenuItem
+      Caption = 'Layout checking'
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000000000000000000000000000000000007B7E7EA67B7E
+        7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E
+        7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7A7D7DA67B7E7EFFF8F9
+        F9FFF6F7F6FFF9FAF9FFF3F5F4FFEDEEEEFFE8EAE9FFE2E5E4FFDDE1DFFFD8DC
+        DAFFD3D7D5FFCED2D0FFC9CECBFFB1B7B4FFB1B7B4FF7B7E7EFF7B7E7EFFF8F9
+        F9FFBA9981FF874A20FF874A20FF874A20FF874A20FF874A20FF874A20FF874A
+        20FF874A20FF874A20FF874A20FFB59277FFB1B6B4FF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FFA6773DFFAC8042FFB18745FFB78D4AFF8FB494FFBF9554FFBE94
+        52FFBA8F4DFFB58A48FFAF8442FF874A20FFC6CCC9FF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FFA7773DFFAD8042FFB38748FFB98E4DFF91B696FFB0E8E7FF93B8
+        97FF90B596FFB78D4DFFB18445FF874A20FFCACFCCFF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FF83A489FF86AA8CFF8BAE90FF8EB293FFA0CFBFFFF6F1E9FFD9C0
+        98FF8FB494FF8CB091FF89AC8EFF874A20FFCED2D0FF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FFFAF8F5FFFBF8F6FFA7DBD5FF8CB091FFEFE6D8FF9FCEBEFF88E7
+        EEFFF9F6F1FFF9F5F0FFF8F5F0FF874A20FFD1D6D3FF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FF80A185FF84A589FFEDE3D6FF9CCABAFFEFE5D7FF8CB091FF74C7
+        BBFF8BAF90FF89AC8EFF86AA8BFF874A20FFD5D9D7FF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FF9D6E34FF81A487FFA5D9D3FFE1D1BAFFEDE4D6FF89AC8EFFB184
+        45FFAE8342FFAB7E40FFA7793DFF874A20FFD9DCDBFF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FF97662FFF9E6E34FF96C4B6FFF8F4EFFF99C6B7FF85A78BFFAA7C
+        3DFFA87B3DFFA6773DFFA17237FF874A20FFDDE0DEFF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FF90602CFF976631FF7C9E84FFB0EAEDFF80A285FFA3743AFFA374
+        3AFFA27237FF9E7034FF9A6A34FF874A20FFE0E3E2FF7B7E7EFF7B7E7EFFFEFE
+        FEFF874A20FF875926FF8E5D2CFF94622CFF7A9B82FF7C9C82FF9B6C31FF9A6A
+        31FF996A31FF966631FF92622CFF874A20FFE4E7E5FF7B7E7EFF7B7E7EFFF8F9
+        F9FFB59277FF874A20FF874A20FF874A20FF874A20FF874A20FF874A20FF874A
+        20FF874A20FF874A20FF874A20FFB59277FFDBDDDCFF7B7E7EFF7B7E7EFFF8F9
+        F9FFF8F9F8FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFEFEFEFFFAFBFAFFFAFBFAFFFAFBFAFF7B7E7EFF7B7E7EA67B7E
+        7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E
+        7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7B7E7EFF7A7D7DA6
+      }
+      OnClick = checkbtnclick
+    end
+    object wavemi: TMenuItem
+      Caption = 'Layout setup'
+      Bitmap.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000064000000640000000000000000000000A0A0A0849B9B
+        9BFC9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B
+        9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFDA1A1A19B9D9D9DF3FFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9C9C9CFC9D9D9DF7FFFF
+        FFFFEEEEEEFFF0F0F0FFF2F2F2FFF4F4F4FFF6F6F6FFF8F8F8FFFAFAFAFFFBFB
+        FBFFFAFAFAFFF9F9F9FFF7F7F7FFF5F5F5FFFFFFFFFF9C9C9CFC9D9D9DF7FFFF
+        FFFFEDEDEDFF797567FF797567FF797567FF797567FFF1F1F1FF9B9B9BFF9B9B
+        9BFF9B9B9BFF9B9B9BFF9B9B9BFFA0A0A0FFFFFFFFFF9C9C9CFC9D9D9DF7FFFF
+        FFFFECECECFF757164FF757164FF757164FF757164FFEFEFEFFFA5A5A5FFFFFF
+        FFFFFFFFFFFFFFFFFFFFFDFDFDFF9F9F9FFFFFFFFFFF9C9C9CFC9D9D9DF7FFFF
+        FFFFEBEBEBFF6E6A5FFF6E6A5FFF6E6A5FFF6E6A5FFFEDEDEDFFA5A5A5FFFDFE
+        FEFFECEEEEFFEDEFEFFFFDFDFDFF9F9F9FFFFFFFFFFF9C9C9CFC9D9D9DF7FFFF
+        FFFFEAEAEAFF666359FF666359FF666359FF666359FFECECECFFA5A5A5FFFDFE
+        FEFFECEEEEFFEDEFEFFFFDFDFDFF9F9F9FFFFFFFFFFF9C9C9CFC9C9C9CF7FFFF
+        FFFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFFA5A5A5FFFFFF
+        FFFFFFFFFFFFFFFFFFFFFDFDFDFF9F9F9FFFFFFFFFFF9C9C9CFC9C9C9CF7FFFF
+        FFFF9B9B9BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9B9B9BFF9B9B9BFF9B9B
+        9BFF9B9B9BFF9B9B9BFF9B9B9BFFA0A0A0FFFFFFFFFF9C9C9CFC9C9C9CF7FFFF
+        FFFF9B9B9BFFFFFFFFFFECEEEEFFECEEEEFFFFFFFFFF9B9B9BFFECECECFF6764
+        5AFF67645AFF67645AFF67645AFFEAEAEAFFFFFFFFFF9C9C9CFC9C9C9CF7FFFF
+        FFFF9B9B9BFFFFFFFFFFECEEEEFFECEEEEFFFFFFFFFF9B9B9BFFEAEAEAFF5F5D
+        54FF5F5D54FF5F5D54FF5F5D54FFE8E8E8FFFFFFFFFF9C9C9CFC9C9C9CF7FFFF
+        FFFF9B9B9BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9B9B9BFFE8E8E8FF5755
+        4EFF57554EFF57554EFF57554EFFE6E6E6FFFFFFFFFF9C9C9CFC9C9C9CF7FFFF
+        FFFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFF9B9B9BFFE6E6E6FF4F4E
+        48FF4F4E48FF4F4E48FF4F4E48FFE5E5E5FFFFFFFFFF9C9C9CFC9C9C9CF7FFFF
+        FFFFE2E2E2FFE3E3E3FFE4E4E4FFE4E4E4FFE5E5E5FFE6E6E6FFE6E6E6FFE6E6
+        E6FFE6E6E6FFE6E6E6FFE5E5E5FFE5E5E5FFFFFFFFFF9C9C9CFC9D9D9DF1FAFA
+        FAFFFBFBFBFFFBFBFBFFFBFBFBFFFBFBFBFFFBFBFBFFFBFBFBFFFBFBFBFFFBFB
+        FBFFFBFBFBFFFBFBFBFFFBFBFBFFFBFBFBFFFBFBFBFF9C9C9CFB9E9E9E759D9D
+        9DF29C9C9CF79C9C9CF79C9C9CF79C9C9CF79C9C9CF79C9C9CF79C9C9CF79C9C
+        9CF79C9C9CF79C9C9CF79C9C9CF79C9C9CF79D9D9DF49F9F9F8B
+      }
+      OnClick = wavemiclick
+    end
+    object popupn1: TMenuItem
+      Caption = '-'
+    end
+    object aboutmi: TMenuItem
+      Caption = 'About ...'
+      OnClick = aboutmiclick
+    end
   end
 end

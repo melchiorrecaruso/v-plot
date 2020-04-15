@@ -1,7 +1,7 @@
 {
-  Description: vPlot layout app.
+  Description: vPlot report form.
 
-  Copyright (C) 2019 Melchiorre Caruso <melchiorrecaruso@gmail.com>
+  Copyright (C) 2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
   This source is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -19,21 +19,45 @@
   MA 02111-1307, USA.
 }
 
-program vplayout;
+unit reportfrm;
 
 {$mode objfpc}
 
+interface
+
 uses
-  {$ifdef unix} cthreads, {$endif} interfaces, forms, layoutfrm;
+  classes, sysutils, forms, controls, graphics, dialogs,
+  stdctrls, buttons, extctrls;
 
-{$R *.res}
+type
+  { treportform }
 
+  treportform = class(tform)
+    bevel: tbevel;
+    okbtn: tbitbtn;
+    report: tmemo;
+  private
+  public
+    procedure reportclear;
+    procedure reportappend(const s: string);
+  end;
+
+var
+  reportform: treportform;
+
+implementation
+
+{$R *.lfm}
+
+procedure treportform.reportclear;
 begin
-  requirederivedformresource := true;
-  Application.Title:='vPlot - Layout Designer';
-  Application.Scaled:=True;
-  application.initialize;
-  application.createform(tlayoutform, layoutform);
-  application.run;
+  report.clear;
+end;
+
+procedure treportform.reportappend(const s: string);
+begin
+  report.lines.append(s);
+end;
+
 end.
 

@@ -1,5 +1,5 @@
 {
-  Description: Import form class.
+  Description: vPlot import form.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -27,7 +27,7 @@ interface
 
 uses
   classes, sysutils, forms, controls, graphics, dialogs, spin,
-  editbtn, buttons, stdctrls, extctrls;
+  buttons, stdctrls, extctrls;
 
 type
   { timportform }

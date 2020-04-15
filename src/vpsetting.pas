@@ -1,5 +1,5 @@
 {
-  Description: Setting class.
+  Description: vPlot setting class.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -37,17 +37,17 @@ type
     fpoint8: tvppoint;
     fpoint9offset: vpfloat;
     fpoint9factor: vpfloat;
-    fpageheight:   vpfloat;
-    fpagewidth:    vpfloat;
-    // x-motor
-    fmxradius: vpfloat;
-    fmxratio:  vpfloat;
-    // y-motor
-    fmyradius: vpfloat;
-    fmyratio:  vpfloat;
-    // z-motor
-    fmzmin: longint;
-    fmzmax: longint;
+    fpageheight: vpfloat;
+    fpagewidth:  vpfloat;
+    // pulley-0
+    fpulley0radius: vpfloat;
+    fpulley0ratio:  vpfloat;
+    // pulley-1
+    fpulley1radius: vpfloat;
+    fpulley1ratio:  vpfloat;
+    // servo-z
+    fservozmin: longint;
+    fservozmax: longint;
     // ramps
     frampkb: longint;
     frampkl: longint;
@@ -67,44 +67,67 @@ type
  public
     constructor create;
     destructor destroy; override;
-    procedure load;
+    procedure load(const filename: string);
+    procedure save(const filename: string);
  public
-    property point0:       tvppoint read fpoint0       write fpoint0;
-    property point1:       tvppoint read fpoint1       write fpoint1;
-    property point8:       tvppoint read fpoint8       write fpoint8;
-    property point9offset: vpfloat  read fpoint9offset write fpoint9offset;
-    property point9factor: vpfloat  read fpoint9factor write fpoint9factor;
-    property pageheight:   vpfloat  read fpageheight;
-    property pagewidth:    vpfloat  read fpagewidth;
+    property point0: tvppoint read fpoint0 write fpoint0;
+    property point1: tvppoint read fpoint1 write fpoint1;
+    property point8: tvppoint read fpoint8 write fpoint8;
+    property point9offset: vpfloat read fpoint9offset write fpoint9offset;
+    property point9factor: vpfloat read fpoint9factor write fpoint9factor;
+    property pageheight: vpfloat read fpageheight write fpageheight;
+    property pagewidth:  vpfloat read fpagewidth  write fpagewidth;
 
-    property mxradius:     vpfloat read fmxradius write fmxradius;
-    property mxratio:      vpfloat read fmxratio  write fmxratio;
-    property myradius:     vpfloat read fmyradius write fmyradius;
-    property myratio:      vpfloat read fmyratio  write fmyratio;
-    property mzmin:        longint read fmzmin;
-    property mzmax:        longint read fmzmax;
+    property pulley0radius: vpfloat read fpulley0radius write fpulley0radius;
+    property pulley0ratio:  vpfloat read fpulley0ratio  write fpulley0ratio;
+    property pulley1radius: vpfloat read fpulley1radius write fpulley1radius;
+    property pulley1ratio:  vpfloat read fpulley1ratio  write fpulley1ratio;
+    property servozmin: longint read fservozmin write fservozmin;
+    property servozmax: longint read fservozmax write fservozmax;
 
-    property rampkb:       longint read frampkb;
-    property rampkl:       longint read frampkl;
-    property rampkm:       longint read frampkm;
+    property rampkb: longint read frampkb write frampkb;
+    property rampkl: longint read frampkl write frampkl;
+    property rampkm: longint read frampkm write frampkm;
 
-    property wavepoint0: tvppoint read fwavepoint0;
-    property wavepoint1: tvppoint read fwavepoint1;
-    property wavepoint2: tvppoint read fwavepoint2;
-    property wavepoint3: tvppoint read fwavepoint3;
-    property wavepoint4: tvppoint read fwavepoint4;
-    property wavepoint5: tvppoint read fwavepoint5;
-    property wavepoint6: tvppoint read fwavepoint6;
-    property wavepoint7: tvppoint read fwavepoint7;
-    property wavepoint8: tvppoint read fwavepoint8;
-    property wavescale:  vpfloat  read fwavescale;
-    property waveoff:    longint  read fwaveoff;
+    property wavepoint0: tvppoint read fwavepoint0 write fwavepoint0;
+    property wavepoint1: tvppoint read fwavepoint1 write fwavepoint1;
+    property wavepoint2: tvppoint read fwavepoint2 write fwavepoint2;
+    property wavepoint3: tvppoint read fwavepoint3 write fwavepoint3;
+    property wavepoint4: tvppoint read fwavepoint4 write fwavepoint4;
+    property wavepoint5: tvppoint read fwavepoint5 write fwavepoint5;
+    property wavepoint6: tvppoint read fwavepoint6 write fwavepoint6;
+    property wavepoint7: tvppoint read fwavepoint7 write fwavepoint7;
+    property wavepoint8: tvppoint read fwavepoint8 write fwavepoint8;
+    property wavescale:  vpfloat  read fwavescale  write fwavescale;
+    property waveoff:    longint  read fwaveoff    write fwaveoff;
  end;
 
-var
-  setting:  tvpsetting = nil;
+
+function getsettingfilename(useglobal: boolean): string;
+
 
 implementation
+
+
+function getsettingfilename(useglobal: boolean): string;
+begin
+  result := includetrailingbackslash(getappconfigdir(false)) + 'vplot.ini';
+
+  if useglobal and (not fileexists(result)) then
+  begin
+    {$IFDEF MSWINDOWS}
+    result := extractfilepath(paramstr(0)) + 'vplot.ini';
+    {$ELSE}
+    {$IFDEF UNIX}
+    result := '/opt/vplot/vplot.ini';
+    {$ELSE}
+    result := '';
+    {$ENDIF}
+    {$ENDIF}
+  end;
+end;
+
+// tvpsetting
 
 constructor tvpsetting.create;
 begin
@@ -116,47 +139,41 @@ begin
   inherited destroy;
 end;
 
-procedure tvpsetting.load;
+procedure tvpsetting.load(const filename: string);
 var
   ini: tinifile;
-  ininame: string;
 begin
-  {$IFDEF MSWINDOWS}
-  ininame := changefileext(paramstr(0), '.ini');
-  {$ENDIF}
-  {$IFDEF UNIX}
-  ininame := '/opt/vplot/vplot.ini';
-  {$ENDIF}
-  if fileexists(ininame) = false then
+  if fileexists(filename) = false then
   begin
     messagedlg('vPlot Client', 'Setting file not found !', mterror, [mbok], 0);
   end else
   begin
-    ini := tinifile.create(ininame);
+    ini := tinifile.create(filename);
     ini.formatsettings.decimalseparator := '.';
     ini.options := [ifoformatsettingsactive];
 
-    fpoint0.x     := ini.readfloat('LAYOUT', 'POINT0.X',       0);
-    fpoint0.y     := ini.readfloat('LAYOUT', 'POINT0.Y',       0);
-    fpoint1.x     := ini.readfloat('LAYOUT', 'POINT1.X',       0);
-    fpoint1.y     := ini.readfloat('LAYOUT', 'POINT1.Y',       0);
-    fpoint8.x     := ini.readfloat('LAYOUT', 'POINT8.X',       0);
-    fpoint8.y     := ini.readfloat('LAYOUT', 'POINT8.Y',       0);
-    fpoint9offset := ini.readfloat('LAYOUT', 'POINT9.OFFSET',  0);
-    fpoint9factor := ini.readfloat('LAYOUT', 'POINT9.FACTOR',  0);
-    fpageheight   := ini.readfloat('LAYOUT', 'PAGE.HEIGHT',    0);
-    fpagewidth    := ini.readfloat('LAYOUT', 'PAGE.WIDTH',     0);
+    fpoint0.x     := ini.readfloat('LAYOUT', 'POINT0.X',      0);
+    fpoint0.y     := ini.readfloat('LAYOUT', 'POINT0.Y',      0);
+    fpoint1.x     := ini.readfloat('LAYOUT', 'POINT1.X',      0);
+    fpoint1.y     := ini.readfloat('LAYOUT', 'POINT1.Y',      0);
+    fpoint8.x     := ini.readfloat('LAYOUT', 'POINT8.X',      0);
+    fpoint8.y     := ini.readfloat('LAYOUT', 'POINT8.Y',      0);
+    fpoint9offset := ini.readfloat('LAYOUT', 'POINT9.OFFSET', 0);
+    fpoint9factor := ini.readfloat('LAYOUT', 'POINT9.FACTOR', 0);
 
-    fmxradius     := ini.readfloat  ('X-AXIS', 'RADIUS', 0);
-    fmxratio      := ini.readfloat  ('X-AXIS', 'RATIO',  0);
-    fmyradius     := ini.readfloat  ('Y-AXIS', 'RADIUS', 0);
-    fmyratio      := ini.readfloat  ('Y-AXIS', 'RATIO',  0);
-    fmzmin        := ini.readinteger('Z-AXIS', 'MIN',    0);
-    fmzmax        := ini.readinteger('Z-AXIS', 'MAX',    0);
+    fpulley0radius := ini.readfloat  ('PULLEY-0', 'RADIUS', 0);
+    fpulley0ratio  := ini.readfloat  ('PULLEY-0', 'RATIO',  0);
+    fpulley1radius := ini.readfloat  ('PULLEY-1', 'RADIUS', 0);
+    fpulley1ratio  := ini.readfloat  ('PULLEY-1', 'RATIO',  0);
+    fservozmin     := ini.readinteger('SERVO-Z',  'MIN',    0);
+    fservozmax     := ini.readinteger('SERVO-Z',  'MAX',    0);
 
-    frampkb       := ini.readinteger('RAMP','KB', 0);
-    frampkl       := ini.readinteger('RAMP','KL', 0);
-    frampkm       := ini.readinteger('RAMP','KM', 0);
+    fpageheight := ini.readfloat('PAGE', 'HEIGHT', 0);
+    fpagewidth  := ini.readfloat('PAGE', 'WIDTH',  0);
+
+    frampkb := ini.readinteger('RAMP','KB', 0);
+    frampkl := ini.readinteger('RAMP','KL', 0);
+    frampkm := ini.readinteger('RAMP','KM', 0);
 
     fwavepoint0.x := ini.readfloat  ('WAVE', 'POINT0.X', 0);
     fwavepoint0.y := ini.readfloat  ('WAVE', 'POINT0.Y', 0);
@@ -178,42 +195,95 @@ begin
     fwavepoint8.y := ini.readfloat  ('WAVE', 'POINT8.Y', 0);
     fwavescale    := ini.readfloat  ('WAVE', 'SCALE',    0);
     fwaveoff      := ini.readinteger('WAVE', 'OFF',      0);
+    {$IFOPT D+}
+    writeln(format('LAYOUT::PNT0.X      = %12.5f  PNT0.Y = %12.5f', [fpoint0.x, fpoint0.y]));
+    writeln(format('LAYOUT::PNT1.X      = %12.5f  PNT1.Y = %12.5f', [fpoint1.x, fpoint1.y]));
+    writeln(format('LAYOUT::PNT8.X      = %12.5f  PNT8.Y = %12.5f', [fpoint8.x, fpoint8.y]));
+    writeln(format('LAYOUT::PNT9.OFFSET = %12.5f', [fpoint9offset]));
+    writeln(format('LAYOUT::PNT9.FACTOR = %12.5f', [fpoint9factor]));
 
-    if enabledebug then
-    begin
-      writeln(format('LAYOUT::PNT0.X      = %12.5f  PNT0.Y = %12.5f', [fpoint0.x, fpoint0.y]));
-      writeln(format('LAYOUT::PNT1.X      = %12.5f  PNT1.Y = %12.5f', [fpoint1.x, fpoint1.y]));
-      writeln(format('LAYOUT::PNT8.X      = %12.5f  PNT8.Y = %12.5f', [fpoint8.x, fpoint8.y]));
-      writeln(format('LAYOUT::PNT9.OFFSET = %12.5f', [fpoint9offset]));
-      writeln(format('LAYOUT::PNT9.FACTOR = %12.5f', [fpoint9factor]));
-      writeln(format('LAYOUT::PAGE.HEIGHT = %12.5f', [fpageheight]));
-      writeln(format('LAYOUT::PAGE.WIDTH  = %12.5f', [fpagewidth ]));
+    writeln(format('PLLY-0::RADIUS      = %12.5f', [fpulley0radius]));
+    writeln(format('PLLY-0::RATIO       = %12.5f', [fpulley0ratio ]));
+    writeln(format('PLLY-1::RADIUS      = %12.5f', [fpulley1radius]));
+    writeln(format('PLLY-1::RATIO       = %12.5f', [fpulley1ratio ]));
+    writeln(format(' SRV-Z::MIN         = %12.5u', [fservozmin    ]));
+    writeln(format(' SRV-Z::MAX         = %12.5u', [fservozmax    ]));
 
-      writeln(format('X-AXIS::RADIUS      = %12.5f', [fmxradius ]));
-      writeln(format('X-AXIS::RATIO       = %12.5f', [fmxratio  ]));
-      writeln(format('Y-AXIS::RADIUS      = %12.5f', [fmyradius ]));
-      writeln(format('Y-AXIS::RATIO       = %12.5f', [fmyratio  ]));
-      writeln(format('Z-AXIS::MIN         = %12.5u', [fmzmin    ]));
-      writeln(format('Z-AXIS::MAX         = %12.5u', [fmzmax    ]));
+    writeln(format('  PAGE::HEIGHT      = %12.5f', [fpageheight]));
+    writeln(format('  PAGE::WIDTH       = %12.5f', [fpagewidth ]));
 
-      writeln(format('  RAMP::KB          = %12.5u', [frampkb]));
-      writeln(format('  RAMP::KL          = %12.5u', [frampkl]));
-      writeln(format('  RAMP::KM          = %12.5u', [frampkm]));
+    writeln(format('  RAMP::KB          = %12.5u', [frampkb]));
+    writeln(format('  RAMP::KL          = %12.5u', [frampkl]));
+    writeln(format('  RAMP::KM          = %12.5u', [frampkm]));
 
-      writeln(format('  WAVE::PNT0.X      = %12.5f  PNT0.Y = %12.5f', [fwavepoint0.x, fwavepoint0.y]));
-      writeln(format('  WAVE::PNT1.X      = %12.5f  PNT1.Y = %12.5f', [fwavepoint1.x, fwavepoint1.y]));
-      writeln(format('  WAVE::PNT2.X      = %12.5f  PNT2.Y = %12.5f', [fwavepoint2.x, fwavepoint2.y]));
-      writeln(format('  WAVE::PNT3.X      = %12.5f  PNT3.Y = %12.5f', [fwavepoint3.x, fwavepoint3.y]));
-      writeln(format('  WAVE::PNT4.X      = %12.5f  PNT4.Y = %12.5f', [fwavepoint4.x, fwavepoint4.y]));
-      writeln(format('  WAVE::PNT5.X      = %12.5f  PNT5.Y = %12.5f', [fwavepoint5.x, fwavepoint5.y]));
-      writeln(format('  WAVE::PNT6.X      = %12.5f  PNT6.Y = %12.5f', [fwavepoint6.x, fwavepoint6.y]));
-      writeln(format('  WAVE::PNT7.X      = %12.5f  PNT7.Y = %12.5f', [fwavepoint7.x, fwavepoint7.y]));
-      writeln(format('  WAVE::PNT8.X      = %12.5f  PNT8.Y = %12.5f', [fwavepoint8.x, fwavepoint8.y]));
-      writeln(format('  WAVE::SCALE       = %12.5f', [fwavescale]));
-      writeln(format('  WAVE::OFF         = %12.5u', [fwaveoff  ]));
-    end;
+    writeln(format('  WAVE::PNT0.X      = %12.5f  PNT0.Y = %12.5f', [fwavepoint0.x, fwavepoint0.y]));
+    writeln(format('  WAVE::PNT1.X      = %12.5f  PNT1.Y = %12.5f', [fwavepoint1.x, fwavepoint1.y]));
+    writeln(format('  WAVE::PNT2.X      = %12.5f  PNT2.Y = %12.5f', [fwavepoint2.x, fwavepoint2.y]));
+    writeln(format('  WAVE::PNT3.X      = %12.5f  PNT3.Y = %12.5f', [fwavepoint3.x, fwavepoint3.y]));
+    writeln(format('  WAVE::PNT4.X      = %12.5f  PNT4.Y = %12.5f', [fwavepoint4.x, fwavepoint4.y]));
+    writeln(format('  WAVE::PNT5.X      = %12.5f  PNT5.Y = %12.5f', [fwavepoint5.x, fwavepoint5.y]));
+    writeln(format('  WAVE::PNT6.X      = %12.5f  PNT6.Y = %12.5f', [fwavepoint6.x, fwavepoint6.y]));
+    writeln(format('  WAVE::PNT7.X      = %12.5f  PNT7.Y = %12.5f', [fwavepoint7.x, fwavepoint7.y]));
+    writeln(format('  WAVE::PNT8.X      = %12.5f  PNT8.Y = %12.5f', [fwavepoint8.x, fwavepoint8.y]));
+    writeln(format('  WAVE::SCALE       = %12.5f', [fwavescale]));
+    writeln(format('  WAVE::OFF         = %12.5u', [fwaveoff  ]));
+    {$ENDIF}
     ini.destroy;
   end;
+end;
+
+procedure tvpsetting.save(const filename: string);
+var
+  ini: tinifile;
+begin
+  ini := tinifile.create(filename);
+  ini.formatsettings.decimalseparator := '.';
+  ini.options := [ifoformatsettingsactive];
+
+  ini.writefloat('LAYOUT', 'POINT0.X',      fpoint0.x);
+  ini.writefloat('LAYOUT', 'POINT0.Y',      fpoint0.y);
+  ini.writefloat('LAYOUT', 'POINT1.X',      fpoint1.x);
+  ini.writefloat('LAYOUT', 'POINT1.Y',      fpoint1.y);
+  ini.writefloat('LAYOUT', 'POINT8.X',      fpoint8.x);
+  ini.writefloat('LAYOUT', 'POINT8.Y',      fpoint8.y);
+  ini.writefloat('LAYOUT', 'POINT9.OFFSET', fpoint9offset);
+  ini.writefloat('LAYOUT', 'POINT9.FACTOR', fpoint9factor);
+
+  ini.writefloat  ('PULLEY-0', 'RADIUS', fpulley0radius);
+  ini.writefloat  ('PULLEY-0', 'RATIO',  fpulley0ratio);
+  ini.writefloat  ('PULLEY-1', 'RADIUS', fpulley1radius);
+  ini.writefloat  ('PULLEY-1', 'RATIO',  fpulley1ratio);
+  ini.writeinteger('SERVO-Z',  'MIN',    fservozmin);
+  ini.writeinteger('SERVO-Z',  'MAX',    fservozmax);
+
+  ini.writefloat('PAGE', 'HEIGHT', fpageheight);
+  ini.writefloat('PAGE', 'WIDTH',  fpagewidth);
+
+  ini.writeinteger('RAMP','KB', frampkb);
+  ini.writeinteger('RAMP','KL', frampkl);
+  ini.writeinteger('RAMP','KM', frampkm);
+
+  ini.writefloat  ('WAVE', 'POINT0.X', fwavepoint0.x);
+  ini.writefloat  ('WAVE', 'POINT0.Y', fwavepoint0.y);
+  ini.writefloat  ('WAVE', 'POINT1.X', fwavepoint1.x);
+  ini.writefloat  ('WAVE', 'POINT1.Y', fwavepoint1.y);
+  ini.writefloat  ('WAVE', 'POINT2.X', fwavepoint2.x);
+  ini.writefloat  ('WAVE', 'POINT2.Y', fwavepoint2.y);
+  ini.writefloat  ('WAVE', 'POINT3.X', fwavepoint3.x);
+  ini.writefloat  ('WAVE', 'POINT3.Y', fwavepoint3.y);
+  ini.writefloat  ('WAVE', 'POINT4.X', fwavepoint4.x);
+  ini.writefloat  ('WAVE', 'POINT4.Y', fwavepoint4.y);
+  ini.writefloat  ('WAVE', 'POINT5.X', fwavepoint5.x);
+  ini.writefloat  ('WAVE', 'POINT5.Y', fwavepoint5.y);
+  ini.writefloat  ('WAVE', 'POINT6.X', fwavepoint6.x);
+  ini.writefloat  ('WAVE', 'POINT6.Y', fwavepoint6.y);
+  ini.writefloat  ('WAVE', 'POINT7.X', fwavepoint7.x);
+  ini.writefloat  ('WAVE', 'POINT7.Y', fwavepoint7.y);
+  ini.writefloat  ('WAVE', 'POINT8.X', fwavepoint8.x);
+  ini.writefloat  ('WAVE', 'POINT8.Y', fwavepoint8.y);
+  ini.writefloat  ('WAVE', 'SCALE',    fwavescale);
+  ini.writeinteger('WAVE', 'OFF',      fwaveoff);
+  ini.destroy;
 end;
 
 end.

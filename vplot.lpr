@@ -1,5 +1,5 @@
 {
-  Description: vPlotter Client application.
+  Description: vPlot Client application.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -24,17 +24,23 @@ program vplot;
 {$mode objfpc}
 
 uses
- {$ifdef unix} cthreads, {$endif} interfaces, forms, lazcontrols,
- mainfrm, aboutfrm, importfrm, vpdriver, vputils;
+ {$ifdef unix} cthreads, {$endif} interfaces, lazcontrols, forms, mainfrm,
+  checkfrm, importfrm, layoutfrm, reportfrm, aboutfrm, settingfrm;
 
 {$R *.res}
 
 begin
   requirederivedformresource := true;
-  application.scaled :=true;
-  application.title :='vPlot Client';
+  application.scaled := true;
+  application.title := 'vPlot Client';
   application.initialize;
-  application.createform(tmainform, mainform);
+  application.createform(tmainform,    mainform);
+  application.createform(tcheckform,   checkform);
+  application.createform(timportform,  importform);
+  application.createform(tlayoutform,  layoutform);
+  application.createform(treportform,  reportform);
+  application.createform(taboutform,   aboutform);
+  application.createform(tsettingform, settingform);
   application.run;
 end.
 

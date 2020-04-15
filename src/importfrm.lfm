@@ -7,6 +7,7 @@ object importform: Timportform
   Caption = 'Import ...'
   ClientHeight = 220
   ClientWidth = 345
+  Color = clWindow
   Constraints.MaxHeight = 220
   Constraints.MaxWidth = 345
   Constraints.MinHeight = 220
@@ -20,8 +21,8 @@ object importform: Timportform
     AnchorSideRight.Control = imcb
     AnchorSideRight.Side = asrBottom
     Left = 176
-    Height = 28
-    Top = 51
+    Height = 23
+    Top = 48
     Width = 154
     Alignment = taRightJustify
     Anchors = [akTop, akRight]
@@ -36,8 +37,8 @@ object importform: Timportform
     AnchorSideRight.Control = imcb
     AnchorSideRight.Side = asrBottom
     Left = 176
-    Height = 28
-    Top = 127
+    Height = 23
+    Top = 114
     Width = 154
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight]
@@ -68,13 +69,13 @@ object importform: Timportform
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     Left = 120
-    Height = 26
+    Height = 23
     Top = 15
     Width = 210
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 15
     BorderSpacing.Right = 15
-    ItemHeight = 0
+    ItemHeight = 15
     Items.Strings = (
       'Raster graphics - Square wave'
       'Raster graphics - Rounded square wave'
@@ -90,7 +91,7 @@ object importform: Timportform
     AnchorSideBottom.Control = imcb
     AnchorSideBottom.Side = asrBottom
     Left = 15
-    Height = 26
+    Height = 23
     Top = 15
     Width = 95
     Anchors = [akTop, akLeft, akRight, akBottom]
@@ -107,8 +108,8 @@ object importform: Timportform
     AnchorSideBottom.Control = ipwse
     AnchorSideBottom.Side = asrBottom
     Left = 15
-    Height = 28
-    Top = 51
+    Height = 23
+    Top = 48
     Width = 151
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 10
@@ -123,8 +124,8 @@ object importform: Timportform
     AnchorSideBottom.Control = pwse
     AnchorSideBottom.Side = asrBottom
     Left = 15
-    Height = 28
-    Top = 89
+    Height = 23
+    Top = 81
     Width = 151
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 10
@@ -139,8 +140,8 @@ object importform: Timportform
     AnchorSideBottom.Control = dsfse
     AnchorSideBottom.Side = asrBottom
     Left = 15
-    Height = 28
-    Top = 127
+    Height = 23
+    Top = 114
     Width = 151
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 10
@@ -170,8 +171,8 @@ object importform: Timportform
     AnchorSideRight.Control = imcb
     AnchorSideRight.Side = asrBottom
     Left = 176
-    Height = 28
-    Top = 89
+    Height = 23
+    Top = 81
     Width = 154
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight]

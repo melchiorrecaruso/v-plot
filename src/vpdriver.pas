@@ -1,5 +1,5 @@
 {
-  Description: Driver class.
+  Description: vPlot driver class.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -50,6 +50,7 @@ type
     frampkl: longint;
     frampkm: longint;
     fserial: tvpserialstream;
+    fsetting: tvpsetting;
     fstream: tmemorystream;
     fxcount: longint;
     fycount: longint;
@@ -61,46 +62,54 @@ type
     fontick: tthreadmethod;
     procedure createramps;
   public
-    constructor create(aserial: tvpserialstream);
+    constructor create(asetting: tvpsetting; aserial: tvpserialstream);
     destructor destroy; override;
     procedure init;
     procedure move(cx, cy: longint);
     procedure movez(cz: longint);
     procedure execute; override;
   published
-    property enabled: boolean       read fenabled write fenabled;
-    property message: string        read fmessage;
+    property enabled: boolean read fenabled write fenabled;
+    property message: string  read fmessage;
     property onerror: tthreadmethod read fonerror write fonerror;
     property oninit:  tthreadmethod read foninit  write foninit;
     property onstart: tthreadmethod read fonstart write fonstart;
     property onstop:  tthreadmethod read fonstop  write fonstop;
     property ontick:  tthreadmethod read fontick  write fontick;
-    property xcount:  longint       read fxcount;
-    property ycount:  longint       read fycount;
-    property zcount:  longint       read fzcount;
+    property xcount:  longint read fxcount;
+    property ycount:  longint read fycount;
+    property zcount:  longint read fzcount;
   end;
 
+const
+  driverloop = 7;
+
+type
   tvpdriverengine = class
   private
+    fiteration:      longint;
+    fiterationlimit: longint;
+    fpoints: array[0..1, 0..driverloop] of tvppoint;
     fsetting: tvpsetting;
-    fpage: array[0..2, 0..2] of tvppoint;
+    function getangle(const a0, a1: vpfloat; index: longint): vpfloat;
+    procedure calcpointinternal(const lx, ly: vpfloat;
+      out p: tvppoint; const a0, a1, b0, b1: vpfloat);
   public
     constructor create(asetting: tvpsetting);
     destructor destroy; override;
     function  calclength0(const p, t0: tvppoint; r0: vpfloat): vpfloat;
     function  calclength1(const p, t1: tvppoint; r1: vpfloat): vpfloat;
     procedure calclengths(const p: tvppoint; out lx, ly: vpfloat);
-    procedure calcsteps  (const p: tvppoint; out cx, cy: longint);
-    procedure debug;
+    procedure calcsteps(const p: tvppoint; out cx, cy: longint);
+    procedure calcpoint(const lx, ly: vpfloat; out p: tvppoint);
   end;
 
 
   function serverget(serial: tvpserialstream; id: byte; var value: longint): boolean;
   function serverset(serial: tvpserialstream; id: byte;     value: longint): boolean;
 
-var
-  driver:       tvpdriver       = nil;
-  driverengine: tvpdriverengine = nil;
+  procedure driverenginedebug(adriverengine: tvpdriverengine);
+
 
 implementation
 
@@ -140,32 +149,13 @@ begin
   end;
 end;
 
-// calculate belt lengths
+// tvpdriverengine
 
 constructor tvpdriverengine.create(asetting: tvpsetting);
 begin
   inherited create;
-  fsetting      :=  asetting;
-  fpage[0, 0].x := -fsetting.pagewidth  / 2;
-  fpage[0, 0].y := +fsetting.pageheight / 2;
-  fpage[0, 1].x := +0.000;
-  fpage[0, 1].y := +fsetting.pageheight / 2;
-  fpage[0, 2].x := +fsetting.pagewidth  / 2;
-  fpage[0, 2].y := +fsetting.pageheight / 2;
-
-  fpage[1, 0].x := -fsetting.pagewidth  / 2;
-  fpage[1, 0].y := +0.000;
-  fpage[1, 1].y := +0.000;
-  fpage[1, 1].y := +0.000;
-  fpage[1, 2].x := +0.000;
-  fpage[1, 2].x := +fsetting.pagewidth  / 2;
-
-  fpage[2, 0].x := -fsetting.pagewidth  / 2;
-  fpage[2, 0].y := -fsetting.pageheight / 2;
-  fpage[2, 1].x := +0.000;
-  fpage[2, 1].y := -fsetting.pageheight / 2;
-  fpage[2, 2].x := +fsetting.pagewidth  / 2;
-  fpage[2, 2].y := -fsetting.pageheight / 2;
+  fiterationlimit := 50;
+  fsetting :=  asetting;
 end;
 
 destructor tvpdriverengine.destroy;
@@ -213,76 +203,174 @@ var
       t0, t1: tvppoint;
 begin
   //find tangent point t0
-  t0 := setting.point0;
-  lx := sqrt(sqr(distance_between_two_points(t0, p))-sqr(setting.mxradius));
-  c0 := circle_by_center_and_radius(t0, setting.mxradius);
+  t0 := fsetting.point0;
+  lx := sqrt(sqr(distance_between_two_points(t0, p))-sqr(fsetting.pulley0radius));
+  c0 := circle_by_center_and_radius(t0, fsetting.pulley0radius);
   cx := circle_by_center_and_radius(p, lx);
   if intersection_of_two_circles(c0, cx, s0, sx) = 0 then
     raise exception.create('intersection_of_two_circles [c0c2]');
   a0 := angle(line_by_two_points(s0, t0));
-  lx := lx + a0*setting.mxradius;
+  lx := lx + a0*fsetting.pulley0radius;
   //find tangent point t1
-  t1 := setting.point1;
-  ly := sqrt(sqr(distance_between_two_points(t1, p))-sqr(setting.myradius));
-  c1 := circle_by_center_and_radius(t1, setting.myradius);
+  t1 := fsetting.point1;
+  ly := sqrt(sqr(distance_between_two_points(t1, p))-sqr(fsetting.pulley1radius));
+  c1 := circle_by_center_and_radius(t1, fsetting.pulley1radius);
   cx := circle_by_center_and_radius(p, ly);
   if intersection_of_two_circles(c1, cx, s1, sx) = 0 then
     raise exception.create('intersection_of_two_circles [c1c2]');
   a1 := pi-angle(line_by_two_points(s1, t1));
-  ly := ly + a1*setting.myradius;
+  ly := ly + a1*fsetting.pulley1radius;
 end;
 
 procedure tvpdriverengine.calcsteps(const p: tvppoint; out cx, cy: longint);
 var
-  lx, ly: vpfloat;
+  lx: vpfloat;
+  ly: vpfloat;
 begin
   calclengths(p, lx, ly);
   // calculate steps
-  cx := round(lx/setting.mxratio);
-  cy := round(ly/setting.myratio);
+  cx := round(lx/fsetting.pulley0ratio);
+  cy := round(ly/fsetting.pulley1ratio);
 end;
 
-procedure tvpdriverengine.debug;
-const
-  str = '  CALC::PNT.X       = %12.5f  PNT.Y  = %12.5f  |  LX = %12.5f  LY = %12.5f' ;
+function tvpdriverengine.getangle(const a0, a1: vpfloat; index: longint): vpfloat;
+begin
+  result := a0+((a1-a0)/driverloop)*index;
+end;
+
+procedure tvpdriverengine.calcpointinternal(const lx, ly: vpfloat;
+  out p: tvppoint; const a0, a1, b0, b1: vpfloat);
 var
-  i: longint;
-  j: longint;
-  lx: vpfloat;
-  ly: vpfloat;
+  e1, e2: vpfloat;
+     ang: vpfloat;
+  i1, j1: longint;
+  i2, j2: longint;
+       t: tvppoint;
+       a: array[0..1] of vpfloat;
+       b: array[0..1] of vpfloat;
+begin
+  inc(fiteration);
+  for i1 := 0 to driverloop do
+  begin
+    ang := getangle(a0, a1, i1);
+    t.x := -fsetting.pulley0radius;
+    t.y := -lx + (ang * fsetting.pulley0radius);
+    rotate(t, ang);
+    move(t, fsetting.point0.x,
+            fsetting.point0.y);
+    fpoints[0, i1] := t;
+
+    ang := getangle(b0, b1, i1);
+    t.x := +fsetting.pulley1radius;
+    t.y := -ly + (ang * fsetting.pulley1radius);
+    rotate(t, -ang);
+    move(t, fsetting.point1.x,
+            fsetting.point1.y);
+    fpoints[1, i1] := t;
+  end;
+
+  i2 := 0;
+  j2 := 0;
+  e1 := $FFFFFFF;
+  for i1 := 0 to driverloop do
+  begin
+    for j1 := 0 to driverloop do
+    begin
+      e2 := distance_between_two_points(fpoints[0, i1], fpoints[1, j1]);
+      if e1 > e2 then
+      begin
+        e1 := e2;
+        i2 := i1;
+        j2 := j1;
+      end;
+    end;
+  end;
+
+  p.x := (fpoints[0, i2].x + fpoints[1, j2].x) / 2;
+  p.y := (fpoints[0, i2].y + fpoints[1, j2].y) / 2;
+
+  if e1 > 0.01 then
+    if fiteration < fiterationlimit then
+    begin
+      a[0] := getangle(a0, a1, max(0, i2-1));
+      b[0] := getangle(b0, b1, max(0, j2-1));
+      a[1] := getangle(a0, a1, min(i2+1, driverloop));
+      b[1] := getangle(b0, b1, min(j2+1, driverloop));
+      calcpointinternal(lx, ly, p, a[0], a[1], b[0], b[1]);
+    end;
+end;
+
+procedure tvpdriverengine.calcpoint(const lx, ly: vpfloat; out p: tvppoint);
+var
+  a0, a1: vpfloat;
+  b0, b1: vpfloat;
+begin
+  fiteration   := 0;
+  a0 := 0;  a1 := pi/2;
+  b0 := 0;  b1 := pi/2;
+  calcpointinternal(lx, ly, p, a0, a1, b0, b1);
+end;
+
+procedure driverenginedebug(adriverengine: tvpdriverengine);
+var
+    i,  j: longint;
+   lx, ly: vpfloat;
   offsetx: vpfloat;
   offsety: vpfloat;
-  p: tvppoint;
+     page: array[0..2, 0..2] of tvppoint;
+       pp: tvppoint;
 begin
-  if enabledebug then
+  page[0, 0].x := -adriverengine.fsetting.pagewidth  / 2;
+  page[0, 0].y := +adriverengine.fsetting.pageheight / 2;
+  page[0, 1].x := +0;
+  page[0, 1].y := +adriverengine.fsetting.pageheight / 2;
+  page[0, 2].x := +adriverengine.fsetting.pagewidth  / 2;
+  page[0, 2].y := +adriverengine.fsetting.pageheight / 2;
+
+  page[1, 0].x := -adriverengine.fsetting.pagewidth  / 2;
+  page[1, 0].y := +0;
+  page[1, 1].y := +0;
+  page[1, 1].y := +0;
+  page[1, 2].x := +0;
+  page[1, 2].x := +adriverengine.fsetting.pagewidth  / 2;
+
+  page[2, 0].x := -adriverengine.fsetting.pagewidth  / 2;
+  page[2, 0].y := -adriverengine.fsetting.pageheight / 2;
+  page[2, 1].x := +0;
+  page[2, 1].y := -adriverengine.fsetting.pageheight / 2;
+  page[2, 2].x := +adriverengine.fsetting.pagewidth  / 2;
+  page[2, 2].y := -adriverengine.fsetting.pageheight / 2;
+
+  with adriverengine.fsetting do
   begin
-    offsetx := fsetting.point8.x;
-    offsety := fsetting.point8.y +
-      (fsetting.pageheight)*fsetting.point9factor + fsetting.point9offset;
-
-    for i := 0 to 2 do
-      for j := 0 to 2 do
-      begin
-        p   := fpage[i, j];
-        p.x := p.x + offsetx;
-        p.y := p.y + offsety;
-        calclengths(p, lx, ly);
-
-        writeln(format(str, [p.x, p.y, lx, ly]));
-      end;
+    offsetx := point8.x;
+    offsety := point8.y + (pageheight)*point9factor + point9offset;
   end;
+
+  for i := 0 to 2 do
+    for j := 0 to 2 do
+    begin
+      pp   := page[i, j];
+      pp.x := pp.x + offsetx;
+      pp.y := pp.y + offsety;
+      adriverengine.calclengths(pp, lx, ly);
+
+      writeln(format('  CALC::PNT.X       = %12.5f  PNT.Y  = %12.5f  |  ' +
+                     'LX = %12.5f  LY = %12.5f', [pp.x, pp.y, lx, ly]));
+    end;
 end;
 
 // tvpdriver
 
-constructor tvpdriver.create(aserial: tvpserialstream);
+constructor tvpdriver.create(asetting: tvpsetting; aserial: tvpserialstream);
 begin
   fenabled := true;
   fmessage := '';
-  frampkb  := setting.rampkb;
-  frampkl  := setting.rampkl;
-  frampkm  := setting.rampkm;
+  frampkb  := fsetting.rampkb;
+  frampkl  := fsetting.rampkl;
+  frampkm  := fsetting.rampkm;
   fserial  := aserial;
+  fsetting := asetting;
   fstream  := tmemorystream.create;
   fxcount  := 0;
   fycount  := 0;
@@ -299,7 +387,8 @@ end;
 
 destructor tvpdriver.destroy;
 begin
-  fserial := nil;
+  fserial  := nil;
+  fsetting := nil;
   fstream.clear;
   fstream.destroy;
   inherited destroy;

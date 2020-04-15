@@ -1,5 +1,5 @@
 {
-  Description: Wave class.
+  Description: vPlot wave class.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -29,35 +29,32 @@ uses
   classes, sysutils, vpmath, vpsetting;
 
 type
-  tdegres = 0..10;
+  tvpdegres = 0..10;
 
-  tpolynome = packed record
-    coefs: array[tdegres] of vpfloat;
-    deg:   tdegres;
+  tvppolynome = packed record
+    coefs: array[tvpdegres] of vpfloat;
+    deg:   tvpdegres;
   end;
 
-  twavemesh = array[0..8] of tvppoint;
+  tvpwavemesh = array[0..8] of tvppoint;
 
-  twave = class
+  tvpwave = class
   private
-    lax, lay: tpolynome;
-    lbx, lby: tpolynome;
-    lcx, lcy: tpolynome;
     fenabled: boolean;
-    fscale:   vpfloat;
+    fsetting: tvpsetting;
+    lax, lay: tvppolynome;
+    lbx, lby: tvppolynome;
+    lcx, lcy: tvppolynome;
   public
-    constructor create(xmax, ymax, scale: vpfloat; const mesh: twavemesh);
+    constructor create(asetting: tvpsetting; const mesh: tvpwavemesh);
     destructor destroy; override;
     function update(const p: tvppoint): tvppoint;
-    procedure debug;
   published
     property enabled: boolean read fenabled write fenabled;
   end;
 
-  function polyeval(const apoly: tpolynome; x: vpfloat): vpfloat;
+  procedure wavedebug(awave: tvpwave);
 
-var
-  wave: twave = nil;
 
 implementation
 
@@ -66,9 +63,9 @@ uses
 
 // polynomial evaluation
 
-function polyeval(const apoly: tpolynome; x: vpfloat): vpfloat;
+function polyeval(const apoly: tvppolynome; x: vpfloat): vpfloat;
 var
-  i: tdegres;
+  i: tvpdegres;
 begin
   with apoly do
   begin
@@ -80,22 +77,25 @@ end;
 
 // tspacewave
 
-constructor twave.create(xmax, ymax, scale: vpfloat; const mesh: twavemesh);
+constructor tvpwave.create(asetting: tvpsetting; const mesh: tvpwavemesh);
 var
   a, aa: tvector3_double;
   b, bb: tvector3_double;
   c, cc: tvector3_double;
      dy: tvector3_double;
      dx: tvector3_double;
-      y: tmatrix3_double;
-      x: tmatrix3_double;
+   y, x: tmatrix3_double;
+  dxmax: vpfloat;
+  dymax: vpfloat;
 begin
   inherited create;
-  xmax := abs(xmax);
-  ymax := abs(ymax);
+  fenabled := false;
+  fsetting := asetting;
+  dxmax    := fsetting.pagewidth  / 2;
+  dymax    := fsetting.pageheight / 2;
 
-  x.init(1, -xmax, sqr(-xmax), 1, 0, 0, 1, +xmax, sqr(+xmax));
-  y.init(1, +ymax, sqr(+ymax), 1, 0, 0, 1, -ymax, sqr(-ymax));
+  x.init(1, -dxmax, sqr(-dxmax), 1, 0, 0, 1, +dxmax, sqr(+dxmax));
+  y.init(1, +dymax, sqr(+dymax), 1, 0, 0, 1, -dymax, sqr(-dymax));
   x := x.inverse(x.determinant);
   y := y.inverse(y.determinant);
 
@@ -146,26 +146,23 @@ begin
   lcx.coefs[2] := cc.data[2];
   lcx.coefs[1] := cc.data[1];
   lcx.coefs[0] := cc.data[0];
-
-  fscale       := scale;
-  fenabled     := false;
 end;
 
-destructor twave.destroy;
+destructor tvpwave.destroy;
 begin
   inherited destroy;
 end;
 
-function twave.update(const p: tvppoint): tvppoint;
+function tvpwave.update(const p: tvppoint): tvppoint;
 var
-  ly,
-  lx: tpolynome;
+  lx: tvppolynome;
+  ly: tvppolynome;
   pp: tvppoint;
 begin
   if enabled then
   begin
-    pp.x := p.x * fscale;
-    pp.y := p.y * fscale;
+    pp.x := p.x * fsetting.wavescale;
+    pp.y := p.y * fsetting.wavescale;
 
     ly.deg :=2;
     ly.coefs[2] := polyeval(lay, pp.y);
@@ -186,34 +183,40 @@ begin
   end;
 end;
 
-procedure twave.debug;
+procedure wavedebug(awave: tvpwave);
 var
-  dx, dy: vpfloat;
-  p0, p1: tvppoint;
-
-procedure test_print;
+  i, j: longint;
+  page: array[0..2, 0..2] of tvppoint;
+    pp: tvppoint;
 begin
-  writeln(format('WAVING::PNT.X       = %12.5f  PNT''.X = %12.5f', [p0.x, p1.x]));
-  writeln(format('WAVING::PNT.Y       = %12.5f  PNT''.Y = %12.5f', [p0.y, p1.y]));
-end;
+  page[0, 0].x := -awave.fsetting.pagewidth  / 2;
+  page[0, 0].y := +awave.fsetting.pageheight / 2;
+  page[0, 1].x := +0;
+  page[0, 1].y := +awave.fsetting.pageheight / 2;
+  page[0, 2].x := +awave.fsetting.pagewidth  / 2;
+  page[0, 2].y := +awave.fsetting.pageheight / 2;
 
-begin
-  if enabledebug then
-  begin
-    dx := setting.pagewidth  / 2;
-    dy := setting.pageheight / 2;
+  page[1, 0].x := -awave.fsetting.pagewidth  / 2;
+  page[1, 0].y := +0;
+  page[1, 1].y := +0;
+  page[1, 1].y := +0;
+  page[1, 2].x := +0;
+  page[1, 2].x := +awave.fsetting.pagewidth  / 2;
 
-    p0.x := -dx;  p0.y := +dy;  p1 := update(p0);  test_print;
-    p0.x := + 0;  p0.y := +dy;  p1 := update(p0);  test_print;
-    p0.x := +dx;  p0.y := +dy;  p1 := update(p0);  test_print;
-    p0.x := -dx;  p0.y := + 0;  p1 := update(p0);  test_print;
-    p0.x := + 0;  p0.y := + 0;  p1 := update(p0);  test_print;
-    p0.x := +dx;  p0.y := + 0;  p1 := update(p0);  test_print;
-    p0.x := -dx;  p0.y := -dy;  p1 := update(p0);  test_print;
-    p0.x := + 0;  p0.y := -dy;  p1 := update(p0);  test_print;
-    p0.x := +dx;  p0.y := -dy;  p1 := update(p0);  test_print;
-  end;
+  page[2, 0].x := -awave.fsetting.pagewidth  / 2;
+  page[2, 0].y := -awave.fsetting.pageheight / 2;
+  page[2, 1].x := +0;
+  page[2, 1].y := -awave.fsetting.pageheight / 2;
+  page[2, 2].x := +awave.fsetting.pagewidth  / 2;
+  page[2, 2].y := -awave.fsetting.pageheight / 2;
+
+  for i := 0 to 2 do
+    for j := 0 to 2 do
+    begin
+      pp := awave.update(page[i, j]);
+      writeln(format('WAVING::PNT.X       = %12.5f  PNT''.X = %12.5f', [page[i, j].x, pp.x]));
+      writeln(format('WAVING::PNT.Y       = %12.5f  PNT''.Y = %12.5f', [page[i, j].y, pp.y]));
+    end;
 end;
 
 end.
-

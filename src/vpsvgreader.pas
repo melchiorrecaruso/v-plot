@@ -1,5 +1,5 @@
 {
-  Description: SVG file reader class.
+  Description: vPlot SVG file reader class.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -74,9 +74,10 @@ begin
         element2paths(content.element[i], elements);
       end;
   end else
-  if enabledebug then
   begin
-    writeln(element.classname);
+    {$IFOPT D+}
+     writeln(element.classname);
+    {$ENDIF}
   end;
   bmp.destroy;
 end;

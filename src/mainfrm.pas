@@ -1,5 +1,5 @@
 {
-  Description: Main form class.
+  Description: vPlot main form.
 
   Copyright (C) 2017-2020 Melchiorre Caruso <melchiorrecaruso@gmail.com>
 
@@ -29,7 +29,7 @@ uses
   bgrabitmap, bgrabitmaptypes, bgragradientscanner, bgravirtualscreen, bgrapath,
   buttons, classes, comctrls, controls, dialogs, extctrls, forms, graphics,
   menus, spin, stdctrls, shellctrls, dividerbevel, spinex, vpdriver, vppaths,
-  vpmath, vpserial;
+  vpmath, vpserial, vpsetting, vpwave;
 
 type
   { tmainform }
@@ -37,6 +37,11 @@ type
   tmainform = class(tform)
     beginbtn: tbitbtn;
     decstepsbtn: tbitbtn;
+    layoutmi: tmenuitem;
+    checkmi: tmenuitem;
+    aboutmi: tmenuitem;
+    wavemi: tmenuitem;
+    popupn1: tmenuitem;
     incstepsbtn: tbitbtn;
     deczoombtn: tbitbtn;
     inczoombtn: tbitbtn;
@@ -85,34 +90,38 @@ type
     stepnumberedt: tspinedit;
     stepnumberlb: tlabel;
     // FORM EVENTS
-    procedure editingcbchange(sender: tobject);
-    procedure formcreate(sender: tobject);
+    procedure formcreate (sender: tobject);
     procedure formdestroy(sender: tobject);
-    procedure formclose(sender: tobject; var closeaction: tcloseaction);
+    procedure formclose  (sender: tobject; var closeaction: tcloseaction);
     // CONNECTION
     procedure connectbtnclick(sender: tobject);
     // CALIBRATION
     procedure motorbtnclick(sender: tobject);
-    procedure penbtnclick(sender: tobject);
+    procedure penbtnclick  (sender: tobject);
     // IMPORT/CLEAR
     procedure importbtnclick(sender: tobject);
-    procedure clearbtnclick(sender: tobject);
+    procedure clearbtnclick (sender: tobject);
     // EDITING
     procedure editingbtnclick(sender: tobject);
     // PAGE SIZE
     procedure pagesizebtnclick(sender: tobject);
     // CONTROL
-    procedure startmiclick(sender: tobject);
-    procedure killmiclick(sender: tobject);
+    procedure startmiclick     (sender: tobject);
+    procedure killmiclick      (sender: tobject);
     procedure movetohomemiclick(sender: tobject);
     // PREVIEW STEP BY STEP
-    procedure stepsbtnclick(sender: tobject);
+    procedure stepsbtnclick      (sender: tobject);
     procedure changestepsbtnclick(sender: tobject);
     // ZOOM
+    procedure editingcbchange   (sender: tobject);
     procedure changezoombtnclick(sender: tobject);
-    procedure fitmiclick(sender: tobject);
-    // ABOUT
-    procedure aboutmiclick(sender: tobject);
+    procedure fitmiclick        (sender: tobject);
+    // ABOUT POPUP
+    procedure aboutbtnclick (sender: tobject);
+    procedure layoutbtnclick(sender: tobject);
+    procedure checkbtnclick (sender: tobject);
+    procedure wavemiclick   (sender: tobject);
+    procedure aboutmiclick  (sender: tobject);
     // VIRTUAL SCREEN EVENTS
     procedure screenredraw(sender: tobject; bitmap: tbgrabitmap);
     // MOUSE EVENTS
@@ -148,15 +157,19 @@ type
   end;
 
 var
-  mainform: tmainform;
+  driver:       tvpdriver       = nil;
+  driverengine: tvpdriverengine = nil;
+  mainform:     tmainform;
+  setting:      tvpsetting      = nil;
+  wave:         tvpwave         = nil;
 
 implementation
 
 {$R *.lfm}
 
 uses
-  math, sysutils, importfrm, aboutfrm, vpsketcher,
-  vpsvgreader, vpdxfreader, vpsetting, vpwave;
+  math, sysutils, importfrm, aboutfrm, layoutfrm, checkfrm, settingfrm,
+  vpsketcher, vpsvgreader, vpdxfreader;
 
 // FORM EVENTS
 
@@ -164,11 +177,11 @@ procedure tmainform.formcreate(sender: tobject);
 var
   i: longint;
   list: tstringlist;
-  wavemesh: twavemesh;
+  wavemesh: tvpwavemesh;
 begin
   // load setting
   setting := tvpsetting.create;
-  setting.load;
+  setting.load(getsettingfilename(true));
   // open serial port
   serialstream := tvpserialstream.create;
   // init space wave
@@ -181,16 +194,12 @@ begin
   wavemesh[6] := setting.wavepoint6;
   wavemesh[7] := setting.wavepoint7;
   wavemesh[8] := setting.wavepoint8;
-  wave := twave.create(
-    setting.pagewidth  / 2,
-    setting.pageheight / 2,
-    setting.wavescale,
-    wavemesh);
+  wave := tvpwave.create(setting, wavemesh);
   wave.enabled := not (setting.waveoff = 1);
-  wave.debug;
+  {$IFOPT D+} wavedebug(wave); {$ENDIF}
   // init driver-engine
   driverengine := tvpdriverengine.create(setting);
-  driverengine.debug;
+  {$IFOPT D+} driverenginedebug(driverengine); {$ENDIF}
   // create preview and empty page
   page        := tvpelementlist.create;
   screenimage := tbgrabitmap.create(screen.width, screen.height);
@@ -207,6 +216,14 @@ begin
   fitmiclick(nil);
   changestepsbtnclick(nil);
   editingcbchange(nil);
+end;
+
+procedure tmainform.aboutbtnclick(sender: tobject);
+begin
+  with aboutbtn.clienttoscreen(point(0, 0)) do
+  begin
+    popup.popup(x + aboutbtn.width, y + aboutbtn.height + 2);
+  end;
 end;
 
 procedure tmainform.formdestroy(sender: tobject);
@@ -269,14 +286,14 @@ begin
     if sender = rightupbtn   then cy := -stepnumberedt.value;
     if sender = rightdownbtn then cy := +stepnumberedt.value;
 
-    driver         := tvpdriver.create(serialstream);
+    driver         := tvpdriver.create(setting, serialstream);
     driver.onerror := @onplottererror;
     driver.oninit  := @onplotterinit;
     driver.onstart := @onplotterstart;
     driver.onstop  := @onplotterstop;
     driver.ontick  := @onplottertick;
     driver.init;
-    driver.movez(setting.mzmax);
+    driver.movez(setting.servozmax);
     driver.move (cx + driver.xcount,
                  cy + driver.ycount);
     driver.start;
@@ -289,7 +306,7 @@ begin
   if not assigned(driver) then
   begin
     lock;
-    driver         := tvpdriver.create(serialstream);
+    driver         := tvpdriver.create(setting, serialstream);
     driver.onerror := @onplottererror;
     driver.oninit  := nil;
     driver.onstart := @onplotterstart;
@@ -297,9 +314,9 @@ begin
     driver.ontick  := @onplottertick;
     driver.init;
     if sender = pendownbtn then
-      driver.movez(setting.mzmin)
+      driver.movez(setting.servozmin)
     else
-      driver.movez(setting.mzmax);
+      driver.movez(setting.servozmax);
     driver.start;
   end;
 end;
@@ -329,7 +346,6 @@ begin
     if (lowercase(extractfileext(opendialog.filename)) = '.bmp') or
        (lowercase(extractfileext(opendialog.filename)) = '.png') then
     begin
-      importform := timportform.create(nil);
       importform.imcb.itemindex := 0;
       importform.imcb .enabled  := true;
       importform.ipwse.enabled  := true;
@@ -354,7 +370,6 @@ begin
         sk.update(page);
         sk.destroy;
       end;
-      importform.destroy;
     end;
     pagecount := page.count;
     updatescreen;
@@ -447,7 +462,7 @@ begin
   if not assigned(driver) then
   begin
     lock;
-    driver         := tvpdriver.create(serialstream);
+    driver         := tvpdriver.create(setting, serialstream);
     driver.onerror := @onplottererror;
     driver.oninit  := nil;
     driver.onstart := @onplotterstart;
@@ -477,9 +492,9 @@ begin
             point2.y := point2.y + yoffset;
 
             if distance_between_two_points(point1, point2) > 0.2 then
-              driver.movez(setting.mzmax)
+              driver.movez(setting.servozmax)
             else
-              driver.movez(setting.mzmin);
+              driver.movez(setting.servozmin);
 
             driverengine.calcsteps(point2, cx, cy);
             driver.move(cx, cy);
@@ -526,14 +541,14 @@ begin
   if not assigned(driver) then
   begin
     lock;
-    driver         := tvpdriver.create(serialstream);
+    driver         := tvpdriver.create(setting, serialstream);
     driver.onerror := @onplottererror;
     driver.oninit  := nil;
     driver.onstart := @onplotterstart;
     driver.onstop  := @onplotterstop;
     driver.ontick  := @onplottertick;
     driver.init;
-    driver.movez(setting.mzmax);
+    driver.movez(setting.servozmax);
     driverengine.calcsteps(setting.point8, cx, cy);
     driver.move(cx, cy);
     driver.start;
@@ -542,7 +557,7 @@ end;
 
 // PREVIEW STEP BY STEP
 
-procedure tmainform.changestepsbtnclick(Sender: TObject);
+procedure tmainform.changestepsbtnclick(sender: tobject);
 begin
   if sender = nil then
   begin
@@ -645,13 +660,36 @@ begin
   unlock;
 end;
 
-// ABOUT
+// ABOUT POPUP
+
+procedure tmainform.layoutbtnclick(sender: tobject);
+begin
+  layoutform.showmodal;
+end;
+
+procedure tmainform.checkbtnclick(sender: tobject);
+begin
+  checkform.showmodal;
+end;
+
+procedure tmainform.wavemiclick(sender: tobject);
+begin
+  settingform.load(setting);
+  if settingform.showmodal = mrok then
+  begin
+    try
+      settingform.save(setting);
+      setting.save(getsettingfilename(false));
+    except
+      setting.load(getsettingfilename(true));
+      wavemiclick(sender);
+    end;
+  end;
+end;
 
 procedure tmainform.aboutmiclick(sender: tobject);
 begin
-  aboutform := taboutform.create(nil);
   aboutform.showmodal;
-  aboutform.destroy;
 end;
 
 // MOUSE EVENTS
@@ -813,8 +851,12 @@ begin
     startbvl       .enabled := true;
     killbtn        .enabled := true;
     homebtn        .enabled := false;
-    // about
+    // about popup
     aboutbtn       .enabled := false;
+    layoutmi       .enabled := false;
+    checkmi        .enabled := false;
+    wavemi         .enabled := false;
+    aboutmi        .enabled := false;
     // zoom
     inczoombtn     .enabled := false;
     deczoombtn     .enabled := false;
@@ -857,8 +899,12 @@ begin
     startbvl       .enabled := value and serialstream.connected;
     killbtn        .enabled := value and serialstream.connected;
     homebtn        .enabled := value and serialstream.connected;
-    // about
+    // about popup
     aboutbtn       .enabled := value;
+    layoutmi       .enabled := value;
+    checkmi        .enabled := value;
+    wavemi         .enabled := value;
+    aboutmi        .enabled := value;
     // zoom
     inczoombtn     .enabled := value;
     deczoombtn     .enabled := value;
@@ -918,7 +964,7 @@ procedure tmainform.onplotterinit;
 var
   cx, cy, kb, km: longint;
 begin
-  setting.load;
+  setting.load(getsettingfilename(true));
   // ---
   driverengine.calcsteps(setting.point8, cx,  cy);
   if not serverset(serialstream, vpserver_setxcount, cx) then

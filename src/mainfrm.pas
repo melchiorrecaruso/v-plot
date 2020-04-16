@@ -28,8 +28,8 @@ interface
 uses
   bgrabitmap, bgrabitmaptypes, bgragradientscanner, bgravirtualscreen, bgrapath,
   buttons, classes, comctrls, controls, dialogs, extctrls, forms, graphics,
-  menus, spin, stdctrls, shellctrls, dividerbevel, spinex, vpdriver, vppaths,
-  vpmath, vpserial, vpsetting, vpwave;
+  menus, spin, stdctrls, shellctrls, XMLPropStorage, dividerbevel, spinex,
+  vpdriver, vppaths, vpmath, vpserial, vpsetting, vpwave;
 
 type
   { tmainform }
@@ -51,6 +51,7 @@ type
     pagesizebtn: tbitbtn;
     popup: tpopupmenu;
     stepslb: tlabel;
+    propstorage: TXMLPropStorage;
     zoomlb: tlabel;
     nextbtn: tbitbtn;
     backbtn: tbitbtn;
@@ -179,6 +180,8 @@ var
   list: tstringlist;
   wavemesh: tvpwavemesh;
 begin
+  // propstorage
+  propstorage.filename := getclientsettingfilename(false);
   // load setting
   setting := tvpsetting.create;
   setting.load(getsettingfilename(true));
@@ -228,6 +231,7 @@ end;
 
 procedure tmainform.formdestroy(sender: tobject);
 begin
+  propstorage.save;
   page.destroy;
   serialstream.destroy;
   setting.destroy;

@@ -1,7 +1,7 @@
 object checkform: Tcheckform
-  Left = 548
+  Left = 552
   Height = 312
-  Top = 373
+  Top = 242
   Width = 688
   AutoSize = True
   BorderIcons = [biSystemMenu]

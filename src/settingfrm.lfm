@@ -1,7 +1,7 @@
 object settingform: Tsettingform
-  Left = 289
+  Left = 456
   Height = 317
-  Top = 345
+  Top = 253
   Width = 686
   AutoSize = True
   BorderIcons = [biSystemMenu]

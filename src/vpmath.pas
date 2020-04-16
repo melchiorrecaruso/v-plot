@@ -151,7 +151,8 @@ function intersection_of_circle_and_circle(const c0: tvpcircleimp; const c1: tvp
 
 function circle_by_three_points(const p0, p1, p2: tvppoint): tvpcircleimp;
 function circle_by_center_and_radius(const cc: tvppoint; radius: vpfloat): tvpcircleimp;
-function circlearc_by_three_points(cc, p0, p1: tvppoint): tvpcirclearc;
+function circlearc_by_three_points(const p0, p1, p2: tvppoint): tvpcirclearc;
+function circlearc_by_center_and_two_points(const cc, p0, p1: tvppoint): tvpcirclearc;
 function intersection_of_two_circles(const c0, c1: tvpcircleimp; var p1, p2: tvppoint): longint;
 
 function ispointon(const p: tvppoint; const line:      tvpline;      err: single): boolean;
@@ -630,7 +631,41 @@ begin
               sqr(radius);
 end;
 
-function circlearc_by_three_points(cc, p0, p1: tvppoint): tvpcirclearc;
+function circlearc_by_three_points(const p0, p1, p2: tvppoint): tvpcirclearc;
+var
+  cc: tvpcircleimp;
+  d0: vpfloat;
+  d1: vpfloat;
+  d2: vpfloat;
+begin
+  cc := circle_by_three_points(p0, p1, p2);
+
+  result.center.x   := -cc.a/2;
+  result.center.y   := -cc.b/2;
+  result.radius     := sqrt(sqr(cc.a/2)+sqr(cc.b/2)-cc.c);
+
+  d0 := distance_between_two_points(p0, p1);
+  d1 := distance_between_two_points(p1, p2);
+  d2 := distance_between_two_points(p2, p0);
+
+  if (d0 > d1) and (d0 > d2) then
+  begin
+    result.startangle := radtodeg(angle(line_by_two_points(result.center, p0)));
+    result.endangle   := radtodeg(angle(line_by_two_points(result.center, p1)));
+  end else
+  if (d1 > d0) and (d1 > d2) then
+  begin
+    result.startangle := radtodeg(angle(line_by_two_points(result.center, p1)));
+    result.endangle   := radtodeg(angle(line_by_two_points(result.center, p2)));
+  end else
+  if (d2 > d0) and (d2 > d1) then
+  begin
+    result.startangle := radtodeg(angle(line_by_two_points(result.center, p2)));
+    result.endangle   := radtodeg(angle(line_by_two_points(result.center, p0)));
+  end;
+end;
+
+function circlearc_by_center_and_two_points(const cc, p0, p1: tvppoint): tvpcirclearc;
 begin
   result.center     := cc;
   result.radius     := distance_between_two_points(cc, p0);

@@ -155,7 +155,7 @@ constructor tvpdriverengine.create(asetting: tvpsetting);
 begin
   inherited create;
   fiterationlimit := 50;
-  fsetting :=  asetting;
+  fsetting := asetting;
 end;
 
 destructor tvpdriverengine.destroy;
@@ -366,6 +366,7 @@ constructor tvpdriver.create(asetting: tvpsetting; aserial: tvpserialstream);
 begin
   fenabled := true;
   fmessage := '';
+  fsetting := asetting;
   frampkb  := fsetting.rampkb;
   frampkl  := fsetting.rampkl;
   frampkm  := fsetting.rampkm;

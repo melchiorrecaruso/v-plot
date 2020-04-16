@@ -1,13 +1,14 @@
 object reportform: Treportform
-  Left = 582
-  Height = 260
-  Top = 235
-  Width = 420
-  BorderIcons = [biSystemMenu]
-  BorderStyle = bsSingle
+  Left = 513
+  Height = 550
+  Top = 147
+  Width = 470
+  HorzScrollBar.Page = 150
+  VertScrollBar.Page = 69
+  AutoScroll = True
   Caption = 'Check report'
-  ClientHeight = 260
-  ClientWidth = 420
+  ClientHeight = 550
+  ClientWidth = 470
   Color = clWindow
   Position = poOwnerFormCenter
   LCLVersion = '2.1.0.0'
@@ -18,9 +19,9 @@ object reportform: Treportform
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = bevel
     Left = 0
-    Height = 206
+    Height = 496
     Top = 0
-    Width = 420
+    Width = 470
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Bottom = 4
     BorderStyle = bsNone
@@ -33,9 +34,9 @@ object reportform: Treportform
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Owner
     AnchorSideBottom.Side = asrBottom
-    Left = 294
+    Left = 344
     Height = 32
-    Top = 222
+    Top = 512
     Width = 120
     Anchors = [akRight, akBottom]
     BorderSpacing.Right = 6
@@ -53,8 +54,8 @@ object reportform: Treportform
     AnchorSideBottom.Control = okbtn
     Left = 2
     Height = 2
-    Top = 210
-    Width = 416
+    Top = 500
+    Width = 466
     Anchors = [akLeft, akRight, akBottom]
     BorderSpacing.Left = 2
     BorderSpacing.Right = 2

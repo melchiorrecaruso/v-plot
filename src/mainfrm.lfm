@@ -14,6 +14,7 @@ object tmainform: tmainform
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
+  SessionProperties = 'portcb.Text'
   LCLVersion = '2.1.0.0'
   object screen: TBGRAVirtualScreen
     AnchorSideLeft.Control = controlpnl
@@ -1540,7 +1541,7 @@ object tmainform: tmainform
   object opendialog: TOpenDialog
     Options = [ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
     left = 352
-    top = 152
+    top = 160
   end
   object savedialog: TSaveDialog
     Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
@@ -2017,5 +2018,10 @@ object tmainform: tmainform
       Caption = 'About ...'
       OnClick = aboutmiclick
     end
+  end
+  object propstorage: TXMLPropStorage
+    StoredValues = <>
+    left = 352
+    top = 352
   end
 end

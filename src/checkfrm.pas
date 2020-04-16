@@ -88,6 +88,7 @@ var
         i: longint;
   c00, c0: longint;
   c11, c1: longint;
+        l: tvpline;
   l00, l0: vpfloat;
   l11, l1: vpfloat;
   offset0: vpfloat;
@@ -166,16 +167,100 @@ begin
   reportform.reportappend('');
   reportform.reportappend('  Results:');
   reportform.reportappend('');
-  reportform.reportappend(format('  Page.TopWidth     = %8.1f mm   Error = %4.1f mm', [path1[2].x - path1[0].x, path1[2].x - path1[0].x - setting1.pagewidth ]));
-  reportform.reportappend(format('  Page.MiddleWidth  = %8.1f mm   Error = %4.1f mm', [path1[5].x - path1[3].x, path1[5].x - path1[3].x - setting1.pagewidth ]));
-  reportform.reportappend(format('  Page.BottomWidth  = %8.1f mm   Error = %4.1f mm', [path1[8].x - path1[6].x, path1[8].x - path1[6].x - setting1.pagewidth ]));
-  reportform.reportappend(format('  Page.LeftHeight   = %8.1f mm   Error = %4.1f mm', [path1[0].y - path1[6].y, path1[0].y - path1[6].y - setting1.pageheight]));
-  reportform.reportappend(format('  Page.MiddleHeight = %8.1f mm   Error = %4.1f mm', [path1[1].y - path1[7].y, path1[1].y - path1[7].y - setting1.pageheight]));
-  reportform.reportappend(format('  Page.RightHeight  = %8.1f mm   Error = %4.1f mm', [path1[2].y - path1[8].y, path1[2].y - path1[8].y - setting1.pageheight]));
 
-  reportform.reportappend(format('  Page.TopLeft.Y    = %8.1f mm', [path1[2].y - path1[8].y, path1[2].y - path1[8].y - setting1.pageheight]));
+  l00 := path1[2].x - path1[0].x;
+  l11 := path1[2].x - path1[0].x - setting1.pagewidth;
+  reportform.reportappend(format('  Page.TopWidth               = %8.1f mm   Error = %4.1f mm', [l00, l11]));
 
+  l00 := path1[5].x - path1[3].x;
+  l11 := path1[5].x - path1[3].x - setting1.pagewidth;
+  reportform.reportappend(format('  Page.MiddleWidth            = %8.1f mm   Error = %4.1f mm', [l00, l11]));
 
+  l00 := path1[8].x - path1[6].x;
+  l11 := path1[8].x - path1[6].x - setting1.pagewidth;
+  reportform.reportappend(format('  Page.BottomWidth            = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[0].y - path1[6].y;
+  l11 := path1[0].y - path1[6].y - setting1.pageheight;
+  reportform.reportappend(format('  Page.LeftHeight             = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[1].y - path1[7].y;
+  l11 := path1[1].y - path1[7].y - setting1.pageheight;
+  reportform.reportappend(format('  Page.MiddleHeight           = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[2].y - path1[8].y;
+  l11 := path1[2].y - path1[8].y - setting1.pageheight;
+  reportform.reportappend(format('  Page.RightHeight            = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+  reportform.reportappend(' --- ');
+
+  l00 := path1[1].x - path1[0].x;
+  l11 := path1[1].x - path1[0].x - setting1.pagewidth/2;
+  reportform.reportappend(format('  Page.TopWidth/Left          = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[2].x - path1[1].x;
+  l11 := path1[2].x - path1[1].x - setting1.pagewidth/2;
+  reportform.reportappend(format('  Page.TopWidth/Right         = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[4].x - path1[3].x;
+  l11 := path1[4].x - path1[3].x - setting1.pagewidth/2;
+  reportform.reportappend(format('  Page.MiddleWidth/Left       = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[5].x - path1[4].x;
+  l11 := path1[5].x - path1[4].x - setting1.pagewidth/2;
+  reportform.reportappend(format('  Page.MiddleWidth/Right      = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[7].x - path1[6].x;
+  l11 := path1[7].x - path1[6].x - setting1.pagewidth/2;
+  reportform.reportappend(format('  Page.RightWidth/Left        = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[8].x - path1[7].x;
+  l11 := path1[8].x - path1[7].x - setting1.pagewidth/2;
+  reportform.reportappend(format('  Page.RightWidth/Right       = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+  reportform.reportappend(' --- ');
+
+  l00 := path1[0].y - path1[3].y;
+  l11 := path1[0].y - path1[3].y - setting1.pageheight/2;
+  reportform.reportappend(format('  Page.LeftHeight/Up          = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[3].y - path1[6].y;
+  l11 := path1[3].y - path1[6].y - setting1.pageheight/2;
+  reportform.reportappend(format('  Page.LeftHeight/Down        = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[1].y - path1[4].y;
+  l11 := path1[1].y - path1[4].y - setting1.pageheight/2;
+  reportform.reportappend(format('  Page.MiddleHeight/UP        = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[4].y - path1[7].y;
+  l11 := path1[4].y - path1[7].y - setting1.pageheight/2;
+  reportform.reportappend(format('  Page.MiddleHeight/Down      = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[2].y - path1[5].y;
+  l11 := path1[2].y - path1[5].y - setting1.pageheight/2;
+  reportform.reportappend(format('  Page.RightHeight/Up         = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+
+  l00 := path1[5].y - path1[8].y;
+  l11 := path1[5].y - path1[8].y - setting1.pageheight/2;
+  reportform.reportappend(format('  Page.RightHeight/Down       = %8.1f mm   Error = %4.1f mm', [l00, l11]));
+  reportform.reportappend(' --- ');
+
+  l00 := distance_from_point_and_line(path1[1], line_by_two_points(path1[0], path1[2]));
+  reportform.reportappend(format('  Page.TopWidth/Alignment     = %8.1f mm', [l00]));
+
+  l00 := distance_from_point_and_line(path1[4], line_by_two_points(path1[3], path1[5]));
+  reportform.reportappend(format('  Page.MiddleWidth/Alignment  = %8.1f mm', [l00]));
+
+  l00 := distance_from_point_and_line(path1[7], line_by_two_points(path1[6], path1[8]));
+  reportform.reportappend(format('  Page.BottomWidth/Alignment  = %8.1f mm', [l00]));
+  reportform.reportappend(' --- ');
+
+  l00 := distance_from_point_and_line(path1[3], line_by_two_points(path1[0], path1[6]));
+  reportform.reportappend(format('  Page.LeftHeight/Alignment   = %8.1f mm', [l00]));
+
+  l00 := distance_from_point_and_line(path1[4], line_by_two_points(path1[1], path1[7]));
+  reportform.reportappend(format('  Page.MiddleHeight/Alignment = %8.1f mm', [l00]));
+
+  l00 := distance_from_point_and_line(path1[5], line_by_two_points(path1[2], path1[8]));
+  reportform.reportappend(format('  Page.RightHeight/Alignment  = %8.1f mm', [l00]));
 
   reportform.showmodal;
   path0 := nil;

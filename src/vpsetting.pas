@@ -103,17 +103,22 @@ type
  end;
 
 
-function getsettingfilename(useglobal: boolean): string;
+function getclientsettingfilename(global: boolean): string;
+function getsettingfilename(global: boolean): string;
 
 
 implementation
 
+function getclientsettingfilename(global: boolean): string;
+begin
+  result := includetrailingbackslash(getappconfigdir(global)) + 'vplot.client';
+end;
 
-function getsettingfilename(useglobal: boolean): string;
+function getsettingfilename(global: boolean): string;
 begin
   result := includetrailingbackslash(getappconfigdir(false)) + 'vplot.ini';
 
-  if useglobal and (not fileexists(result)) then
+  if global and (not fileexists(result)) then
   begin
     {$IFDEF MSWINDOWS}
     result := extractfilepath(paramstr(0)) + 'vplot.ini';

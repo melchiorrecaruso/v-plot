@@ -73,8 +73,9 @@ begin
   settinglist.insertrow('PULLEY-1.RADIUS', floattostr(asetting.pulley1radius), true);
   settinglist.insertrow('PULLEY-1.RATIO',  floattostr(asetting.pulley1ratio),  true);
 
-  settinglist.insertrow('SERVO-Z.MIN',     floattostr(asetting.servozmin),     true);
-  settinglist.insertrow('SERVO-Z.MAX',     floattostr(asetting.servozmax),     true);
+  settinglist.insertrow('SERVO-Z.VALUE-0', floattostr(asetting.servozvalue0),  true);
+  settinglist.insertrow('SERVO-Z.VALUE-1', floattostr(asetting.servozvalue1),  true);
+  settinglist.insertrow('SERVO-Z.VALUE-2', floattostr(asetting.servozvalue2),  true);
 
   settinglist.insertrow('PAGE.HEIGHT',     floattostr(asetting.pageheight),    true);
   settinglist.insertrow('PAGE.WIDTH',      floattostr(asetting.pagewidth),     true);
@@ -125,8 +126,9 @@ begin
   asetting.pulley0ratio  := strtofloat(settinglist.values['PULLEY-0.RATIO' ]);
   asetting.pulley1radius := strtofloat(settinglist.values['PULLEY-1.RADIUS']);
   asetting.pulley1ratio  := strtofloat(settinglist.values['PULLEY-1.RATIO' ]);
-  asetting.servozmin     := strtoint  (settinglist.values['SERVO-Z.MIN'    ]);
-  asetting.servozmax     := strtoint  (settinglist.values['SERVO-Z.MAX'    ]);
+  asetting.servozvalue0  := strtoint  (settinglist.values['SERVO-Z.VALUE-0']);
+  asetting.servozvalue1  := strtoint  (settinglist.values['SERVO-Z.VALUE-1']);
+  asetting.servozvalue2  := strtoint  (settinglist.values['SERVO-Z.VALUE-2']);
 
   asetting.pageheight    := strtofloat(settinglist.values['PAGE.HEIGHT'    ]);
   asetting.pagewidth     := strtofloat(settinglist.values['PAGE.WIDTH'     ]);

@@ -297,7 +297,7 @@ begin
     driver.onstop  := @onplotterstop;
     driver.ontick  := @onplottertick;
     driver.init;
-    driver.movez(setting.servozmax);
+    driver.movez(setting.servozvalue1);
     driver.move (cx + driver.xcount,
                  cy + driver.ycount);
     driver.start;
@@ -318,9 +318,18 @@ begin
     driver.ontick  := @onplottertick;
     driver.init;
     if sender = pendownbtn then
-      driver.movez(setting.servozmin)
-    else
-      driver.movez(setting.servozmax);
+    begin
+      if driver.zcount = setting.servozvalue2 then
+        driver.movez(setting.servozvalue1)
+      else
+        driver.movez(setting.servozvalue0);
+    end else
+    begin
+      if driver.zcount = setting.servozvalue0 then
+        driver.movez(setting.servozvalue1)
+      else
+        driver.movez(setting.servozvalue2);
+    end;
     driver.start;
   end;
 end;
@@ -496,9 +505,9 @@ begin
             point2.y := point2.y + yoffset;
 
             if distance_between_two_points(point1, point2) > 0.2 then
-              driver.movez(setting.servozmax)
+              driver.movez(setting.servozvalue1)
             else
-              driver.movez(setting.servozmin);
+              driver.movez(setting.servozvalue0);
 
             driverengine.calcsteps(point2, cx, cy);
             driver.move(cx, cy);
@@ -552,7 +561,7 @@ begin
     driver.onstop  := @onplotterstop;
     driver.ontick  := @onplottertick;
     driver.init;
-    driver.movez(setting.servozmax);
+    driver.movez(setting.servozvalue1);
     driverengine.calcsteps(setting.point8, cx, cy);
     driver.move(cx, cy);
     driver.start;

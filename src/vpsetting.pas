@@ -46,8 +46,9 @@ type
     fpulley1radius: vpfloat;
     fpulley1ratio:  vpfloat;
     // servo-z
-    fservozmin: longint;
-    fservozmax: longint;
+    fservozvalue0: longint;
+    fservozvalue1: longint;
+    fservozvalue2: longint;
     // ramps
     frampkb: longint;
     frampkl: longint;
@@ -82,8 +83,9 @@ type
     property pulley0ratio:  vpfloat read fpulley0ratio  write fpulley0ratio;
     property pulley1radius: vpfloat read fpulley1radius write fpulley1radius;
     property pulley1ratio:  vpfloat read fpulley1ratio  write fpulley1ratio;
-    property servozmin: longint read fservozmin write fservozmin;
-    property servozmax: longint read fservozmax write fservozmax;
+    property servozvalue0: longint read fservozvalue0 write fservozvalue0;
+    property servozvalue1: longint read fservozvalue1 write fservozvalue1;
+    property servozvalue2: longint read fservozvalue2 write fservozvalue2;
 
     property rampkb: longint read frampkb write frampkb;
     property rampkl: longint read frampkl write frampkl;
@@ -166,12 +168,13 @@ begin
     fpoint9offset := ini.readfloat('LAYOUT', 'POINT9.OFFSET', 0);
     fpoint9factor := ini.readfloat('LAYOUT', 'POINT9.FACTOR', 0);
 
-    fpulley0radius := ini.readfloat  ('PULLEY-0', 'RADIUS', 0);
-    fpulley0ratio  := ini.readfloat  ('PULLEY-0', 'RATIO',  0);
-    fpulley1radius := ini.readfloat  ('PULLEY-1', 'RADIUS', 0);
-    fpulley1ratio  := ini.readfloat  ('PULLEY-1', 'RATIO',  0);
-    fservozmin     := ini.readinteger('SERVO-Z',  'MIN',    0);
-    fservozmax     := ini.readinteger('SERVO-Z',  'MAX',    0);
+    fpulley0radius := ini.readfloat  ('PULLEY-0', 'RADIUS',  0);
+    fpulley0ratio  := ini.readfloat  ('PULLEY-0', 'RATIO',   0);
+    fpulley1radius := ini.readfloat  ('PULLEY-1', 'RADIUS',  0);
+    fpulley1ratio  := ini.readfloat  ('PULLEY-1', 'RATIO',   0);
+    fservozvalue0  := ini.readinteger('SERVO-Z',  'VALUE-0', 0);
+    fservozvalue1  := ini.readinteger('SERVO-Z',  'VALUE-1', 0);
+    fservozvalue2  := ini.readinteger('SERVO-Z',  'VALUE-2', 0);
 
     fpageheight := ini.readfloat('PAGE', 'HEIGHT', 0);
     fpagewidth  := ini.readfloat('PAGE', 'WIDTH',  0);
@@ -211,8 +214,9 @@ begin
     writeln(format('PLLY-0::RATIO       = %12.5f', [fpulley0ratio ]));
     writeln(format('PLLY-1::RADIUS      = %12.5f', [fpulley1radius]));
     writeln(format('PLLY-1::RATIO       = %12.5f', [fpulley1ratio ]));
-    writeln(format(' SRV-Z::MIN         = %12.5u', [fservozmin    ]));
-    writeln(format(' SRV-Z::MAX         = %12.5u', [fservozmax    ]));
+    writeln(format(' SRV-Z::VALUE-0     = %12.5u', [fservozvalue0 ]));
+    writeln(format(' SRV-Z::VALUE-1     = %12.5u', [fservozvalue1 ]));
+    writeln(format(' SRV-Z::VALUE-2     = %12.5u', [fservozvalue2 ]));
 
     writeln(format('  PAGE::HEIGHT      = %12.5f', [fpageheight]));
     writeln(format('  PAGE::WIDTH       = %12.5f', [fpagewidth ]));
@@ -254,12 +258,13 @@ begin
   ini.writefloat('LAYOUT', 'POINT9.OFFSET', fpoint9offset);
   ini.writefloat('LAYOUT', 'POINT9.FACTOR', fpoint9factor);
 
-  ini.writefloat  ('PULLEY-0', 'RADIUS', fpulley0radius);
-  ini.writefloat  ('PULLEY-0', 'RATIO',  fpulley0ratio);
-  ini.writefloat  ('PULLEY-1', 'RADIUS', fpulley1radius);
-  ini.writefloat  ('PULLEY-1', 'RATIO',  fpulley1ratio);
-  ini.writeinteger('SERVO-Z',  'MIN',    fservozmin);
-  ini.writeinteger('SERVO-Z',  'MAX',    fservozmax);
+  ini.writefloat  ('PULLEY-0', 'RADIUS',  fpulley0radius);
+  ini.writefloat  ('PULLEY-0', 'RATIO',   fpulley0ratio);
+  ini.writefloat  ('PULLEY-1', 'RADIUS',  fpulley1radius);
+  ini.writefloat  ('PULLEY-1', 'RATIO',   fpulley1ratio);
+  ini.writeinteger('SERVO-Z',  'VALUE-0', fservozvalue0);
+  ini.writeinteger('SERVO-Z',  'VALUE-1', fservozvalue1);
+  ini.writeinteger('SERVO-Z',  'VALUE-2', fservozvalue2);
 
   ini.writefloat('PAGE', 'HEIGHT', fpageheight);
   ini.writefloat('PAGE', 'WIDTH',  fpagewidth);

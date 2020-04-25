@@ -26,10 +26,10 @@ unit mainfrm;
 interface
 
 uses
-  bgrabitmap, bgrabitmaptypes, bgragradientscanner, bgravirtualscreen, bgrapath,
-  buttons, classes, comctrls, controls, dialogs, extctrls, forms, graphics,
-  menus, spin, stdctrls, shellctrls, XMLPropStorage, dividerbevel, spinex,
-  vpdriver, vppaths, vpmath, vpserial, vpsetting, vpwave;
+  bgrabitmap, bgrabitmaptypes, bgragradientscanner, bgravirtualscreen,
+  bgrapath, buttons, classes, comctrls, controls, dialogs, extctrls, forms,
+  graphics, menus, spin, stdctrls, shellctrls, xmlpropstorage, dividerbevel,
+  spinex, vpdriver, vppaths, vpmath, vpserial, vpsetting, vpwave;
 
 type
   { tmainform }
@@ -157,12 +157,14 @@ type
     procedure updatescreen;
   end;
 
+
 var
   driver:       tvpdriver       = nil;
   driverengine: tvpdriverengine = nil;
   mainform:     tmainform;
   setting:      tvpsetting      = nil;
   wave:         tvpwave         = nil;
+
 
 implementation
 
@@ -219,14 +221,6 @@ begin
   fitmiclick(nil);
   changestepsbtnclick(nil);
   editingcbchange(nil);
-end;
-
-procedure tmainform.aboutbtnclick(sender: tobject);
-begin
-  with aboutbtn.clienttoscreen(point(0, 0)) do
-  begin
-    popup.popup(x + aboutbtn.width, y + aboutbtn.height + 2);
-  end;
 end;
 
 procedure tmainform.formdestroy(sender: tobject);
@@ -674,6 +668,14 @@ begin
 end;
 
 // ABOUT POPUP
+
+procedure tmainform.aboutbtnclick(sender: tobject);
+begin
+  with aboutbtn.clienttoscreen(point(0, 0)) do
+  begin
+    popup.popup(x + aboutbtn.width, y + aboutbtn.height + 2);
+  end;
+end;
 
 procedure tmainform.layoutbtnclick(sender: tobject);
 begin

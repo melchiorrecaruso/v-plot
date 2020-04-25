@@ -47,7 +47,7 @@ object taboutform: taboutform
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 18
-    Caption = 'Vertical Plotter Client 5.3'
+    Caption = 'Vertical Plotter Client 5.3.1'
     Font.Style = [fsBold]
     Layout = tlCenter
     ParentColor = False
@@ -304,7 +304,7 @@ object taboutform: taboutform
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 6
-    Caption = 'Build 20200420'
+    Caption = 'Build 20200425'
     Layout = tlCenter
     ParentColor = False
     ParentFont = False

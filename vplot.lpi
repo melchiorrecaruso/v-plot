@@ -209,7 +209,6 @@
         <EditorIndex Value="14"/>
         <TopLine Value="112"/>
         <CursorPos Y="118"/>
-        <FoldState Value=" T3jV0F1_"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
@@ -1360,7 +1359,6 @@
         <EditorIndex Value="1"/>
         <TopLine Value="109"/>
         <CursorPos X="69" Y="129"/>
-        <FoldState Value=" T3qB0D214;"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

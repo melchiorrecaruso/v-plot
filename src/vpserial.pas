@@ -122,23 +122,18 @@ end;
 function tvpserialstream.read(var buffer; count: longint): longint;
 var
   d: array[0..maxint-1] of byte absolute buffer;
-  {$IFNDEF MSWINDOWS}
   x: tdatetime;
-  {$ENDIF}
 begin
   result := 0;
-  {$IFDEF MSWINDOWS}
-  result := serreadtimeout(fhandle, d[result], count - result, 1);
-  {$ELSE}
   x := now;
   repeat
-    inc(result, serread(fhandle, d[result], count - result));
+    inc(result, serreadtimeout(fhandle, d[result], count - result, 1));
+    //inc(result, serread(fhandle, d[result], count - result));
     if (result = count) then
-      break
-    else
-      sleepmicroseconds(20);
+      break;
+    //else
+    //sleepmicroseconds(20);
   until millisecondsbetween(now, x) > ftimeout;
-  {$ENDIF}
 end;
 
 function tvpserialstream.write(var buffer; count: longint): longint;

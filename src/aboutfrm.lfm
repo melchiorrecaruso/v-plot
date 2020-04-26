@@ -1,7 +1,7 @@
 object taboutform: taboutform
   Left = 471
   Height = 320
-  Top = 192
+  Top = 159
   Width = 400
   AutoSize = True
   BorderIcons = [biSystemMenu]
@@ -22,17 +22,20 @@ object taboutform: taboutform
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 0
-    Height = 15
-    Top = 284
-    Width = 400
+    Left = 40
+    Height = 30
+    Top = 279
+    Width = 320
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 40
     BorderSpacing.Top = 6
-    Caption = 'Questo programma non fornisce ALCUNA GARANZIA.'
+    BorderSpacing.Right = 40
+    Caption = 'This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.'
     Layout = tlCenter
     ParentColor = False
     ParentFont = False
+    WordWrap = True
   end
   object aboutnamelb: TLabel
     AnchorSideLeft.Control = Owner
@@ -42,12 +45,12 @@ object taboutform: taboutform
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 15
-    Top = 171
+    Top = 166
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Top = 18
-    Caption = 'Vertical Plotter Client 5.3.2'
+    Caption = 'Vertical Plotter Client 5.3.4'
     Font.Style = [fsBold]
     Layout = tlCenter
     ParentColor = False
@@ -60,10 +63,10 @@ object taboutform: taboutform
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 128
-    Top = 25
+    Top = 20
     Width = 400
     Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Top = 25
+    BorderSpacing.Top = 20
     Center = True
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963D413000089504E47
@@ -240,7 +243,7 @@ object taboutform: taboutform
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 15
-    Top = 213
+    Top = 208
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
@@ -259,7 +262,7 @@ object taboutform: taboutform
     Cursor = crHandPoint
     Left = 0
     Height = 15
-    Top = 238
+    Top = 233
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
@@ -281,7 +284,7 @@ object taboutform: taboutform
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 15
-    Top = 263
+    Top = 258
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]
@@ -299,7 +302,7 @@ object taboutform: taboutform
     AnchorSideRight.Side = asrBottom
     Left = 0
     Height = 15
-    Top = 192
+    Top = 187
     Width = 400
     Alignment = taCenter
     Anchors = [akTop, akLeft, akRight]

@@ -75,7 +75,6 @@
       <Unit>
         <Filename Value="vplot.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="7"/>
         <CursorPos Y="45"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -205,17 +204,15 @@
       <Unit>
         <Filename Value="src/vpdriver.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="10"/>
-        <TopLine Value="577"/>
-        <CursorPos X="22" Y="595"/>
+        <EditorIndex Value="9"/>
+        <CursorPos X="49" Y="10"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="src/vpsetting.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="11"/>
-        <TopLine Value="262"/>
+        <EditorIndex Value="10"/>
         <CursorPos X="46" Y="271"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -268,8 +265,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="35"/>
-        <CursorPos X="69" Y="58"/>
+        <CursorPos X="56" Y="47"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -290,7 +286,7 @@
       <Unit>
         <Filename Value="src/vpmath.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="129"/>
         <CursorPos X="28" Y="143"/>
         <UsageCount Value="200"/>
@@ -299,7 +295,7 @@
       <Unit>
         <Filename Value="src/vpwave.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="58"/>
         <CursorPos X="46" Y="60"/>
         <UsageCount Value="200"/>
@@ -359,7 +355,7 @@
       <Unit>
         <Filename Value="src/vpdxfreader.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="15"/>
         <CursorPos X="6" Y="6"/>
         <UsageCount Value="230"/>
         <Loaded Value="True"/>
@@ -1253,7 +1249,7 @@
       <Unit>
         <Filename Value="src/vpsvgreader.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <CursorPos X="45" Y="2"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -1333,8 +1329,7 @@
       </Unit>
       <Unit>
         <Filename Value="src/vpsketcher.pas"/>
-        <EditorIndex Value="12"/>
-        <TopLine Value="341"/>
+        <EditorIndex Value="11"/>
         <CursorPos X="24" Y="366"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
@@ -1356,7 +1351,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="109"/>
         <CursorPos X="69" Y="129"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
@@ -1419,9 +1413,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="202"/>
         <CursorPos X="51" Y="207"/>
-        <UsageCount Value="74"/>
+        <UsageCount Value="76"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -1483,8 +1476,7 @@
         <Filename Value="src/vpserial.pas"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="106"/>
-        <CursorPos X="48" Y="117"/>
+        <CursorPos X="30" Y="30"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
       </Unit>
@@ -1541,7 +1533,7 @@
       <Unit>
         <Filename Value="src/vputils.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="53"/>
         <CursorPos X="11" Y="31"/>
         <UsageCount Value="200"/>
@@ -1741,9 +1733,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="24"/>
         <CursorPos X="4" Y="36"/>
-        <UsageCount Value="74"/>
+        <UsageCount Value="76"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -1756,7 +1747,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="64"/>
         <CursorPos X="28" Y="100"/>
-        <UsageCount Value="74"/>
+        <UsageCount Value="76"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -1767,9 +1758,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="142"/>
         <CursorPos X="60" Y="155"/>
-        <UsageCount Value="69"/>
+        <UsageCount Value="71"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -1838,11 +1828,9 @@
       <Unit>
         <Filename Value="../../../../../FPC/3.0.4/source/packages/rtl-extra/src/win/serial.pp"/>
         <UnitName Value="Serial"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="88"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="18" Y="93"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../../FPC/3.0.4/source/rtl/win/wininc/redef.inc"/>

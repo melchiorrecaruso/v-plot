@@ -27,7 +27,7 @@ interface
 
 uses
   {$IFDEF UNIX} baseunix, unix, {$ENDIF} classes,
-  dateutils, serial, sysutils, vputils;
+  dateutils, serial, sysutils;
 
 type
   tvpserialstream = class

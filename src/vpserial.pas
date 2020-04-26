@@ -122,18 +122,8 @@ end;
 function tvpserialstream.read(var buffer; count: longint): longint;
 var
   d: array[0..maxint-1] of byte absolute buffer;
-  x: tdatetime;
 begin
-  result := 0;
-  x := now;
-  repeat
-    inc(result, serreadtimeout(fhandle, d[result], count - result, 1));
-    //inc(result, serread(fhandle, d[result], count - result));
-    if (result = count) then
-      break;
-    //else
-    //sleepmicroseconds(20);
-  until millisecondsbetween(now, x) > ftimeout;
+  result := serreadtimeout(fhandle, d[0], count, ftimeout);
 end;
 
 function tvpserialstream.write(var buffer; count: longint): longint;

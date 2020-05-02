@@ -28,13 +28,16 @@ interface
 function  getbit1(const bits: byte; index: longint): boolean;
 procedure setbit1(var   bits: byte; index: longint);
 
+{$IFDEF UNIX}
+
 procedure sleepmicroseconds(microseconds: longword);
+
+{$ENDIF}
 
 implementation
 
 uses
- {$IFDEF UNIX} baseunix, unix, {$ENDIF}
- {$IFDEF MSWINDOWS} windows, {$ENDIF} sysutils;
+ {$IFDEF UNIX} baseunix, unix, {$ENDIF} sysutils;
 
 function getbit1(const bits: byte; index: longint): boolean;
 var
@@ -68,22 +71,6 @@ begin
     res := fpnanosleep(@timeout, @timeoutresult);
     timeout := timeoutresult;
   until (res <> -1) or (fpgeterrno <> esyseintr);
-end;
-
-{$ENDIF}
-
-{$IFDEF MSWINDOWS}
-
-procedure sleepmicroseconds(microseconds: longword);
-var
-  start, stop, freq: int64;
-begin
-  queryperformancecounter(start);
-  queryperformancefrequency(freq);
-  stop := start + (microseconds*freq) div 1000000;
-  repeat
-    queryperformancecounter(start);
-  until start >= stop;
 end;
 
 {$ENDIF}

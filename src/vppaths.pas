@@ -26,31 +26,25 @@ unit vppaths;
 interface
 
 uses
-  classes, graphics, sysutils, vpmath, bgrapath;
+  bgrapath, classes, graphics, sysutils, vpmath;
 
 type
   tvpelement = class(tobject)
-  private
-    fhidden:   boolean;
-    fselected: boolean;
   public
     constructor create;
     destructor destroy; override;
     procedure invert; virtual; abstract;
-    procedure move(deltax, deltay: vpfloat); virtual; abstract;
-    procedure rotate(angle: vpfloat); virtual; abstract;
-    procedure scale(value: vpfloat); virtual; abstract;
+    procedure move(dx, dy: double); virtual; abstract;
+    procedure rotate(angle: double); virtual; abstract;
+    procedure scale(value: double); virtual; abstract;
     procedure mirrorx; virtual; abstract;
     procedure mirrory; virtual; abstract;
-    procedure interpolate(var path: tvppolygonal; value: vpfloat); virtual abstract;
-    function interpolate: tbgrapath; virtual abstract;
-    procedure read(stream: tstream); virtual;
-    procedure write(stream: tstream); virtual;
-    function getfirstpoint: tvppoint; virtual abstract;
-    function getlastpoint: tvppoint; virtual abstract;
-  public
-    property hidden:   boolean  read fhidden   write fhidden;
-    property selected: boolean  read fselected write fselected;
+    procedure interpolate(var path: tvppolygonal; value: double); virtual abstract;
+    procedure interpolate(var path: tbgrapath); virtual abstract;
+    procedure read(stream: tstream); virtual; abstract;
+    procedure write(stream: tstream); virtual; abstract;
+    function firstpoint: tvppoint; virtual abstract;
+    function lastpoint: tvppoint; virtual abstract;
   end;
 
   tvpelementline = class(tvpelement)
@@ -60,17 +54,17 @@ type
     constructor create;
     constructor create(const aline: tvpline);
     procedure invert; override;
-    procedure move(deltax, deltay: vpfloat); override;
-    procedure rotate(angle: vpfloat); override;
-    procedure scale(value: vpfloat); override;
+    procedure move(dx, dy: double); override;
+    procedure rotate(angle: double); override;
+    procedure scale(value: double); override;
     procedure mirrorx; override;
     procedure mirrory; override;
-    procedure interpolate(var path: tvppolygonal; value: vpfloat); override;
-    function interpolate: tbgrapath; override;
+    procedure interpolate(var path: tvppolygonal; value: double); override;
+    procedure interpolate(var path: tbgrapath); override;
     procedure read(stream: tstream); override;
     procedure write(stream: tstream); override;
-    function getfirstpoint: tvppoint; override;
-    function getlastpoint: tvppoint; override;
+    function firstpoint: tvppoint; override;
+    function lastpoint: tvppoint; override;
   end;
 
   tvpelementcircle = class(tvpelement)
@@ -80,17 +74,17 @@ type
     constructor create;
     constructor create(const acircle: tvpcircle);
     procedure invert; override;
-    procedure move(deltax, deltay: vpfloat); override;
-    procedure rotate(angle: vpfloat); override;
-    procedure scale(value: vpfloat); override;
+    procedure move(dx, dy: double); override;
+    procedure rotate(angle: double); override;
+    procedure scale(value: double); override;
     procedure mirrorx; override;
     procedure mirrory; override;
-    procedure interpolate(var path: tvppolygonal; value: vpfloat); override;
-    function interpolate: tbgrapath; override;
+    procedure interpolate(var path: tvppolygonal; value: double); override;
+    procedure interpolate(var path: tbgrapath); override;
     procedure read(stream: tstream); override;
     procedure write(stream: tstream); override;
-    function getfirstpoint: tvppoint; override;
-    function getlastpoint: tvppoint; override;
+    function firstpoint: tvppoint; override;
+    function lastpoint: tvppoint; override;
   end;
 
   tvpelementcirclearc = class(tvpelement)
@@ -100,17 +94,17 @@ type
     constructor create;
     constructor create(const acirclearc: tvpcirclearc);
     procedure invert; override;
-    procedure move(deltax, deltay: vpfloat); override;
-    procedure rotate(angle: vpfloat); override;
-    procedure scale(value: vpfloat); override;
+    procedure move(dx, dy: double); override;
+    procedure rotate(angle: double); override;
+    procedure scale(value: double); override;
     procedure mirrorx; override;
     procedure mirrory; override;
-    procedure interpolate(var path: tvppolygonal; value: vpfloat); override;
-    function interpolate: tbgrapath; override;
+    procedure interpolate(var path: tvppolygonal; value: double); override;
+    procedure interpolate(var path: tbgrapath); override;
     procedure read(stream: tstream); override;
     procedure write(stream: tstream); override;
-    function getfirstpoint: tvppoint; override;
-    function getlastpoint: tvppoint; override;
+    function firstpoint: tvppoint; override;
+    function lastpoint: tvppoint; override;
   end;
 
   tvpelementpolygonal = class(tvpelement)
@@ -120,28 +114,24 @@ type
     constructor create;
     constructor create(const apolygonal: tvppolygonal);
     procedure invert; override;
-    procedure move(deltax, deltay: vpfloat); override;
-    procedure rotate(angle: vpfloat); override;
-    procedure scale(value: vpfloat); override;
+    procedure move(dx, dy: double); override;
+    procedure rotate(angle: double); override;
+    procedure scale(value: double); override;
     procedure mirrorx; override;
     procedure mirrory; override;
-    procedure interpolate(var path: tvppolygonal; value: vpfloat); override;
-    function interpolate: tbgrapath; override;
+    procedure interpolate(var path: tvppolygonal; value: double); override;
+    procedure interpolate(var path: tbgrapath); override;
     procedure read(stream: tstream); override;
     procedure write(stream: tstream); override;
-    function getfirstpoint: tvppoint; override;
-    function getlastpoint: tvppoint; override;
+    function firstpoint: tvppoint; override;
+    function lastpoint: tvppoint; override;
   end;
 
   tvpelementlist = class(tobject)
   private
     flist: tfplist;
-    fheight: single;
-    fwidth: single;
-    procedure createtoolpath4layer(list: tfplist);
     function getitem(index: longint): tvpelement;
     function getcount: longint;
-    function getmid: tvppoint;
   public
     constructor create;
     destructor destroy; override;
@@ -156,115 +146,37 @@ type
     procedure delete(index: longint);
     procedure clear;
     //
-    procedure move(deltax, deltay: vpfloat);
-    procedure rotate(angle: vpfloat);
-    procedure scale(value: vpfloat);
+    procedure move(dx, dy: double);
+    procedure rotate(angle: double);
+    procedure scale(value: double);
     procedure mirrorx;
     procedure mirrory;
     procedure invert;
     procedure invert(index: longint);
-    procedure createtoolpath;
-    procedure movetoorigin;
     //
-    procedure hide(value: boolean);
-    procedure hideselected;
-    procedure inverthidden;
-    //
-    procedure select(value: boolean);
-    procedure selectattached;
-    procedure invertselected;
-
     procedure load(const filename: string);
     procedure save(const filename: string);
+    //
+    procedure centertoorigin;
   public
     property count: longint read getcount;
     property items[index: longint]: tvpelement read getitem;
-    property height: single read fheight;
-    property width: single read fwidth;
   end;
 
+// toolpath utils
+
+procedure optimizetoolpath(elements: tvpelementlist; startpoint: tvppoint);
 
 implementation
 
 uses
   math;
 
-// tvpelement routines
-
-function getfirst(const p: tvppoint; list: tfplist): longint;
-var
-  i: longint;
-begin
-  result := -1;
-  for i := 0 to list.count -1 do
-  begin
-    if distance_between_two_points(p, tvpelement(list[i]).getfirstpoint) < 0.02 then
-    begin
-      result := i;
-      exit;
-    end
-  end;
-end;
-
-function getlast(const p: tvppoint; list: tfplist): longint;
-var
-  i: longint;
-begin
-  result := -1;
-  for i := 0 to list.count -1 do
-  begin
-    if distance_between_two_points(p, tvpelement(list[i]).getlastpoint) < 0.02 then
-    begin
-      result := i;
-      exit;
-    end
-  end;
-end;
-
-function getnear(const p: tvppoint; list: tfplist): longint;
-var
-     i: longint;
-  len1: vpfloat = $FFFFFFF;
-  len2: vpfloat = $FFFFFFF;
-  elem: tvpelement;
-begin
-  result := -1;
-  for i := 0 to list.count -1 do
-  begin
-    elem := tvpelement(list[i]);
-
-    len2 := distance_between_two_points(p, elem.getfirstpoint);
-    if len1 > len2 then
-    begin
-      len1   := len2;
-      result := i;
-    end;
-
-    len2 := distance_between_two_points(p, elem.getlastpoint);
-    if len1 > len2 then
-    begin
-      elem.invert;
-      len1   := len2;
-      result := i;
-    end;
-
-  end;
-end;
-
-function isaloop(const element: tvpelement): boolean;
-begin
-  result := distance_between_two_points(
-    element.getfirstpoint,
-    element.getlastpoint) < 0.02;
-end;
-
-// tvpelement
+/// tvpelement
 
 constructor tvpelement.create;
 begin
   inherited create;
-  fhidden   := false;
-  fselected := false;
 end;
 
 destructor tvpelement.destroy;
@@ -272,19 +184,7 @@ begin
   inherited destroy;
 end;
 
-procedure tvpelement.read(stream: tstream);
-begin
-  stream.read(fhidden,   sizeof(boolean));
-  stream.read(fselected, sizeof(boolean));
-end;
-
-procedure tvpelement.write(stream: tstream);
-begin
-  stream.write(fhidden,   sizeof(boolean));
-  stream.write(fselected, sizeof(boolean));
-end;
-
-// tvpelementline
+/// tvpelementline
 
 constructor tvpelementline.create;
 begin
@@ -302,17 +202,17 @@ begin
   vpmath.invert(fline);
 end;
 
-procedure tvpelementline.move(deltax, deltay: vpfloat);
+procedure tvpelementline.move(dx, dy: double);
 begin
-  vpmath.move(fline, deltax, deltay);
+  vpmath.move(fline, dx, dy);
 end;
 
-procedure tvpelementline.rotate(angle: vpfloat);
+procedure tvpelementline.rotate(angle: double);
 begin
   vpmath.rotate(fline, angle);
 end;
 
-procedure tvpelementline.scale(value: vpfloat);
+procedure tvpelementline.scale(value: double);
 begin
   vpmath.scale(fline, value);
 end;
@@ -327,42 +227,39 @@ begin
   vpmath.mirrory(fline);
 end;
 
-procedure tvpelementline.interpolate(var path:  tvppolygonal; value: vpfloat);
+procedure tvpelementline.interpolate(var path: tvppolygonal; value: double);
 begin
   vpmath.interpolate(fline, path, value);
 end;
 
-function tvpelementline.interpolate: tbgrapath;
+procedure tvpelementline.interpolate(var path: tbgrapath);
 begin
-  result := tbgrapath.create;
-  result.beginpath;
-  result.moveto(fline.p0.x, fline.p0.y);
-  result.lineto(fline.p1.x, fline.p1.y);
+  path.beginpath;
+  path.moveto(fline.p0.x, fline.p0.y);
+  path.lineto(fline.p1.x, fline.p1.y);
 end;
 
 procedure tvpelementline.read(stream: tstream);
 begin
-  inherited read(stream);
   stream.read(fline, sizeof(tvpline));
 end;
 
 procedure tvpelementline.write(stream: tstream);
 begin
-  inherited write(stream);
   stream.write(fline, sizeof(tvpline));
 end;
 
-function tvpelementline.getfirstpoint: tvppoint;
+function tvpelementline.firstpoint: tvppoint;
 begin
   result := fline.p0;
 end;
 
-function tvpelementline.getlastpoint: tvppoint;
+function tvpelementline.lastpoint: tvppoint;
 begin
   result := fline.p1;
 end;
 
-// tvpelementcircle
+/// tvpelementcircle
 
 constructor tvpelementcircle.create;
 begin
@@ -380,17 +277,17 @@ begin
   vpmath.invert(fcircle);
 end;
 
-procedure tvpelementcircle.move(deltax, deltay: vpfloat);
+procedure tvpelementcircle.move(dx, dy: double);
 begin
-  vpmath.move(fcircle, deltax, deltay);
+  vpmath.move(fcircle, dx, dy);
 end;
 
-procedure tvpelementcircle.rotate(angle: vpfloat);
+procedure tvpelementcircle.rotate(angle: double);
 begin
   vpmath.rotate(fcircle, angle);
 end;
 
-procedure tvpelementcircle.scale(value: vpfloat);
+procedure tvpelementcircle.scale(value: double);
 begin
   vpmath.scale(fcircle, value);
 end;
@@ -405,44 +302,41 @@ begin
   vpmath.mirrory(fcircle);
 end;
 
-procedure tvpelementcircle.interpolate(var path:  tvppolygonal; value: vpfloat);
+procedure tvpelementcircle.interpolate(var path: tvppolygonal; value: double);
 begin
   vpmath.interpolate(fcircle, path, value);
 end;
 
-function tvpelementcircle.interpolate: tbgrapath;
+procedure tvpelementcircle.interpolate(var path: tbgrapath);
 begin
-  result := tbgrapath.create;
-  result.beginpath;
-  result.arc(fcircle.center.x,
-             fcircle.center.y,
-             fcircle.radius,0, 2*pi);
+  path.beginpath;
+  path.arc(fcircle.center.x,
+           fcircle.center.y,
+           fcircle.radius,0, 2*pi);
 end;
 
 procedure tvpelementcircle.read(stream: tstream);
 begin
-  inherited read(stream);
   stream.read(fcircle, sizeof(tvpcircle));
 end;
 
 procedure tvpelementcircle.write(stream: tstream);
 begin
-  inherited write(stream);
   stream.write(fcircle, sizeof(tvpcircle));
 end;
 
-function tvpelementcircle.getfirstpoint: tvppoint;
+function tvpelementcircle.firstpoint: tvppoint;
 begin
   result.x := fcircle.center.x + fcircle.radius;
   result.y := fcircle.center.y;
 end;
 
-function tvpelementcircle.getlastpoint: tvppoint;
+function tvpelementcircle.lastpoint: tvppoint;
 begin
-  result := getfirstpoint;
+  result := firstpoint;
 end;
 
-// tvpelementcirclearc
+/// tvpelementcirclearc
 
 constructor tvpelementcirclearc.create;
 begin
@@ -460,17 +354,17 @@ begin
   vpmath.invert(fcirclearc);
 end;
 
-procedure tvpelementcirclearc.move(deltax, deltay: vpfloat);
+procedure tvpelementcirclearc.move(dx, dy: double);
 begin
-  vpmath.move(fcirclearc, deltax, deltay);
+  vpmath.move(fcirclearc, dx, dy);
 end;
 
-procedure tvpelementcirclearc.rotate(angle: vpfloat);
+procedure tvpelementcirclearc.rotate(angle: double);
 begin
   vpmath.rotate(fcirclearc, angle);
 end;
 
-procedure tvpelementcirclearc.scale(value: vpfloat);
+procedure tvpelementcirclearc.scale(value: double);
 begin
   vpmath.scale(fcirclearc, value);
 end;
@@ -485,37 +379,34 @@ begin
   vpmath.mirrory(fcirclearc);
 end;
 
-procedure tvpelementcirclearc.interpolate(var path:  tvppolygonal; value: vpfloat);
+procedure tvpelementcirclearc.interpolate(var path: tvppolygonal; value: double);
 begin
   vpmath.interpolate(fcirclearc, path, value);
 end;
 
-function tvpelementcirclearc.interpolate: tbgrapath;
+procedure tvpelementcirclearc.interpolate(var path: tbgrapath);
 begin
-  result := tbgrapath.create;
-  result.beginpath;
-  result.arc(fcirclearc.center.x,
-             fcirclearc.center.y,
-             fcirclearc.radius,
-    degtorad(fcirclearc.startangle),
-    degtorad(fcirclearc.endangle),
-             fcirclearc.startangle >
-             fcirclearc.endangle);
+  path.beginpath;
+  path.arc(fcirclearc.center.x,
+           fcirclearc.center.y,
+           fcirclearc.radius,
+  degtorad(fcirclearc.startangle),
+  degtorad(fcirclearc.endangle),
+           fcirclearc.startangle >
+           fcirclearc.endangle);
 end;
 
 procedure tvpelementcirclearc.read(stream: tstream);
 begin
-  inherited read(stream);
   stream.read(fcirclearc, sizeof(tvpcirclearc));
 end;
 
 procedure tvpelementcirclearc.write(stream: tstream);
 begin
-  inherited write(stream);
   stream.write(fcirclearc, sizeof(tvpcirclearc));
 end;
 
-function tvpelementcirclearc.getfirstpoint: tvppoint;
+function tvpelementcirclearc.firstpoint: tvppoint;
 begin
   result.x := fcirclearc.radius;
   result.y := 0;
@@ -524,7 +415,7 @@ begin
                         fcirclearc.center.y);
 end;
 
-function tvpelementcirclearc.getlastpoint: tvppoint;
+function tvpelementcirclearc.lastpoint: tvppoint;
 begin
   result.x := fcirclearc.radius;
   result.y := 0;
@@ -533,7 +424,7 @@ begin
                         fcirclearc.center.y);
 end;
 
-// tvpelementpolygonal
+/// tvpelementpolygonal
 
 constructor tvpelementpolygonal.create;
 begin
@@ -557,17 +448,17 @@ begin
   vpmath.invert(fpolygonal);
 end;
 
-procedure tvpelementpolygonal.move(deltax, deltay: vpfloat);
+procedure tvpelementpolygonal.move(dx, dy: double);
 begin
-  vpmath.move(fpolygonal, deltax, deltay);
+  vpmath.move(fpolygonal, dx, dy);
 end;
 
-procedure tvpelementpolygonal.rotate(angle: vpfloat);
+procedure tvpelementpolygonal.rotate(angle: double);
 begin
   vpmath.rotate(fpolygonal, angle);
 end;
 
-procedure tvpelementpolygonal.scale(value: vpfloat);
+procedure tvpelementpolygonal.scale(value: double);
 begin
   vpmath.scale(fpolygonal, value);
 end;
@@ -582,22 +473,21 @@ begin
   vpmath.mirrory(fpolygonal);
 end;
 
-procedure tvpelementpolygonal.interpolate(var path:  tvppolygonal; value: vpfloat);
+procedure tvpelementpolygonal.interpolate(var path:  tvppolygonal; value: double);
 begin
   vpmath.interpolate(fpolygonal, path, value);
 end;
 
-function tvpelementpolygonal.interpolate: tbgrapath;
+procedure tvpelementpolygonal.interpolate(var path: tbgrapath);
 begin
-  result := tbgrapath.create;
-  result.beginpath;
+  path.beginpath;
+  // todo
 end;
 
 procedure tvpelementpolygonal.read(stream: tstream);
 var
   i, j: longint;
 begin
-  inherited read(stream);
   setlength(fpolygonal, 0);
   if stream.read(j, sizeof(longint)) = sizeof(longint) then
   begin
@@ -613,7 +503,6 @@ procedure tvpelementpolygonal.write(stream: tstream);
 var
   i, j: longint;
 begin
-  inherited write(stream);
   j := system.length(fpolygonal);
   stream.write(j, sizeof(longint));
   for i := 0 to high(fpolygonal) do
@@ -622,24 +511,22 @@ begin
   end;
 end;
 
-function tvpelementpolygonal.getfirstpoint: tvppoint;
+function tvpelementpolygonal.firstpoint: tvppoint;
 begin
   result := fpolygonal[low(fpolygonal)];
 end;
 
-function tvpelementpolygonal.getlastpoint: tvppoint;
+function tvpelementpolygonal.lastpoint: tvppoint;
 begin
   result := fpolygonal[high(fpolygonal)];
 end;
 
-// tvpelementslist
+/// tvpelementslist
 
 constructor tvpelementlist.create;
 begin
   inherited create;
-  flist   := tfplist.create;
-  fwidth  := 0;
-  fheight := 0;
+  flist := tfplist.create;
 end;
 
 destructor tvpelementlist.destroy;
@@ -658,8 +545,6 @@ begin
     tvpelement(flist[i]).destroy;
   end;
   flist.clear;
-  fwidth  := 0;
-  fheight := 0;
 end;
 
 function tvpelementlist.getcount: longint;
@@ -672,42 +557,9 @@ begin
   result := tvpelement(flist[index]);
 end;
 
-function tvpelementlist.getmid: tvppoint;
-var
-     i, j: longint;
-     xmin: vpfloat;
-     xmax: vpfloat;
-     ymin: vpfloat;
-     ymax: vpfloat;
-     path: tvppolygonal;
-    point: tvppoint;
-begin
-  xmin  := + maxint;
-  xmax  := - maxint;
-  ymin  := + maxint;
-  ymax  := - maxint;
-  for i := 0 to flist.count -1 do
-  begin
-    tvpelement(flist[i]).interpolate(path, 0.5);
-
-    for j := 0 to high(path) do
-    begin
-      point := path[j];
-       xmin := min(xmin, point.x);
-       xmax := max(xmax, point.x);
-       ymin := min(ymin, point.y);
-       ymax := max(ymax, point.y);
-    end;
-  end;
-  fwidth   := (xmax - xmin);
-  fheight  := (ymax - ymin);
-  result.x := (xmin + xmax)/2;
-  result.y := (ymin + ymax)/2;
-end;
-
 procedure tvpelementlist.add(const line: tvpline);
 begin
-   flist.add(tvpelementline.create(line));
+  flist.add(tvpelementline.create(line));
 end;
 
 procedure tvpelementlist.add(const circle: tvpcircle);
@@ -758,17 +610,17 @@ begin
   flist.delete(index);
 end;
 
-procedure tvpelementlist.move(deltax, deltay: vpfloat);
+procedure tvpelementlist.move(dx, dy: double);
 var
   i: longint;
 begin
   for i := 0 to flist.count -1 do
   begin
-    tvpelement(flist[i]).move(deltax, deltay);
+    tvpelement(flist[i]).move(dx, dy);
   end;
 end;
 
-procedure tvpelementlist.rotate(angle: vpfloat);
+procedure tvpelementlist.rotate(angle: double);
 var
   i: longint;
 begin
@@ -778,7 +630,7 @@ begin
   end;
 end;
 
-procedure tvpelementlist.scale(value: vpfloat);
+procedure tvpelementlist.scale(value: double);
 var
   i: longint;
 begin
@@ -825,95 +677,6 @@ begin
   tvpelement(flist[index]).invert;
 end;
 
-procedure tvpelementlist.hide(value: boolean);
-var
-  i: longint;
-begin
-  for i := 0 to flist.count -1 do
-  begin
-    tvpelement(flist[i]).fhidden := value;;
-  end;
-end;
-
-procedure tvpelementlist.hideselected;
-var
-  i: longint;
-begin
-  for i := 0 to flist.count -1 do
-    if tvpelement(flist[i]).fselected then
-    begin
-      tvpelement(flist[i]).fhidden := true;
-    end;
-end;
-
-procedure tvpelementlist.inverthidden;
-var
-  i: longint;
-begin
-  for i := 0 to flist.count -1 do
-  begin
-    tvpelement(flist[i]).fhidden := not tvpelement(flist[i]).fhidden;
-  end;
-end;
-
-procedure tvpelementlist.select(value: boolean);
-var
-  i: longint;
-begin
-  for i := 0 to flist.count -1 do
-  begin
-    tvpelement(flist[i]).fselected := value;
-  end;
-end;
-
-procedure tvpelementlist.selectattached;
-var
-     i, j: longint;
-  element: tvpelement;
-begin
-  for i := 0 to flist.count -1 do
-  begin
-    element := tvpelement(flist[i]);
-
-    if element.fselected then
-    begin
-      repeat
-        j := getfirst(element.getlastpoint, flist);
-        if j <> -1 then
-        begin
-          element := tvpelement(flist[j]);
-          if element.fselected then
-            break;
-          element.fselected := true;
-        end;
-      until (j = -1) or (j = i);
-
-      element := tvpelement(flist[i]);
-      repeat
-        j := getlast(element.getfirstpoint, flist);
-        if j <> -1 then
-        begin
-          element := tvpelement(flist[j]);
-          if element.fselected then
-            break;
-          element.fselected := true;
-        end;
-      until (j = -1) or (j = i);
-
-    end;
-  end;
-end;
-
-procedure tvpelementlist.invertselected;
-var
-  i: longint;
-begin
-  for i := 0 to flist.count -1 do
-  begin
-    tvpelement(flist[i]).fselected := not tvpelement(flist[i]).fselected;
-  end;
-end;
-
 procedure tvpelementlist.save(const filename: string);
 var
         i: longint;
@@ -921,7 +684,7 @@ var
         s: tmemorystream;
 begin
   s := tmemorystream.create;
-  s.writeansistring('vpl5.0');
+  s.writeansistring('vpl6.0');
   s.write(flist.count, sizeof(longint));
   for i := 0 to flist.count -1 do
   begin
@@ -949,7 +712,7 @@ begin
   clear;
   s := tmemorystream.create;
   s.loadfromfile(filename);
-  if s.readansistring = 'vpl5.0' then
+  if s.readansistring = 'vpl6.0' then
   begin
     if s.read(j, sizeof(longint))= sizeof(longint) then
       for i := 0 to j -1 do
@@ -969,12 +732,122 @@ begin
   s.destroy;
 end;
 
-procedure tvpelementlist.createtoolpath;
+procedure tvpelementlist.centertoorigin;
+var
+  i, j: longint;
+  xmin, xmax: double;
+  ymin, ymax: double;
+  path: tvppolygonal = nil;
+  point: tvppoint;
 begin
-  createtoolpath4layer(flist);
+  xmin  := + maxint;
+  xmax  := - maxint;
+  ymin  := + maxint;
+  ymax  := - maxint;
+  for i := 0 to flist.count -1 do
+  begin
+    getitem(i).interpolate(path, 0.5);
+    for j := 0 to high(path) do
+    begin
+      point := path[j];
+       xmin := min(xmin, point.x);
+       xmax := max(xmax, point.x);
+       ymin := min(ymin, point.y);
+       ymax := max(ymax, point.y);
+    end;
+    path := nil;
+  end;
+  move(-(xmin + xmax)/2, -(ymin + ymax)/2);
 end;
 
-procedure tvpelementlist.createtoolpath4layer(list: tfplist);
+// toolpath utils
+
+function getcount(const p: tvppoint; list: tvpelementlist): longint;
+var
+     i: longint;
+  elem: tvpelement;
+begin
+  result := 0;
+  for i := 0 to list.count -1 do
+  begin
+    elem := list.items[i];
+    if distance_between_two_points(p, elem.firstpoint) < 0.02 then inc(result);
+    if distance_between_two_points(p, elem.lastpoint ) < 0.02 then inc(result);
+  end;
+end;
+
+function getfirst(const p: tvppoint; list: tvpelementlist): longint;
+var
+     i: longint;
+  elem: tvpelement;
+begin
+  result := -1;
+  for i := 0 to list.count -1 do
+  begin
+    elem := list.items[i];
+    if distance_between_two_points(p, elem.firstpoint) < 0.02 then
+    begin
+      result := i;
+      exit;
+    end
+  end;
+end;
+
+function getlast(const p: tvppoint; list: tvpelementlist): longint;
+var
+     i: longint;
+  elem: tvpelement;
+begin
+  result := -1;
+  for i := 0 to list.count -1 do
+  begin
+    elem := list.items[i];
+    if distance_between_two_points(p, elem.lastpoint) < 0.02 then
+    begin
+      result := i;
+      exit;
+    end
+  end;
+end;
+
+function getnear(const p: tvppoint; list: tvpelementlist): longint;
+var
+     i: longint;
+  len1: double = $FFFFFFF;
+  len2: double = $FFFFFFF;
+  elem: tvpelement;
+begin
+  result := -1;
+  for i := 0 to list.count -1 do
+  begin
+    elem := list.items[i];
+
+    len2 := distance_between_two_points(p, elem.firstpoint);
+    if len1 > len2 then
+    begin
+      len1   := len2;
+      result := i;
+    end;
+
+    len2 := distance_between_two_points(p, elem.lastpoint);
+    if len1 > len2 then
+    begin
+      elem.invert;
+      len1   := len2;
+      result := i;
+    end;
+
+  end;
+end;
+
+function isaloop(const element: tvpelement): boolean;
+begin
+  result := distance_between_two_points(
+    element.firstpoint,
+    element.lastpoint) < 0.02;
+end;
+
+procedure optimizetoolpath(elements: tvpelementlist; startpoint: tvppoint);
 var
       i: longint;
    elem: tvpelement;
@@ -982,51 +855,47 @@ var
   list1: tfplist;
   list2: tfplist;
 begin
-  list1  := tfplist.create;
-  list2  := tfplist.create;
-  last.x := 0;
-  last.y := 0;
+  list1 := tfplist.create;
+  list2 := tfplist.create;
+  last  := startpoint;
   // create toolpath
-  while list.count > 0 do
+  while elements.count > 0 do
   begin
-    i := getnear(last, list);
-    list1.add(list[i]);
-    list.delete(i);
+    i := getnear(last, elements);
+    list1.add(elements.extract(i));
 
     if isaloop(tvpelement(list1[0])) = false then
     begin
 
       elem := tvpelement(list1[0]);
       repeat
-        i := getfirst(elem.getlastpoint, list);
+        i := getfirst(elem.lastpoint, elements);
         if i = -1 then
         begin
-          i := getlast(elem.getlastpoint, list);
-          if i <> -1 then tvpelement(list[i]).invert;
+          i := getlast(elem.lastpoint, elements);
+          if i <> -1 then elements.items[i].invert;
         end;
 
         if i <> -1 then
         begin
-          elem := tvpelement(list[i]);
+          elem := elements.extract(i);
           list1.add(elem);
-          list.delete(i);
         end;
       until i = -1;
 
       elem := tvpelement(list1[0]);
       repeat
-        i := getlast(elem.getfirstpoint, list);
+        i := getlast(elem.firstpoint, elements);
         if i = -1 then
         begin
-          i := getfirst(elem.getfirstpoint, list);
-          if i <> -1 then tvpelement(list[i]).invert;
+          i := getfirst(elem.firstpoint, elements);
+          if i <> -1 then elements.items[i].invert;
         end;
 
         if i <> -1 then
         begin
-          elem := tvpelement(list[i]);
+          elem := elements.extract(i);
           list1.insert(0, elem);
-          list.delete(i);
         end;
       until i = -1;
     end;
@@ -1034,7 +903,7 @@ begin
     // move toolpath
     while list1.count > 0 do
     begin
-      last :=   tvpelement(list1[0]).getlastpoint;
+      last :=   tvpelement(list1[0]).lastpoint;
       list2.add(tvpelement(list1[0]));
       list1.delete(0);
     end;
@@ -1042,22 +911,11 @@ begin
 
   while list2.count > 0 do
   begin
-    list.add(tvpelement(list2[0]));
+    elements.add(tvpelement(list2[0]));
     list2.delete(0);
   end;
   list2.destroy;
   list1.destroy;
 end;
 
-procedure tvpelementlist.movetoorigin;
-var
-  p: tvppoint;
-begin
-  p := getmid;
-  move(-p.x, -p.y);
-end;
-
 end.
-
-
-

@@ -56,7 +56,7 @@ type
     property stopbits: longint      read fstopbits write fstopbits;
   end;
 
-  function getserialportnames: tstringlist;
+  function serialportnames: tstringlist;
 
 var
   serialstream: tvpserialstream = nil;
@@ -137,7 +137,7 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-function getserialportnames: tstringlist;
+function serialportnames: tstringlist;
 var
   i: longint;
 begin
@@ -150,7 +150,7 @@ end;
 {$ENDIF}
 
 {$IFDEF UNIX}
-function getserialportnames: tstringlist;
+function serialportnames: tstringlist;
 var
   i: longint;
 begin

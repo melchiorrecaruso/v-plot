@@ -60,10 +60,7 @@ implementation
 {$R *.lfm}
 
 uses
-   fgl, reportfrm;
-
-type
-  tintegerlist = specialize tfpglist<integer>;
+   reportfrm, vputils;
 
 { tcheckform }
 
@@ -89,10 +86,10 @@ var
   c00, c0: longint;
   c11, c1: longint;
         l: tvpline;
-  l00, l0: vpfloat;
-  l11, l1: vpfloat;
-  offset0: vpfloat;
-  offset1: vpfloat;
+  l00, l0: double;
+  l11, l1: double;
+  offset0: double;
+  offset1: double;
     path0: tvppolygonal;
     path1: tvppolygonal;
     pp, p: tvppoint;

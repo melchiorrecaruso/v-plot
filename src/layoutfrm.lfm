@@ -234,7 +234,7 @@ object layoutform: Tlayoutform
     Height = 437
     Top = 6
     Width = 434
-    PageIndex = 1
+    PageIndex = 0
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 6
     BorderSpacing.Top = 6

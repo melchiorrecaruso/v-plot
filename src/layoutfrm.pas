@@ -91,19 +91,19 @@ var
 
 { tlayoutform }
 
-function calc_pp(const a, b, c: vpfloat): tvppoint;
+function calc_pp(const a, b, c: double): tvppoint;
 var
-  alpha: vpfloat;
+  alpha: double;
 begin
      alpha := arccos((sqr(a)+sqr(c)-sqr(b))/(2*a*c));
   result.x := +a*cos(alpha);
   result.y := -a*sin(alpha);
 end;
 
-procedure calc_load(const m0, m1, p: tvppoint; out l0, l1: vpfloat);
+procedure calc_load(const m0, m1, p: tvppoint; out l0, l1: double);
 var
-  a0, a1: vpfloat;
-       d: vpfloat;
+  a0, a1: double;
+       d: double;
 begin
   a0 :=    angle(line_by_two_points(p, m0));
   a1 := pi-angle(line_by_two_points(p, m1));
@@ -206,7 +206,7 @@ procedure tlayoutform.drawbtnclick(sender: tobject);
 var
   clr : tcolor;
   clrs: array[0..9] of tcolor;
-  a,b,c, d0, d1, ld0, ld1: vpfloat;
+  a,b,c, d0, d1, ld0, ld1: double;
   x,  y, dx, dy, sx, sy, sz: longint;
   p, pp: tvppoint;
   s: string;

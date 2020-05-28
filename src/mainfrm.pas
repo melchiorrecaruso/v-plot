@@ -141,7 +141,7 @@ type
       pagewidth: longint;
      pageheight: longint;
 
-           zoom: vpfloat;
+           zoom: double;
           movex: longint;
           movey: longint;
     procedure onplottererror;
@@ -209,7 +209,7 @@ begin
   page        := tvpelementlist.create;
   screenimage := tbgrabitmap.create(screen.width, screen.height);
   // update port combobox
-  list := getserialportnames;
+  list := serialportnames;
   for i := 0 to list.count -1 do
   begin
     portcb.items.add(list[i]);
@@ -343,12 +343,12 @@ begin
     if (lowercase(extractfileext(opendialog.filename)) = '.dxf') then
     begin
       dxf2paths(opendialog.filename, page);
-      page.createtoolpath;
+      optimizetoolpath(page, setting.point8);
     end else
     if (lowercase(extractfileext(opendialog.filename)) = '.svg') then
     begin
       svg2paths(opendialog.filename, page);
-      page.createtoolpath;
+      optimizetoolpath(page, setting.point8);
     end else
     if (lowercase(extractfileext(opendialog.filename)) = '.bmp') or
        (lowercase(extractfileext(opendialog.filename)) = '.png') then
@@ -421,7 +421,7 @@ begin
     3: page.mirrorx;                    // X-MIRROR
     4: page.mirrory;                    // Y-MIRROR
     5: page.rotate(editingedt.value);   // ROTATE
-    6: page.movetoorigin;               // MOVE TO ORIGIN
+    6: page.centertoorigin;             // MOVE TO ORIGIN
   end;
   updatescreen;
   unlock;
@@ -486,30 +486,27 @@ begin
     for i := 0 to page.count -1 do
     begin
       element := page.items[i];
-      if element.hidden = false then
+      element.interpolate(path, 0.05);
+      for j := 0 to high(path) do
       begin
-        element.interpolate(path, 0.05);
-        for j := 0 to high(path) do
+        point2 := path[j];
+        if (abs(point2.x) < (pagewidth /2+2)) and
+           (abs(point2.y) < (pageheight/2+2)) then
         begin
-          point2 := path[j];
-          if (abs(point2.x) < (pagewidth /2+2)) and
-             (abs(point2.y) < (pageheight/2+2)) then
-          begin
-            point2.x := point2.x + xoffset;
-            point2.y := point2.y + yoffset;
+          point2.x := point2.x + xoffset;
+          point2.y := point2.y + yoffset;
 
-            if distance_between_two_points(point1, point2) > 0.2 then
-              driver.movez(setting.servozvalue1)
-            else
-              driver.movez(setting.servozvalue0);
+          if distance_between_two_points(point1, point2) > 0.2 then
+            driver.movez(setting.servozvalue1)
+          else
+            driver.movez(setting.servozvalue0);
 
-            driverengine.calcsteps(point2, cx, cy);
-            driver.move(cx, cy);
-            point1 := point2;
-          end;
+          driverengine.calcsteps(point2, cx, cy);
+          driver.move(cx, cy);
+          point1 := point2;
         end;
-        path := nil;
       end;
+      path := nil;
     end;
     driver.start;
   end else
@@ -618,7 +615,7 @@ end;
 
 procedure tmainform.changezoombtnclick(sender: tobject);
 var
-  azoom: vpfloat;
+  azoom: double;
 begin
   azoom := zoom;
   if sender = inczoombtn then
@@ -798,34 +795,33 @@ begin
   for i := 0 to min(pagecount, page.count) -1 do
   begin
     elem := page.items[i];
-    if (elem.hidden = false) then
-    begin
-      x0 := trunc((pagewidth /2)*zoom);
-      y0 := trunc((pageheight/2)*zoom);
 
-      elem.mirrorx;
-      elem.scale(zoom);
-      elem.move(x0, y0);
+    x0 := trunc((pagewidth /2)*zoom);
+    y0 := trunc((pageheight/2)*zoom);
+
+    elem.mirrorx;
+    elem.scale(zoom);
+    elem.move(x0, y0);
+    begin
+      path := tbgrapath.create;
+      elem.interpolate(path);
+      path.stroke(screenimage, bgra(0, 0, 0), 1.5);
+      // draw red point
+      if pagecount < page.count then
       begin
-        path := elem.interpolate;
-        path.stroke(screenimage, bgra(0, 0, 0), 1.5);
-        // draw red point
-        if pagecount < page.count then
-        begin
-          a := path.topoints;
-          path.beginpath;
-          path.arc(
-            trunc(a[high(a)].x),
-            trunc(a[high(a)].y), 1.5, 0, 2*pi);
-          path.stroke(screenimage, bgra(255, 0, 0), 1.0);
-          path.fill  (screenimage, bgra(255, 0, 0));
-        end;
-        path.destroy;
+        a := path.topoints;
+        path.beginpath;
+        path.arc(
+          trunc(a[high(a)].x),
+          trunc(a[high(a)].y), 1.5, 0, 2*pi);
+        path.stroke(screenimage, bgra(255, 0, 0), 1.0);
+        path.fill  (screenimage, bgra(255, 0, 0));
       end;
-      elem.move(-x0, -y0);
-      elem.scale(1/zoom);
-      elem.mirrorx;
+      path.destroy;
     end;
+    elem.move(-x0, -y0);
+    elem.scale(1/zoom);
+    elem.mirrorx;
   end;
   screen.redrawbitmap;
 end;

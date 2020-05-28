@@ -32,7 +32,7 @@ type
   tvpdegres = 0..10;
 
   tvppolynome = packed record
-    coefs: array[tvpdegres] of vpfloat;
+    coefs: array[tvpdegres] of double;
     deg:   tvpdegres;
   end;
 
@@ -63,7 +63,7 @@ uses
 
 // polynomial evaluation
 
-function polyeval(const apoly: tvppolynome; x: vpfloat): vpfloat;
+function polyeval(const apoly: tvppolynome; x: double): double;
 var
   i: tvpdegres;
 begin
@@ -85,8 +85,8 @@ var
      dy: tvector3_double;
      dx: tvector3_double;
    y, x: tmatrix3_double;
-  dxmax: vpfloat;
-  dymax: vpfloat;
+  dxmax: double;
+  dymax: double;
 begin
   inherited create;
   fenabled := false;

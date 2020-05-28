@@ -91,17 +91,17 @@ type
     fiterationlimit: longint;
     fpoints: array[0..1, 0..driverloop] of tvppoint;
     fsetting: tvpsetting;
-    function getangle(const a0, a1: vpfloat; index: longint): vpfloat;
-    procedure calcpointinternal(const lx, ly: vpfloat;
-      out p: tvppoint; const a0, a1, b0, b1: vpfloat);
+    function getangle(const a0, a1: double; index: longint): double;
+    procedure calcpointinternal(const lx, ly: double;
+      out p: tvppoint; const a0, a1, b0, b1: double);
   public
     constructor create(asetting: tvpsetting);
     destructor destroy; override;
-    function  calclength0(const p, t0: tvppoint; r0: vpfloat): vpfloat;
-    function  calclength1(const p, t1: tvppoint; r1: vpfloat): vpfloat;
-    procedure calclengths(const p: tvppoint; out lx, ly: vpfloat);
+    function  calclength0(const p, t0: tvppoint; r0: double): double;
+    function  calclength1(const p, t1: tvppoint; r1: double): double;
+    procedure calclengths(const p: tvppoint; out lx, ly: double);
     procedure calcsteps(const p: tvppoint; out cx, cy: longint);
-    procedure calcpoint(const lx, ly: vpfloat; out p: tvppoint);
+    procedure calcpoint(const lx, ly: double; out p: tvppoint);
   end;
 
 
@@ -163,9 +163,9 @@ begin
   inherited destroy;
 end;
 
-function tvpdriverengine.calclength0(const p, t0: tvppoint; r0: vpfloat): vpfloat;
+function tvpdriverengine.calclength0(const p, t0: tvppoint; r0: double): double;
 var
-      a0: vpfloat;
+      a0: double;
   c0, cx: tvpcircleimp;
   s0, sx: tvppoint;
 begin
@@ -179,9 +179,9 @@ begin
   result := result + a0*r0;
 end;
 
-function tvpdriverengine.calclength1(const p, t1: tvppoint; r1: vpfloat): vpfloat;
+function tvpdriverengine.calclength1(const p, t1: tvppoint; r1: double): double;
 var
-      a1: vpfloat;
+      a1: double;
   c1, cx: tvpcircleimp;
   s1, sx: tvppoint;
 begin
@@ -195,9 +195,9 @@ begin
   result := result + a1*r1;
 end;
 
-procedure tvpdriverengine.calclengths(const p: tvppoint; out lx, ly: vpfloat);
+procedure tvpdriverengine.calclengths(const p: tvppoint; out lx, ly: double);
 var
-      a0, a1: vpfloat;
+      a0, a1: double;
   c0, c1, cx: tvpcircleimp;
   s0, s1, sx: tvppoint;
       t0, t1: tvppoint;
@@ -224,8 +224,8 @@ end;
 
 procedure tvpdriverengine.calcsteps(const p: tvppoint; out cx, cy: longint);
 var
-  lx: vpfloat;
-  ly: vpfloat;
+  lx: double;
+  ly: double;
 begin
   calclengths(p, lx, ly);
   // calculate steps
@@ -233,21 +233,21 @@ begin
   cy := round(ly/fsetting.pulley1ratio);
 end;
 
-function tvpdriverengine.getangle(const a0, a1: vpfloat; index: longint): vpfloat;
+function tvpdriverengine.getangle(const a0, a1: double; index: longint): double;
 begin
   result := a0+((a1-a0)/driverloop)*index;
 end;
 
-procedure tvpdriverengine.calcpointinternal(const lx, ly: vpfloat;
-  out p: tvppoint; const a0, a1, b0, b1: vpfloat);
+procedure tvpdriverengine.calcpointinternal(const lx, ly: double;
+  out p: tvppoint; const a0, a1, b0, b1: double);
 var
-  e1, e2: vpfloat;
-     ang: vpfloat;
+  e1, e2: double;
+     ang: double;
   i1, j1: longint;
   i2, j2: longint;
        t: tvppoint;
-       a: array[0..1] of vpfloat;
-       b: array[0..1] of vpfloat;
+       a: array[0..1] of double;
+       b: array[0..1] of double;
 begin
   inc(fiteration);
   for i1 := 0 to driverloop do
@@ -300,10 +300,10 @@ begin
     end;
 end;
 
-procedure tvpdriverengine.calcpoint(const lx, ly: vpfloat; out p: tvppoint);
+procedure tvpdriverengine.calcpoint(const lx, ly: double; out p: tvppoint);
 var
-  a0, a1: vpfloat;
-  b0, b1: vpfloat;
+  a0, a1: double;
+  b0, b1: double;
 begin
   fiteration   := 0;
   a0 := 0;  a1 := pi/2;
@@ -314,9 +314,9 @@ end;
 procedure driverenginedebug(adriverengine: tvpdriverengine);
 var
     i,  j: longint;
-   lx, ly: vpfloat;
-  offsetx: vpfloat;
-  offsety: vpfloat;
+   lx, ly: double;
+  offsetx: double;
+  offsety: double;
      page: array[0..2, 0..2] of tvppoint;
        pp: tvppoint;
 begin

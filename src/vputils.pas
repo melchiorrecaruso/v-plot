@@ -25,6 +25,14 @@ unit vputils;
 
 interface
 
+uses
+  fgl;
+
+type
+  tintegerlist = specialize tfpglist<integer>;
+  tdoublelist  = specialize tfpglist<double>;
+  tsinglelist  = specialize tfpglist<single>;
+
 function  getbit1(const bits: byte; index: longint): boolean;
 procedure setbit1(var   bits: byte; index: longint);
 

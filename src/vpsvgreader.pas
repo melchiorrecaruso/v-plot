@@ -96,7 +96,7 @@ begin
   svg.destroy;
 
 //elements.mirrorx;
-  elements.movetoorigin;
+ elements.centertoorigin;
 end;
 
 end.

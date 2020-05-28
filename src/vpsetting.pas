@@ -35,16 +35,16 @@ type
     fpoint0: tvppoint;
     fpoint1: tvppoint;
     fpoint8: tvppoint;
-    fpoint9offset: vpfloat;
-    fpoint9factor: vpfloat;
-    fpageheight: vpfloat;
-    fpagewidth:  vpfloat;
+    fpoint9offset: double;
+    fpoint9factor: double;
+    fpageheight: double;
+    fpagewidth:  double;
     // pulley-0
-    fpulley0radius: vpfloat;
-    fpulley0ratio:  vpfloat;
+    fpulley0radius: double;
+    fpulley0ratio:  double;
     // pulley-1
-    fpulley1radius: vpfloat;
-    fpulley1ratio:  vpfloat;
+    fpulley1radius: double;
+    fpulley1ratio:  double;
     // servo-z
     fservozvalue0: longint;
     fservozvalue1: longint;
@@ -63,7 +63,7 @@ type
     fwavepoint6: tvppoint;
     fwavepoint7: tvppoint;
     fwavepoint8: tvppoint;
-    fwavescale:  vpfloat;
+    fwavescale:  double;
     fwaveoff:    longint;
  public
     constructor create;
@@ -74,15 +74,15 @@ type
     property point0: tvppoint read fpoint0 write fpoint0;
     property point1: tvppoint read fpoint1 write fpoint1;
     property point8: tvppoint read fpoint8 write fpoint8;
-    property point9offset: vpfloat read fpoint9offset write fpoint9offset;
-    property point9factor: vpfloat read fpoint9factor write fpoint9factor;
-    property pageheight: vpfloat read fpageheight write fpageheight;
-    property pagewidth:  vpfloat read fpagewidth  write fpagewidth;
+    property point9offset: double read fpoint9offset write fpoint9offset;
+    property point9factor: double read fpoint9factor write fpoint9factor;
+    property pageheight: double read fpageheight write fpageheight;
+    property pagewidth:  double read fpagewidth  write fpagewidth;
 
-    property pulley0radius: vpfloat read fpulley0radius write fpulley0radius;
-    property pulley0ratio:  vpfloat read fpulley0ratio  write fpulley0ratio;
-    property pulley1radius: vpfloat read fpulley1radius write fpulley1radius;
-    property pulley1ratio:  vpfloat read fpulley1ratio  write fpulley1ratio;
+    property pulley0radius: double read fpulley0radius write fpulley0radius;
+    property pulley0ratio:  double read fpulley0ratio  write fpulley0ratio;
+    property pulley1radius: double read fpulley1radius write fpulley1radius;
+    property pulley1ratio:  double read fpulley1ratio  write fpulley1ratio;
     property servozvalue0: longint read fservozvalue0 write fservozvalue0;
     property servozvalue1: longint read fservozvalue1 write fservozvalue1;
     property servozvalue2: longint read fservozvalue2 write fservozvalue2;
@@ -100,7 +100,7 @@ type
     property wavepoint6: tvppoint read fwavepoint6 write fwavepoint6;
     property wavepoint7: tvppoint read fwavepoint7 write fwavepoint7;
     property wavepoint8: tvppoint read fwavepoint8 write fwavepoint8;
-    property wavescale:  vpfloat  read fwavescale  write fwavescale;
+    property wavescale:  double  read fwavescale  write fwavescale;
     property waveoff:    longint  read fwaveoff    write fwaveoff;
  end;
 

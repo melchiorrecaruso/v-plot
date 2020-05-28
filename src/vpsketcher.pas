@@ -32,40 +32,40 @@ type
   tvpsketcher = class
   private
     fbit: tbgrabitmap;
-    fdotsize: vpfloat;
-    fpatternh: vpfloat;
-    fpatternw: vpfloat;
+    fdotsize: double;
+    fpatternh: double;
+    fpatternw: double;
     fpatternbh: longint;
     fpatternbw: longint;
-    function getdarkness(x, y, heigth, width: longint): vpfloat;
+    function getdarkness(x, y, heigth, width: longint): double;
   public
     constructor create(bit: tbgrabitmap);
     destructor destroy; override;
     procedure update(elements: tvpelementlist); virtual abstract;
   public
-    property dotsize:   vpfloat read fdotsize   write fdotsize;
-    property patternh:  vpfloat read fpatternh  write fpatternh;
-    property patternw:  vpfloat read fpatternw  write fpatternw;
+    property dotsize:   double read fdotsize   write fdotsize;
+    property patternh:  double read fpatternh  write fpatternh;
+    property patternw:  double read fpatternw  write fpatternw;
     property patternbh: longint read fpatternbh write fpatternbh;
     property patternbw: longint read fpatternbw write fpatternbw;
   end;
 
   tvpsketchersquare = class(tvpsketcher)
   private
-    function step1(n, heigth, width: vpfloat): tvpelementlist; virtual;
+    function step1(n, heigth, width: double): tvpelementlist; virtual;
   public
     procedure update(elements: tvpelementlist); override;
   end;
 
   tvpsketcherroundedsquare = class(tvpsketchersquare)
   private
-    function step1(n, heigth, width: vpfloat): tvpelementlist; override;
-    function step2(elements: tvpelementlist; radius: vpfloat): tvpelementlist;
+    function step1(n, heigth, width: double): tvpelementlist; override;
+    function step2(elements: tvpelementlist; radius: double): tvpelementlist;
   end;
 
   tvpsketchertriangular = class(tvpsketcher)
   private
-    function step1(n, heigth, width: vpfloat): tvpelementlist; virtual;
+    function step1(n, heigth, width: double): tvpelementlist; virtual;
   public
     procedure update(elements: tvpelementlist); override;
   end;
@@ -91,7 +91,7 @@ begin
   inherited destroy;
 end;
 
-function tvpsketcher.getdarkness(x, y, heigth, width: longint): vpfloat;
+function tvpsketcher.getdarkness(x, y, heigth, width: longint): double;
 var
   i: longint;
   j: longint;
@@ -112,7 +112,7 @@ end;
 
 // tvpsketchersquare
 
-function tvpsketchersquare.step1(n, heigth, width: vpfloat): tvpelementlist;
+function tvpsketchersquare.step1(n, heigth, width: double): tvpelementlist;
 var
   line: tvpline;
 begin
@@ -157,7 +157,7 @@ procedure tvpsketchersquare.update(elements: tvpelementlist);
 var
    i, j, k: longint;
     aw, ah: longint;
-      dark: vpfloat;
+      dark: double;
      list1: tvpelementlist;
      list2: tvpelementlist;
         mx: boolean;
@@ -181,7 +181,7 @@ begin
         list2.mirrorx;
         list2.move(0, patternw);
       end;
-      mx := list2.items[list2.count -1].getlastpoint.y > 0;
+      mx := list2.items[list2.count -1].lastpoint.y > 0;
 
       for k := 0 to list2.count -1 do
       begin
@@ -199,12 +199,12 @@ begin
   end;
   list1.destroy;
   elements.mirrorx;
-  elements.movetoorigin;
+  elements.centertoorigin;
 end;
 
 // tvpsketcherroundedsquare
 
-function tvpsketcherroundedsquare.step1(n, heigth, width: vpfloat): tvpelementlist;
+function tvpsketcherroundedsquare.step1(n, heigth, width: double): tvpelementlist;
 begin
   if n > 0 then
     result := step2(inherited step1(n, heigth, width), width/(2*n))
@@ -212,7 +212,7 @@ begin
     result :=       inherited step1(n, heigth, width)
 end;
 
-function tvpsketcherroundedsquare.step2(elements: tvpelementlist; radius: vpfloat): tvpelementlist;
+function tvpsketcherroundedsquare.step2(elements: tvpelementlist; radius: double): tvpelementlist;
 var
    i: longint;
   l0: tvpline;
@@ -226,13 +226,13 @@ begin
     result.add(elements.extract(0));
   end else
   begin
-    l0.p0 := tvpelementline(elements.items[0]).getfirstpoint;
-    l0.p1 := tvpelementline(elements.items[0]).getlastpoint;
+    l0.p0 := tvpelementline(elements.items[0]).firstpoint;
+    l0.p1 := tvpelementline(elements.items[0]).lastpoint;
 
     for i := 1 to elements.count -1 do
     begin
-      l1.p0 := tvpelementline(elements.items[i]).getfirstpoint;
-      l1.p1 := tvpelementline(elements.items[i]).getlastpoint;
+      l1.p0 := tvpelementline(elements.items[i]).firstpoint;
+      l1.p1 := tvpelementline(elements.items[i]).lastpoint;
 
       if (l0.p1.y = 0) and
          (l1.p1.y > 0) then // left-bottom corner
@@ -293,7 +293,7 @@ end;
 
 // tvpsketchertriangular
 
-function tvpsketchertriangular.step1(n, heigth, width: vpfloat): tvpelementlist;
+function tvpsketchertriangular.step1(n, heigth, width: double): tvpelementlist;
 var
   line: tvpline;
 begin
@@ -335,7 +335,7 @@ procedure tvpsketchertriangular.update(elements: tvpelementlist);
 var
   i, j, k: longint;
    aw, ah: longint;
-     dark: vpfloat;
+     dark: double;
     list1: tvpelementlist;
     list2: tvpelementlist;
        mx: boolean;
@@ -359,7 +359,7 @@ begin
         list2.mirrorx;
         list2.move(0, patternw);
       end;
-      mx := list2.items[list2.count -1].getlastpoint.y > 0;
+      mx := list2.items[list2.count -1].lastpoint.y > 0;
 
       for k := 0 to list2.count -1 do
       begin
@@ -377,7 +377,7 @@ begin
   end;
   list1.destroy;
   elements.mirrorx;
-  elements.movetoorigin;
+  elements.centertoorigin;
 end;
 
 
